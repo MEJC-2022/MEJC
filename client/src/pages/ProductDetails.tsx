@@ -11,15 +11,9 @@ import {
   useMantineTheme,
 } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
-import {
-  IconShoppingCartPlus,
-  IconStarFilled,
-  IconUserStar,
-} from '@tabler/icons-react';
+import { IconShoppingCartPlus } from '@tabler/icons-react';
 import { useContext, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { Autoplay, Navigation, Pagination } from 'swiper';
-import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper-bundle.css';
 import 'swiper/swiper.min.css';
 import { ProductContext } from '../contexts/ProductContext';
@@ -74,42 +68,14 @@ function ProductDetails() {
                 justifyContent: 'space-around',
                 alignItems: 'center',
               }}
-            >
-              <IconStarFilled size="1.1rem" />
-              {product.rating}
-            </Box>
-            <IconUserStar
-              style={{ marginRight: '.2rem' }}
-              stroke="0.04rem"
-              size="1.5rem"
-            />
-            {product.usersRated}
+            ></Box>
           </Box>
-          <Swiper
-            spaceBetween={0}
-            slidesPerView={1}
-            grabCursor={true}
-            modules={[Autoplay, Navigation, Pagination]}
-            autoplay={{ delay: 5000, disableOnInteraction: false }}
-            navigation
-            pagination={{ clickable: true }}
-          >
-            <SwiperSlide>
-              <Image
-                src={product.image}
-                key={product.id}
-                alt={product.title}
-                fit="contain"
-              />
-            </SwiperSlide>
-            <SwiperSlide>
-              <Image
-                src={product.secondImage}
-                alt={product.title}
-                fit="contain"
-              />
-            </SwiperSlide>
-          </Swiper>
+          <Image
+            src={product.image}
+            key={product.id}
+            alt={product.title}
+            fit="contain"
+          />
         </Card>
         <Card sx={{ flex: 1 }}>
           <Box
