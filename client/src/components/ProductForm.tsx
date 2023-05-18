@@ -41,11 +41,9 @@ function ProductForm({
       image: '',
       title: '',
       description: '',
-      price: '' as any,
-      secondImage: '',
       summary: [],
-      rating: 0,
-      usersRated: 0,
+      price: '' as any,
+      stock: '' as any,
     },
   });
   useEffect(() => {
