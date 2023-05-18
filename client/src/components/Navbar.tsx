@@ -120,6 +120,14 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
   const [logoType, setLogoType] = useState('dark');
   const theme = useMantineTheme();
 
+  useEffect(() => {
+    setLogoType(colorScheme === 'dark' ? 'light' : 'dark');
+  }, [colorScheme]);
+
+  const handleToggleColorScheme = () => {
+    toggleColorScheme();
+  };
+
   const logo =
     logoType === 'dark' ? (
       <img src="/assets/T101-logo.svg" alt="T101 logo" />
@@ -197,7 +205,7 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
           {items}
         </Group>
         <Group spacing={1}>
-          <ToggleColorButton />
+          <ToggleColorButton onToggleColorScheme={handleToggleColorScheme}/>
           <Link to="/admin" data-cy="admin-link">
             <Button size="xs" variant="subtle" radius="xl">
               <IconUserShield size="1.8rem" stroke="1.3" />
