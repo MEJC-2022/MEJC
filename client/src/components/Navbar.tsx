@@ -1,5 +1,4 @@
 import {
-  ActionIcon,
   Box,
   Burger,
   Button,
@@ -176,19 +175,20 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
     const dark = colorScheme === 'dark';
 
     return (
-      <ActionIcon
-        variant="outline"
+      <Button
         color={dark ? 'gray' : 'blue'}
         onClick={handleToggle}
         title="Toggle color scheme"
-        sx={{ marginRight: '1rem' }}
+        size="xs"
+        variant="subtle"
+        radius="xl"
       >
         {dark ? (
-          <IconSunHigh size="1.3rem" stroke="1.6" />
+          <IconSunHigh size="1.8rem" stroke="1.1" />
         ) : (
-          <IconMoonStars size="1.3rem" stroke="1.6" />
+          <IconMoonStars size="1.8rem" stroke="1.1" />
         )}
-      </ActionIcon>
+      </Button>
     );
   }
 
@@ -226,12 +226,27 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
         </Group>
         <Group spacing={1}>
           <ToggleDarkAndLightMode />
-          <Link to="/admin" data-cy="admin-link">
+          <Link
+            to="/admin"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+            data-cy="admin-link"
+          >
             <Button size="xs" variant="subtle" radius="xl">
               <IconUserShield size="1.8rem" stroke="1.3" />
             </Button>
           </Link>
-          <Link to="/checkout">
+          <Link
+            to="/checkout"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
             <Button
               onClick={handleLinkClick}
               size="xs"
