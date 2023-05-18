@@ -122,7 +122,7 @@ function CheckoutForm() {
           autoComplete="tel"
           type="number"
           withAsterisk
-          label="Mobile nr"
+          label="Phone Number"
           placeholder="ex: 0700415160"
           {...form.getInputProps('phoneNumber')}
           data-cy="customer-phone"
