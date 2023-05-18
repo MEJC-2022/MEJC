@@ -71,6 +71,7 @@ function ProductDetails() {
             ></Box>
           </Box>
           <Image
+            radius="md"
             src={product.image}
             key={product.id}
             alt={product.title}
