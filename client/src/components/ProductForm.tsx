@@ -87,12 +87,6 @@ function ProductForm({
           errorProps={{ 'data-cy': 'product-image-error' }}
         />
         <TextInput
-          label="Second Image URL"
-          placeholder="https://www.image.com/image2.png"
-          {...form.getInputProps('secondImage')}
-          errorProps={{ 'data-cy': 'product-image-error' }}
-        />
-        <TextInput
           withAsterisk
           label="Description"
           placeholder="This is the description of this product."
