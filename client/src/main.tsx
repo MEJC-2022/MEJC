@@ -14,6 +14,7 @@ import {
   createRoutesFromElements
 } from 'react-router-dom';
 import App from './App';
+import AuthProvider from './contexts/AuthContext';
 import ProductProvider from './contexts/ProductContext';
 import ShoppingCartProvider from './contexts/ShoppingCartContext';
 import './index.css';
@@ -57,7 +58,7 @@ const router = createBrowserRouter(
         <Route path="orders" element={<AdminOrders />} />
         <Route path="users" element={<AdminUsers />} />
       </Route>
-      
+
     </Route>
   )
 );
@@ -81,11 +82,13 @@ function Root() {
           withNormalizeCSS
         >
           <Notifications data-cy="added-to-cart-toast" />
-          <ProductProvider>
-            <ShoppingCartProvider>
-              <RouterProvider router={router} />
-            </ShoppingCartProvider>
-          </ProductProvider>
+          <AuthProvider>
+            <ProductProvider>
+              <ShoppingCartProvider>
+                <RouterProvider router={router} />
+              </ShoppingCartProvider>
+            </ProductProvider>
+          </AuthProvider>
         </MantineProvider>
       </ColorSchemeProvider>
     </React.StrictMode>
