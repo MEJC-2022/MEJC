@@ -217,7 +217,7 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
             },
           }}
         >
-          <Link to="./" onClick={handleLinkClick}>
+          <Link to="/" onClick={handleLinkClick}>
             <Group spacing={1}>{logo}</Group>
           </Link>
         </MediaQuery>

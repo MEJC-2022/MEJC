@@ -7,6 +7,7 @@ import { Notifications } from '@mantine/notifications';
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import {
+  Navigate,
   Route,
   RouterProvider,
   createBrowserRouter,
@@ -26,7 +27,6 @@ import Shop from './pages/Shop';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import Admin from './pages/admin/Admin';
-import AdminHome from './pages/admin/AdminHome';
 import AdminOrders from './pages/admin/AdminOrders';
 import AdminProducts from './pages/admin/AdminProducts';
 import AdminUsers from './pages/admin/AdminUsers';
@@ -49,7 +49,7 @@ const router = createBrowserRouter(
       </Route>
 
       <Route path="admin/*" element={<Admin />}>
-        <Route index element={<AdminHome />} />
+        <Route index element={<Navigate to="products" />} />
         <Route path="products" element={<AdminProducts />} />
         <Route path="product/:id" element={<EditProduct />} />
         <Route path="product/:id/edit" element={<EditProduct />} />
