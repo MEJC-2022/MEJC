@@ -1,7 +1,7 @@
 import { Container, Group, Title } from '@mantine/core';
 import { useContext } from 'react';
-import ProductForm from '../components/ProductForm';
-import { ProductContext } from '../contexts/ProductContext';
+import ProductForm from '../../components/ProductForm';
+import { ProductContext } from '../../contexts/ProductContext';
 
 function NewProduct() {
   const { addProduct } = useContext(ProductContext);

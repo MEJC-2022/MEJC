@@ -7,38 +7,57 @@ import { Notifications } from '@mantine/notifications';
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import {
-  createBrowserRouter,
-  createRoutesFromElements,
   Route,
   RouterProvider,
+  createBrowserRouter,
+  createRoutesFromElements
 } from 'react-router-dom';
 import App from './App';
 import ProductProvider from './contexts/ProductContext';
 import ShoppingCartProvider from './contexts/ShoppingCartContext';
 import './index.css';
-import Admin from './pages/Admin';
 import Cart from './pages/Cart';
 import Confirmation from './pages/Confirmation';
 import { Contact } from './pages/Contact';
-import EditProduct from './pages/EditProduct';
 import { Faq } from './pages/Faq';
 import Home from './pages/Home';
-import NewProduct from './pages/NewProduct';
 import ProductDetails from './pages/ProductDetails';
+import Shop from './pages/Shop';
+import SignIn from './pages/SignIn';
+import SignUp from './pages/SignUp';
+import Admin from './pages/admin/Admin';
+import AdminHome from './pages/admin/AdminHome';
+import AdminOrders from './pages/admin/AdminOrders';
+import AdminProducts from './pages/admin/AdminProducts';
+import AdminUsers from './pages/admin/AdminUsers';
+import EditProduct from './pages/admin/EditProduct';
+import NewProduct from './pages/admin/NewProduct';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
-      <Route index element={<Home />} />
-      <Route path="/faq" element={<Faq />} />
-      <Route path="/contact" element={<Contact />} />
-      <Route path="/product/:id" element={<ProductDetails />} />
-      <Route path="/checkout" element={<Cart />} />
-      <Route path="/admin" element={<Admin />} />
-      <Route path="/admin/product/:id" element={<EditProduct />} />
-      <Route path="/admin/product/:id/edit" element={<EditProduct />} />
-      <Route path="/admin/product/new" element={<NewProduct />} />
-      <Route path="/confirmation" element={<Confirmation />} />
+
+      <Route path="/" element={<Shop />}>
+        <Route index element={<Home />} />
+        <Route path="faq" element={<Faq />} />
+        <Route path="contact" element={<Contact />} />
+        <Route path="product/:id" element={<ProductDetails />} />
+        <Route path="checkout" element={<Cart />} />
+        <Route path="confirmation" element={<Confirmation />} />
+        <Route path="signin" element={<SignIn />} />
+        <Route path="signup" element={<SignUp />} />
+      </Route>
+
+      <Route path="admin/*" element={<Admin />}>
+        <Route index element={<AdminHome />} />
+        <Route path="products" element={<AdminProducts />} />
+        <Route path="product/:id" element={<EditProduct />} />
+        <Route path="product/:id/edit" element={<EditProduct />} />
+        <Route path="product/new" element={<NewProduct />} />
+        <Route path="orders" element={<AdminOrders />} />
+        <Route path="users" element={<AdminUsers />} />
+      </Route>
+      
     </Route>
   )
 );
