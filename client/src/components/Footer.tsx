@@ -96,7 +96,9 @@ export function FooterCentered({ links }: FooterCenteredProps) {
   return (
     <footer className={classes.footer}>
       <div className={classes.inner}>
-        <Group className={classes.links}>{items}</Group>
+        <Group miw={'10rem'} className={classes.links}>
+          {items}
+        </Group>
         <Box>
           <Title order={3} align="center" mb="md">
             Sign up to our newsletter!
@@ -110,7 +112,12 @@ export function FooterCentered({ links }: FooterCenteredProps) {
           </form>
         </Box>
 
-        <Group spacing="xs" position="right" noWrap mt={10}>
+        <Group
+          miw={'10rem'}
+          noWrap
+          mt={10}
+          sx={{ display: 'flex', justifyContent: 'space-evenly' }}
+        >
           <ActionIcon
             size="lg"
             variant="outline"
