@@ -49,6 +49,7 @@ const useStyles = createStyles((theme) => ({
   },
 
   links: {
+    justifyContent: 'center',
     [theme.fn.smallerThan('sm')]: {
       marginTop: theme.spacing.lg,
       marginBottom: theme.spacing.sm,
@@ -96,7 +97,7 @@ export function FooterCentered({ links }: FooterCenteredProps) {
   return (
     <footer className={classes.footer}>
       <div className={classes.inner}>
-        <Group miw={'10rem'} className={classes.links}>
+        <Group miw={'16rem'} className={classes.links}>
           {items}
         </Group>
         <Box>
@@ -113,10 +114,10 @@ export function FooterCentered({ links }: FooterCenteredProps) {
         </Box>
 
         <Group
-          miw={'10rem'}
+          miw={'16rem'}
           noWrap
-          mt={10}
-          sx={{ display: 'flex', justifyContent: 'space-evenly' }}
+          my={30}
+          sx={{ display: 'flex', justifyContent: 'center' }}
         >
           <ActionIcon
             size="lg"
