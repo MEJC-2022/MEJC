@@ -36,7 +36,7 @@ function Confirmation() {
           </Title>
           <Text>Name: {formData.fullName}</Text>
           <Text>Email: {formData.email}</Text>
-          <Text>Address: {formData.address}</Text>
+          <Text>Street: {formData.street}</Text>
           <Text>Zip Code: {formData.zipCode}</Text>
           <Text>Phone Number: {formData.phoneNumber}</Text>
           <Text>City: {formData.city}</Text>

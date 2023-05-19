@@ -7,7 +7,7 @@ import { useShoppingCart } from '../contexts/ShoppingCartContext';
 export interface FormValues {
   fullName: string;
   email: string;
-  address: string;
+  street: string;
   city: string;
   zipCode: string;
   phoneNumber: string;
@@ -21,8 +21,8 @@ const schema = Yup.object().shape({
     .email('Invalid email')
     .matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Invalid email')
     .required('Email is required'),
-  address: Yup.string()
-    .min(2, 'Your address should have at least 2 letters')
+  street: Yup.string()
+    .min(2, 'Your street address should have at least 2 letters')
     .required('This field is required'),
   city: Yup.string()
     .min(2, 'Name should have at least 2 letters')
@@ -51,7 +51,7 @@ function CheckoutForm() {
     initialValues: {
       fullName: '',
       email: '',
-      address: '',
+      street: '',
       zipCode: '',
       phoneNumber: '',
       city: '',
@@ -93,9 +93,9 @@ function CheckoutForm() {
         <TextInput
           autoComplete="street-address"
           withAsterisk
-          label="Address"
+          label="Street"
           placeholder="ex: Bigboiroad 31"
-          {...form.getInputProps('address')}
+          {...form.getInputProps('Street')}
           data-cy="customer-address"
           errorProps={{ 'data-cy': 'customer-address-error' }}
         />
