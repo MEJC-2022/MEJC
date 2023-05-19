@@ -1,29 +1,27 @@
 import {
-  ActionIcon,
   Box,
   Burger,
   Button,
   Container,
-  createStyles,
   Group,
   Header,
   MediaQuery,
   Paper,
-  rem,
   Transition,
+  createStyles,
+  rem,
   useMantineColorScheme,
   useMantineTheme,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import {
-  IconMoonStars,
   IconShoppingCart,
-  IconSunHigh,
-  IconUserShield,
+  IconUserShield
 } from '@tabler/icons-react';
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useShoppingCart } from '../contexts/ShoppingCartContext';
+import { ToggleColorButton } from './ToggleColorButton';
 
 const HEADER_HEIGHT = rem(70);
 
@@ -122,9 +120,12 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
   const [logoType, setLogoType] = useState('dark');
   const theme = useMantineTheme();
 
-  const handleToggle = () => {
+  useEffect(() => {
+    setLogoType(colorScheme === 'dark' ? 'light' : 'dark');
+  }, [colorScheme]);
+
+  const handleToggleColorScheme = () => {
     toggleColorScheme();
-    setLogoType(colorScheme === 'dark' ? 'dark' : 'light');
   };
 
   const logo =
@@ -171,27 +172,6 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
     }
   }, [opened]);
 
-  function ToggleDarkAndLightMode() {
-    const { colorScheme } = useMantineColorScheme();
-    const dark = colorScheme === 'dark';
-
-    return (
-      <ActionIcon
-        variant="outline"
-        color={dark ? 'gray' : 'blue'}
-        onClick={handleToggle}
-        title="Toggle color scheme"
-        sx={{ marginRight: '1rem' }}
-      >
-        {dark ? (
-          <IconSunHigh size="1.3rem" stroke="1.6" />
-        ) : (
-          <IconMoonStars size="1.3rem" stroke="1.6" />
-        )}
-      </ActionIcon>
-    );
-  }
-
   function handleLinkClick() {
     setActive(links[0].link);
     window.scrollTo({
@@ -217,7 +197,7 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
             },
           }}
         >
-          <Link to="./" onClick={handleLinkClick}>
+          <Link to="/" onClick={handleLinkClick}>
             <Group spacing={1}>{logo}</Group>
           </Link>
         </MediaQuery>
@@ -225,7 +205,7 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
           {items}
         </Group>
         <Group spacing={1}>
-          <ToggleDarkAndLightMode />
+          <ToggleColorButton onToggleColorScheme={handleToggleColorScheme}/>
           <Link to="/admin" data-cy="admin-link">
             <Button size="xs" variant="subtle" radius="xl">
               <IconUserShield size="1.8rem" stroke="1.3" />
