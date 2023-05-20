@@ -2,10 +2,10 @@ import { Button, Container, Group, SimpleGrid, Title } from '@mantine/core';
 import { IconShieldPlus } from '@tabler/icons-react';
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import AdminProductCard from '../components/AdminProductCard';
-import { ProductContext } from '../contexts/ProductContext';
+import AdminProductCard from '../../components/AdminProductCard';
+import { ProductContext } from '../../contexts/ProductContext';
 
-function Admin() {
+function AdminProducts() {
   const { products, deleteProduct } = useContext(ProductContext);
 
   return (
@@ -42,4 +42,4 @@ function Admin() {
   );
 }
 
-export default Admin;
+export default AdminProducts;

@@ -1,0 +1,6 @@
+{
+  "scripts": {
+    "frontend": "cd client && npm run dev",
+    "backend": "cd server && npm run dev"
+  }
+}
