@@ -7,10 +7,10 @@ import { useShoppingCart } from '../contexts/ShoppingCartContext';
 export interface FormValues {
   fullName: string;
   email: string;
-  adress: string;
-  zipCode: string;
-  mobileNr: string;
+  street: string;
   city: string;
+  zipCode: string;
+  phoneNumber: string;
 }
 
 const schema = Yup.object().shape({
@@ -21,20 +21,20 @@ const schema = Yup.object().shape({
     .email('Invalid email')
     .matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Invalid email')
     .required('Email is required'),
-  adress: Yup.string()
-    .min(2, 'Your adress should have at least 2 letters')
+  street: Yup.string()
+    .min(2, 'Your street address should have at least 2 letters')
+    .required('This field is required'),
+  city: Yup.string()
+    .min(2, 'Name should have at least 2 letters')
+    .max(50, 'This field is too big')
     .required('This field is required'),
   zipCode: Yup.string()
     .min(5, 'this field should be 5 numbers long')
     .max(5, 'this field should be 5 numbers long')
     .required('This field is required'),
-  mobileNr: Yup.string()
-    .min(10, 'Your phone nr should be 10 numbers long')
-    .max(10, 'Your phone nr should be 10 numbers long')
-    .required('This field is required'),
-  city: Yup.string()
-    .min(2, 'Name should have at least 2 letters')
-    .max(50, 'This field is too big')
+  phoneNumber: Yup.string()
+    .min(10, 'Your phone number should be 10 numbers long')
+    .max(10, 'Your phone number should be 10 numbers long')
     .required('This field is required'),
 });
 
@@ -51,9 +51,9 @@ function CheckoutForm() {
     initialValues: {
       fullName: '',
       email: '',
-      adress: '',
+      street: '',
       zipCode: '',
-      mobileNr: '',
+      phoneNumber: '',
       city: '',
     },
   });
@@ -93,9 +93,9 @@ function CheckoutForm() {
         <TextInput
           autoComplete="street-address"
           withAsterisk
-          label="Adress"
+          label="Street"
           placeholder="ex: Bigboiroad 31"
-          {...form.getInputProps('adress')}
+          {...form.getInputProps('street')}
           data-cy="customer-address"
           errorProps={{ 'data-cy': 'customer-address-error' }}
         />
@@ -122,9 +122,9 @@ function CheckoutForm() {
           autoComplete="tel"
           type="number"
           withAsterisk
-          label="Mobile nr"
+          label="Phone Number"
           placeholder="ex: 0700415160"
-          {...form.getInputProps('mobileNr')}
+          {...form.getInputProps('phoneNumber')}
           data-cy="customer-phone"
           errorProps={{ 'data-cy': 'customer-phone-error' }}
         />

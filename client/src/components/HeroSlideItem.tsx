@@ -35,7 +35,7 @@ function HeroSlideItem({ imageSrc }: HeroSlideItemProps) {
               styles={{ fontSize: rem(18) }}
             >
               <Title>
-                Shop Easter & <br /> New Weekend <br /> Deals
+                Shop Summer & <br /> New Weekend <br /> Deals
               </Title>
             </MediaQuery>
             <MediaQuery

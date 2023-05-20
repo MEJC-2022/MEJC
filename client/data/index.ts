@@ -1,13 +1,11 @@
 export interface Product {
   id: string;
   image: string;
-  secondImage: string;
   title: string;
   description: string;
   summary: string[];
   price: number;
-  rating: number;
-  usersRated: number;
+  stock: number;
 }
 
 export interface CartItem extends Product {
@@ -24,10 +22,7 @@ export const products: Product[] = [
       'The UltraBook X9 is the ultimate productivity machine for professionals on-the-go. With its lightweight design and powerful hardware, you can breeze through any task without breaking a sweat. The X9 also features a stunning 15-inch display with 4K resolution, perfect for streaming your favorite shows or editing photos.',
     summary: ['Lightweight design', 'Powerful hardware', '15-inch 4K display'],
     price: 1599,
-    rating: 4.5,
-    usersRated: 7,
-    secondImage:
-      'https://img.freepik.com/free-photo/laptop-wooden-table_53876-20635.jpg?w=1060&t=st=1679504274~exp=1679504874~hmac=572261dfc89d5e011d9d356e7a4f0042a16ee509474b9c67299ca6dedce6bac5',
+    stock: 11,
   },
   {
     id: '2',
@@ -42,10 +37,7 @@ export const products: Product[] = [
       'Powerful processor',
     ],
     price: 3919,
-    rating: 3.2,
-    usersRated: 5,
-    secondImage:
-      'https://images.unsplash.com/photo-1555099962-4199c345e5dd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80',
+    stock: 5,
   },
   {
     id: '3',
@@ -60,10 +52,7 @@ export const products: Product[] = [
       'Backlit keyboard',
     ],
     price: 2299,
-    rating: 3.8,
-    usersRated: 3,
-    secondImage:
-      'https://img.freepik.com/free-photo/desk-arrangement-with-laptop-top-view_23-2149073069.jpg?w=1060&t=st=1679504654~exp=1679505254~hmac=de6d45ec753c07e4f7fdadf7a4d0ddceb1c859e23f0cbc0610c802607a7a74f7',
+    stock: 20,
   },
   {
     id: '4',
@@ -78,10 +67,7 @@ export const products: Product[] = [
       'Long-lasting battery',
     ],
     price: 1299,
-    rating: 4.2,
-    usersRated: 8,
-    secondImage:
-      'https://images.pexels.com/photos/238118/pexels-photo-238118.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    stock: 32,
   },
   {
     id: '5',
@@ -96,10 +82,7 @@ export const products: Product[] = [
       'Backlit keyboard',
     ],
     price: 999,
-    rating: 3.5,
-    usersRated: 2,
-    secondImage:
-      'https://img.freepik.com/free-photo/desk-arrangement-with-laptop_23-2148868097.jpg?w=1800&t=st=1679500147~exp=1679500747~hmac=0f4e357fe2db14c7e1593ab096de21f1d6c9c605831fd4614f6af5af84c83577',
+    stock: 1,
   },
   {
     id: '6',
@@ -110,9 +93,6 @@ export const products: Product[] = [
       'The TravelBook Mini is the perfect laptop for those who are always on-the-go. With its compact size and long-lasting battery, you can take it with you wherever you go. The 11-inch display delivers crisp visuals, while the lightweight design ensures you can carry it with ease.',
     summary: ['Long-lasting battery', '11-inch display', 'Lightweight design'],
     price: 5499,
-    rating: 4.9,
-    usersRated: 4,
-    secondImage:
-      'https://img.freepik.com/free-photo/laptop-kitchen_23-2147772848.jpg?t=st=1679502360~exp=1679502960~hmac=19c1e45280a8553e89358b6dc9bb8d029d3e6d9cae70d083ae857e0b87c1fcf9',
+    stock: 42,
   },
 ];

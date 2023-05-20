@@ -203,12 +203,27 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
         </Group>
         <Group spacing={1}>
           <ToggleColorButton onToggleColorScheme={handleToggleColorScheme} />
-          <Link to="/admin" data-cy="admin-link">
+          <Link
+            to="/admin"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+            data-cy="admin-link"
+          >
             <Button size="xs" variant="subtle" radius="xl">
               <IconUserShield size="1.8rem" stroke="1.3" />
             </Button>
           </Link>
-          <Link to="/checkout">
+          <Link
+            to="/checkout"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
             <Button
               onClick={handleLinkClick}
               size="xs"
