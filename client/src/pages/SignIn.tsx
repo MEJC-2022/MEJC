@@ -1,22 +1,24 @@
 import {
+    Anchor,
     Box,
     Button,
     Center,
     Group,
+    Text,
     TextInput,
+    Title,
     createStyles,
+    rem,
 } from "@mantine/core";
 import { useForm, yupResolver } from "@mantine/form";
 import * as Yup from "yup";
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
-    marginTop: "1rem",
-    boxSizing: "border-box",
+    margin: "1rem 0",
+    flexDirection: "column",
     backgroundImage: `linear-gradient(-60deg, ${theme.colors.blue[3]} 0%, ${theme.colors.blue[7]} 100%)`,
-    borderRadius: theme.radius.md,
     padding: `calc(${theme.spacing.xl} * 5)`,
-
     [theme.fn.smallerThan("sm")]: {
       padding: `calc(${theme.spacing.xl} * 3)`,
     },
@@ -27,15 +29,14 @@ const useStyles = createStyles((theme) => ({
     borderRadius: theme.radius.md,
     boxShadow: theme.shadows.lg,
     width: "100%",
-    [theme.fn.smallerThan("md")]: {
-      width: "600px",
-    },
+    // [theme.fn.smallerThan("md")]: {
+    //   width: "100%",
+    // },
   },
   input: {
     backgroundColor: theme.white,
     borderColor: theme.colors.gray[4],
     color: theme.black,
-
     "&::placeholder": {
       color: theme.colors.gray[5],
     },
@@ -43,9 +44,20 @@ const useStyles = createStyles((theme) => ({
   inputLabel: {
     color: theme.black,
   },
-
   control: {
     backgroundColor: theme.colors[theme.primaryColor][6],
+  },
+  title: {
+    fontSize: rem(50),
+    color: theme.white,
+    lineHeight: 1,
+    marginBottom: `calc(${theme.spacing.xl} * 1.5)`,
+  },
+  anchor: {
+    color: theme.white,
+  },
+  lighterText: {
+    color: theme.colors.gray[8],
   },
 }));
 
@@ -60,8 +72,8 @@ const schema = Yup.object().shape({
 });
 
 interface FormValues {
-    email: string;
-    password: string;
+  email: string;
+  password: string;
 }
 
 export default function SignIn() {
@@ -80,37 +92,46 @@ export default function SignIn() {
 
   return (
     <Center className={classes.wrapper}>
+      <Title className={classes.title}>Sign in</Title>
       <Box
         maw={600}
         className={classes.form}
       >
         <form onSubmit={form.onSubmit(handleSubmit)}>
-        <TextInput
-          label="Email"
-          placeholder="your@email.com"
-          {...form.getInputProps("email")}
-          classNames={{ input: classes.input, label: classes.inputLabel }}
-        />
-        <TextInput
-          type="password"
-          label="Password"
-          placeholder="********"
-          {...form.getInputProps("password")}
-          classNames={{ input: classes.input, label: classes.inputLabel }}
-        />
-        <Group
-          position="right"
-          mt="md"
-        >
-          <Button
-            type="submit"
-            className={classes.control}
+          <TextInput
+            label="Email"
+            placeholder="your@email.com"
+            {...form.getInputProps("email")}
+            classNames={{ input: classes.input, label: classes.inputLabel }}
+          />
+          <TextInput
+            type="password"
+            label="Password"
+            placeholder="********"
+            {...form.getInputProps("password")}
+            classNames={{ input: classes.input, label: classes.inputLabel }}
+          />
+          <Group
+            position="right"
+            mt="md"
           >
-            Sign in
-          </Button>
-        </Group>            
+            <Button
+              type="submit"
+              className={classes.control}
+            >
+              Sign in
+            </Button>
+          </Group>
         </form>
       </Box>
+      <Text
+        fz="md"
+        mt={4}
+        className={classes.lighterText}
+      >
+        Don't have an account?{" "}
+        <Anchor className={classes.anchor}>Sign up!</Anchor>
+      </Text>
     </Center>
   );
 }
