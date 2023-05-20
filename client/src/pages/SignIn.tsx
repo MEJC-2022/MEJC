@@ -1,10 +1,5 @@
-import { Container } from "@mantine/core";
+import { Container } from '@mantine/core';
 
 export default function SignIn() {
-
-    return (
-        <Container>
-            
-        </Container>
-    );
+  return <Container></Container>;
 }

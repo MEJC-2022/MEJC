@@ -18,7 +18,7 @@ interface Props {
 function ProductProvider({ children }: Props) {
   const [products, setProducts] = useLocalStorage<Product[]>(
     'products',
-    mockedProducts
+    mockedProducts,
   );
 
   function deleteProduct(id: string) {
@@ -33,7 +33,7 @@ function ProductProvider({ children }: Props) {
 
   const updateProduct = (updatedProduct: Product) => {
     const newProducts = products.map((product) =>
-      product.id === updatedProduct.id ? updatedProduct : product
+      product.id === updatedProduct.id ? updatedProduct : product,
     );
 
     setProducts(newProducts);

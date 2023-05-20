@@ -2,10 +2,12 @@ import { ActionIcon, useMantineColorScheme } from '@mantine/core';
 import { IconMoonStars, IconSunHigh } from '@tabler/icons-react';
 
 interface ToggleColorButtonProps {
-    onToggleColorScheme: (colorScheme: 'light' | 'dark') => void;
-  }
+  onToggleColorScheme: (colorScheme: 'light' | 'dark') => void;
+}
 
-export function ToggleColorButton({ onToggleColorScheme }: ToggleColorButtonProps) {
+export function ToggleColorButton({
+  onToggleColorScheme,
+}: ToggleColorButtonProps) {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
 
   const handleToggle = () => {
