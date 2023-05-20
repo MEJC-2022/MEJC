@@ -95,7 +95,7 @@ function CheckoutForm() {
           withAsterisk
           label="Street"
           placeholder="ex: Bigboiroad 31"
-          {...form.getInputProps('Street')}
+          {...form.getInputProps('street')}
           data-cy="customer-address"
           errorProps={{ 'data-cy': 'customer-address-error' }}
         />
