@@ -59,6 +59,11 @@ const schema = Yup.object().shape({
     .required("Message is required"),
 });
 
+interface FormValues {
+    email: string;
+    password: string;
+}
+
 export default function SignIn() {
   const { classes } = useStyles();
   const form = useForm({
@@ -69,12 +74,17 @@ export default function SignIn() {
     },
   });
 
+  const handleSubmit = (values: FormValues) => {
+    console.log(values);
+  };
+
   return (
     <Center className={classes.wrapper}>
       <Box
         maw={600}
         className={classes.form}
       >
+        <form onSubmit={form.onSubmit(handleSubmit)}>
         <TextInput
           label="Email"
           placeholder="your@email.com"
@@ -98,7 +108,8 @@ export default function SignIn() {
           >
             Sign in
           </Button>
-        </Group>
+        </Group>            
+        </form>
       </Box>
     </Center>
   );
