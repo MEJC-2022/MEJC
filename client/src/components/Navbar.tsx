@@ -14,10 +14,7 @@ import {
   useMantineTheme,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import {
-  IconShoppingCart,
-  IconUserShield
-} from '@tabler/icons-react';
+import { IconShoppingCart, IconUserShield } from '@tabler/icons-react';
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useShoppingCart } from '../contexts/ShoppingCartContext';
@@ -205,13 +202,28 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
           {items}
         </Group>
         <Group spacing={1}>
-          <ToggleColorButton onToggleColorScheme={handleToggleColorScheme}/>
-          <Link to="/admin" data-cy="admin-link">
+          <ToggleColorButton onToggleColorScheme={handleToggleColorScheme} />
+          <Link
+            to="/admin"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+            data-cy="admin-link"
+          >
             <Button size="xs" variant="subtle" radius="xl">
               <IconUserShield size="1.8rem" stroke="1.3" />
             </Button>
           </Link>
-          <Link to="/checkout">
+          <Link
+            to="/checkout"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
             <Button
               onClick={handleLinkClick}
               size="xs"

@@ -41,11 +41,9 @@ function ProductForm({
       image: '',
       title: '',
       description: '',
-      price: '' as any,
-      secondImage: '',
       summary: [],
-      rating: 0,
-      usersRated: 0,
+      price: '' as any,
+      stock: '' as any,
     },
   });
   useEffect(() => {
@@ -86,12 +84,6 @@ function ProductForm({
           placeholder="https://www.image.com/image1.png"
           {...form.getInputProps('image')}
           data-cy="product-image"
-          errorProps={{ 'data-cy': 'product-image-error' }}
-        />
-        <TextInput
-          label="Second Image URL"
-          placeholder="https://www.image.com/image2.png"
-          {...form.getInputProps('secondImage')}
           errorProps={{ 'data-cy': 'product-image-error' }}
         />
         <TextInput
