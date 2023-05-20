@@ -11,7 +11,7 @@ import {
   Route,
   RouterProvider,
   createBrowserRouter,
-  createRoutesFromElements
+  createRoutesFromElements,
 } from 'react-router-dom';
 import App from './App';
 import AuthProvider from './contexts/AuthContext';
@@ -37,7 +37,6 @@ import NewProduct from './pages/admin/NewProduct';
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
-
       <Route path="/" element={<Shop />}>
         <Route index element={<Home />} />
         <Route path="faq" element={<Faq />} />
@@ -58,9 +57,8 @@ const router = createBrowserRouter(
         <Route path="orders" element={<AdminOrders />} />
         <Route path="users" element={<AdminUsers />} />
       </Route>
-
-    </Route>
-  )
+    </Route>,
+  ),
 );
 
 function Root() {
@@ -96,5 +94,5 @@ function Root() {
 }
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <Root />
+  <Root />,
 );
