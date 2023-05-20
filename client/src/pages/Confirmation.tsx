@@ -1,7 +1,7 @@
 import { Card, Container, Divider, List, Text, Title } from '@mantine/core';
 import { useContext } from 'react';
 import { FormValues } from '../components/CheckoutForm';
-import initBackgroundAnimation from '../components/ConfirmationPageAnimation';
+import useBackgroundAnimation from '../components/ConfirmationPageAnimation';
 import { ProductContext } from '../contexts/ProductContext';
 import { useShoppingCart } from '../contexts/ShoppingCartContext';
 
@@ -10,7 +10,7 @@ function Confirmation() {
   const { orders } = useShoppingCart();
   const lastOrder = orders[orders.length - 1];
   const formData = lastOrder.cartProducts.find(
-    (item): item is { formData: FormValues } => 'formData' in item
+    (item): item is { formData: FormValues } => 'formData' in item,
   )?.formData;
   function calculateLastOrderTotal() {
     return lastOrder.cartProducts.reduce((total, item) => {
@@ -21,7 +21,7 @@ function Confirmation() {
       return total;
     }, 0);
   }
-  initBackgroundAnimation();
+  useBackgroundAnimation();
   return (
     <Container size="md" mt="xl" mb="xl">
       {lastOrder && formData && (
@@ -52,7 +52,7 @@ function Confirmation() {
                     {product.title} - {product.price} € - Quantity:{' '}
                     {product.quantity}
                   </List.Item>
-                )
+                ),
             )}
           </List>
           <Divider mt="lg" mb="sm" size="xs" />
