@@ -1,14 +1,14 @@
 import {
-    Anchor,
-    Box,
-    Button,
-    Center,
-    Group,
-    Text,
-    TextInput,
-    Title,
-    createStyles,
-    rem,
+  Anchor,
+  Box,
+  Button,
+  Center,
+  Group,
+  Text,
+  TextInput,
+  Title,
+  createStyles,
+  rem,
 } from "@mantine/core";
 import { useForm, yupResolver } from "@mantine/form";
 import * as Yup from "yup";
