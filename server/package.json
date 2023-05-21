@@ -8,7 +8,8 @@
     "build": "tsc",
     "check": "tsc --noEmit",
     "dev": "nodemon --transpile-only src/server.ts",
-    "test": "plugga test --vitest --ts"
+    "test": "plugga test --vitest --ts",
+    "format": "prettier --check \"src/**/*.{ts,tsx}\""
   },
   "keywords": [],
   "author": "",
@@ -19,6 +20,7 @@
     "express": "^4.18.2",
     "express-async-errors": "^3.1.1",
     "mongoose": "^7.1.2",
+    "prettier": "^2.8.8",
     "yup": "^1.1.1"
   },
   "devDependencies": {
