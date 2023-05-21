@@ -29,9 +29,6 @@ const useStyles = createStyles((theme) => ({
     borderRadius: theme.radius.md,
     boxShadow: theme.shadows.lg,
     width: "100%",
-    // [theme.fn.smallerThan("md")]: {
-    //   width: "100%",
-    // },
   },
   input: {
     backgroundColor: theme.white,
@@ -131,7 +128,7 @@ export default function SignIn() {
         className={classes.lighterText}
       >
         Don't have an account?{" "}
-        <Anchor className={classes.anchor}>Sign up!</Anchor>
+        <Anchor href="/signup" className={classes.anchor}>Sign up!</Anchor>
       </Text>
     </Center>
   );

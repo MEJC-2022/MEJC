@@ -141,7 +141,7 @@ return (
       className={classes.lighterText}
     >
       Already have an account?{" "}
-      <Anchor className={classes.anchor}>Sign in!</Anchor>
+      <Anchor href="/signin" className={classes.anchor}>Sign in!</Anchor>
     </Text>
   </Center>
 );
