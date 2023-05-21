@@ -1,14 +1,14 @@
 import {
-  Anchor,
-  Box,
-  Button,
-  Center,
-  Group,
-  Text,
-  TextInput,
-  Title,
-  createStyles,
-  rem,
+    Anchor,
+    Box,
+    Button,
+    Center,
+    Group,
+    Text,
+    TextInput,
+    Title,
+    createStyles,
+    rem,
 } from "@mantine/core";
 import { useForm, yupResolver } from "@mantine/form";
 import * as Yup from "yup";
@@ -68,7 +68,7 @@ const schema = Yup.object().shape({
     .required("Email is required"),
   password: Yup.string()
     .min(10, "Password must be at least 8 characters")
-    .required("Message is required"),
+    .required("Password is required"),
 });
 
 interface FormValues {
@@ -106,6 +106,7 @@ export default function SignIn() {
           />
           <TextInput
             type="password"
+            mt="md"
             label="Password"
             placeholder="********"
             {...form.getInputProps("password")}
@@ -126,7 +127,7 @@ export default function SignIn() {
       </Box>
       <Text
         fz="md"
-        mt={4}
+        mt={6}
         className={classes.lighterText}
       >
         Don't have an account?{" "}
