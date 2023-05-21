@@ -9,17 +9,17 @@ import {
     Title,
     createStyles,
     rem,
-} from "@mantine/core";
-import { useForm, yupResolver } from "@mantine/form";
-import * as Yup from "yup";
+} from '@mantine/core';
+import { useForm, yupResolver } from '@mantine/form';
+import * as Yup from 'yup';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
-    margin: "1rem 0",
-    flexDirection: "column",
+    margin: '1rem 0',
+    flexDirection: 'column',
     backgroundImage: `linear-gradient(-60deg, ${theme.colors.blue[3]} 0%, ${theme.colors.blue[7]} 100%)`,
     padding: `calc(${theme.spacing.xl} * 5)`,
-    [theme.fn.smallerThan("sm")]: {
+    [theme.fn.smallerThan('sm')]: {
       padding: `calc(${theme.spacing.xl} * 3)`,
     },
   },
@@ -28,13 +28,13 @@ const useStyles = createStyles((theme) => ({
     padding: theme.spacing.xl,
     borderRadius: theme.radius.md,
     boxShadow: theme.shadows.lg,
-    width: "100%",
+    width: '100%',
   },
   input: {
     backgroundColor: theme.white,
     borderColor: theme.colors.gray[4],
     color: theme.black,
-    "&::placeholder": {
+    '&::placeholder': {
       color: theme.colors.gray[5],
     },
   },
@@ -60,12 +60,12 @@ const useStyles = createStyles((theme) => ({
 
 const schema = Yup.object().shape({
   email: Yup.string()
-    .email("Invalid email")
-    .matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Invalid email")
-    .required("Email is required"),
+    .email('Invalid email')
+    .matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Invalid email')
+    .required('Email is required'),
   password: Yup.string()
-    .min(10, "Password must be at least 8 characters")
-    .required("Password is required"),
+    .min(10, 'Password must be at least 8 characters')
+    .required('Password is required'),
 });
 
 interface FormValues {
@@ -78,8 +78,8 @@ export default function SignIn() {
   const form = useForm({
     validate: yupResolver(schema),
     initialValues: {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
     },
   });
 
@@ -90,15 +90,12 @@ export default function SignIn() {
   return (
     <Center className={classes.wrapper}>
       <Title className={classes.title}>Sign in</Title>
-      <Box
-        maw={600}
-        className={classes.form}
-      >
+      <Box maw={600} className={classes.form}>
         <form onSubmit={form.onSubmit(handleSubmit)}>
           <TextInput
             label="Email"
             placeholder="your@email.com"
-            {...form.getInputProps("email")}
+            {...form.getInputProps('email')}
             classNames={{ input: classes.input, label: classes.inputLabel }}
           />
           <TextInput
@@ -106,29 +103,21 @@ export default function SignIn() {
             mt="md"
             label="Password"
             placeholder="********"
-            {...form.getInputProps("password")}
+            {...form.getInputProps('password')}
             classNames={{ input: classes.input, label: classes.inputLabel }}
           />
-          <Group
-            position="right"
-            mt="md"
-          >
-            <Button
-              type="submit"
-              className={classes.control}
-            >
+          <Group position="right" mt="md">
+            <Button type="submit" className={classes.control}>
               Sign in
             </Button>
           </Group>
         </form>
       </Box>
-      <Text
-        fz="md"
-        mt={6}
-        className={classes.lighterText}
-      >
-        Don't have an account?{" "}
-        <Anchor href="/signup" className={classes.anchor}>Sign up!</Anchor>
+      <Text fz="md" mt={6} className={classes.lighterText}>
+        Don't have an account?{' '}
+        <Anchor href="/signup" className={classes.anchor}>
+          Sign up!
+        </Anchor>
       </Text>
     </Center>
   );
