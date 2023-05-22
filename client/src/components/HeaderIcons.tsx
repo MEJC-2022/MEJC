@@ -1,27 +1,28 @@
 import { Button } from '@mantine/core';
 import {
-  IconLogin,
-  IconLogout,
-  IconUser,
-  IconUserShield,
+    IconLogin,
+    IconLogout,
+    IconUser,
+    IconUserShield,
 } from '@tabler/icons-react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
 interface ButtonLinkProps {
-  to: string,
-  icon: React.ElementType,
-  onClick?: () => void,
+  to: string;
+  icon: React.ElementType;
+  onClick?: () => void;
 }
 
-function ButtonLink ({ to, icon: Icon, onClick }: ButtonLinkProps) {
+function ButtonLink({ to, icon: Icon, onClick }: ButtonLinkProps) {
   return (
-  <Link to={to} style={buttonStyling}>
-    <Button size="xs" variant="subtle" radius="xl" onClick={onClick}>
-      <Icon size="1.8rem" stroke="1.3" />
-    </Button>
-  </Link>
-)}
+    <Link to={to} style={buttonStyling}>
+      <Button size="xs" variant="subtle" radius="xl" onClick={onClick}>
+        <Icon size="1.8rem" stroke="1.3" />
+      </Button>
+    </Link>
+  );
+}
 
 export function AdminButton() {
   return <ButtonLink to="/admin" icon={IconUserShield} />;
