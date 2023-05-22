@@ -18,7 +18,7 @@ interface ShoppingCartContext {
 interface Order {
   id: number;
   orderItems: CartItem[];
-  address: { formData: FormValues };
+  address: FormValues;
 }
 
 export function useShoppingCart() {
@@ -96,18 +96,34 @@ function ShoppingCartProvider({ children }: Props) {
     });
   }
 
-  const addOrder = (cartProducts: CartItem[], formData: FormValues) => {
-    console.log('Cart items:', cartProducts);
-    console.log('Form data:', formData);
+  const addOrder = async (cartProducts: CartItem[], formData: FormValues) => {
     const newOrder: Order = {
       id: orders.length + 1,
       orderItems: [...cartProducts],
-      address: { formData },
+      address: formData,
     };
 
-    setOrders((prevOrders) => [...prevOrders, newOrder]);
     console.log(orders);
     setCartProducts([]);
+
+    try {
+      const response = await fetch('/api/orders', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newOrder),
+      });
+
+      if (response.ok) {
+        setOrders((prevOrders) => [...prevOrders, newOrder]);
+      } else {
+        const message = await response.text();
+        throw new Error(message);
+      }
+    } catch (error) {
+      console.error('Error creating post:', error);
+    }
   };
 
   return (
