@@ -102,6 +102,7 @@ function ShoppingCartProvider({ children }: Props) {
     };
 
     setOrders((prevOrders) => [...prevOrders, newOrder]);
+    console.log(orders);
     setCartProducts([]);
   };
 
