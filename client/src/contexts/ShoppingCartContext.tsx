@@ -16,7 +16,7 @@ interface ShoppingCartContext {
 }
 
 interface Order {
-  id: number;
+  orderId: number;
   orderItems: CartItem[];
   address: FormValues;
 }
@@ -98,7 +98,7 @@ function ShoppingCartProvider({ children }: Props) {
 
   const addOrder = async (cartProducts: CartItem[], formData: FormValues) => {
     const newOrder: Order = {
-      id: orders.length + 1,
+      orderId: orders.length + 1,
       orderItems: [...cartProducts],
       address: formData,
     };
