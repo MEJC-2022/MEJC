@@ -37,6 +37,7 @@ export function UserButton() {
 
 export function SignOutButton() {
   const { setIsSignedIn } = useAuth();
+  //Kommer behöva ändras
   const handleSignOut = () => {
     setIsSignedIn(false);
   };
