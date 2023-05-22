@@ -136,14 +136,22 @@ export default function SignIn() {
       </Text>
       {/* Glöm ej ta bort */}
       <Group position="center" mt="md">
-          <Button type="button" onClick={handleSignInAsUser} className={classes.control}>
-            Sign in as User
-          </Button>
-          <Button type="button" onClick={handleSignInAsAdmin} className={classes.control}>
-            Sign in as Admin
-          </Button>
-        </Group>
-        {/* ------ */}
+        <Button
+          type="button"
+          onClick={handleSignInAsUser}
+          className={classes.control}
+        >
+          Sign in as User
+        </Button>
+        <Button
+          type="button"
+          onClick={handleSignInAsAdmin}
+          className={classes.control}
+        >
+          Sign in as Admin
+        </Button>
+      </Group>
+      {/* ------ */}
     </Center>
   );
 }

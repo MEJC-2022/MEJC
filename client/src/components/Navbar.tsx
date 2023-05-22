@@ -277,20 +277,20 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
             <Paper className={classes.dropdown} withBorder style={styles}>
               {items}
               {isSignedIn ? (
-              <ul key="4">
-                <Link
-                  key="signout"
-                  to="/"
-                  className={classes.link}
-                  onClick={() => {
-                    close();
-                    handleSignOut();
-                  }}
-                >
-                  Sign out
-                </Link>
-              </ul>
-              ) : null }
+                <ul key="4">
+                  <Link
+                    key="signout"
+                    to="/"
+                    className={classes.link}
+                    onClick={() => {
+                      close();
+                      handleSignOut();
+                    }}
+                  >
+                    Sign out
+                  </Link>
+                </ul>
+              ) : null}
             </Paper>
           )}
         </Transition>
