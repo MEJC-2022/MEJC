@@ -21,10 +21,14 @@ const userSchema = new Schema(
 );
 
 userSchema.pre('save', async function (next) {
-  this.password = await argon2.hash(this.password, {
-    timeCost: 2,
-    memoryCost: 1024,
-  });
+  try {
+    this.password = await argon2.hash(this.password, {
+      timeCost: 2,
+      memoryCost: 1024,
+    });
+  } catch (err) {
+    console.error(err);
+  }
   next();
 });
 
