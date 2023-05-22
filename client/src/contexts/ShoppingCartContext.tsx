@@ -17,7 +17,8 @@ interface ShoppingCartContext {
 
 interface Order {
   id: number;
-  cartProducts: (CartItem | { formData: FormValues })[];
+  orderItems: CartItem[];
+  address: { formData: FormValues };
 }
 
 export function useShoppingCart() {
@@ -96,9 +97,12 @@ function ShoppingCartProvider({ children }: Props) {
   }
 
   const addOrder = (cartProducts: CartItem[], formData: FormValues) => {
+    console.log('Cart items:', cartProducts);
+    console.log('Form data:', formData);
     const newOrder: Order = {
       id: orders.length + 1,
-      cartProducts: [...cartProducts, { formData }],
+      orderItems: [...cartProducts],
+      address: { formData },
     };
 
     setOrders((prevOrders) => [...prevOrders, newOrder]);
