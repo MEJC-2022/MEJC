@@ -77,7 +77,7 @@ const useStyles = createStyles((theme) => ({
   link: {
     display: 'block',
     lineHeight: 1,
-    padding: `${rem(8)} ${rem(12)}`,
+    padding: `${rem(8)} ${rem(10)}`,
     borderRadius: theme.radius.sm,
     textDecoration: 'none',
     color:
@@ -123,7 +123,12 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
   const [logoType, setLogoType] = useState('dark');
   const theme = useMantineTheme();
-  const { isSignedIn, isAdmin } = useAuth();
+  const { isSignedIn, isAdmin, setIsSignedIn } = useAuth();
+  //Behöver ändras
+  const handleSignOut = () => {
+    setIsSignedIn(false);
+  };
+  //-----
 
   useEffect(() => {
     setLogoType(colorScheme === 'dark' ? 'light' : 'dark');
@@ -213,19 +218,14 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
           <ToggleColorButton onToggleColorScheme={handleToggleColorScheme} />
           {isSignedIn ? (
             isAdmin ? (
-              <>
-                <AdminButton />
-                <SignOutButton />
-              </>
+              <AdminButton />
             ) : (
-              <>
-                <UserButton />
-                <SignOutButton />
-              </>
+              <UserButton />
             )
           ) : (
             <SignInButton />
           )}
+          {!isBurgerVisible && isSignedIn && <SignOutButton />}
           <Link
             to="/checkout"
             style={{
@@ -276,6 +276,21 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
           {(styles) => (
             <Paper className={classes.dropdown} withBorder style={styles}>
               {items}
+              {isSignedIn ? (
+              <ul key="4">
+                <Link
+                  key="signout"
+                  to="/"
+                  className={classes.link}
+                  onClick={() => {
+                    close();
+                    handleSignOut();
+                  }}
+                >
+                  Sign out
+                </Link>
+              </ul>
+              ) : null }
             </Paper>
           )}
         </Transition>

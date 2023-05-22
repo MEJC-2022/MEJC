@@ -12,6 +12,7 @@ import {
 } from '@mantine/core';
 import { useForm, yupResolver } from '@mantine/form';
 import * as Yup from 'yup';
+import { useAuth } from '../contexts/AuthContext';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -87,6 +88,20 @@ export default function SignIn() {
     console.log(values);
   };
 
+  //GLÖM EJ TA BORT
+  const { setIsSignedIn, setIsAdmin } = useAuth();
+
+  const handleSignInAsUser = () => {
+    setIsSignedIn(true);
+    setIsAdmin(false);
+  };
+
+  const handleSignInAsAdmin = () => {
+    setIsSignedIn(true);
+    setIsAdmin(true);
+  };
+  //------
+
   return (
     <Center className={classes.wrapper}>
       <Title className={classes.title}>Sign in</Title>
@@ -119,6 +134,16 @@ export default function SignIn() {
           Sign up!
         </Anchor>
       </Text>
+      {/* Glöm ej ta bort */}
+      <Group position="center" mt="md">
+          <Button type="button" onClick={handleSignInAsUser} className={classes.control}>
+            Sign in as User
+          </Button>
+          <Button type="button" onClick={handleSignInAsAdmin} className={classes.control}>
+            Sign in as Admin
+          </Button>
+        </Group>
+        {/* ------ */}
     </Center>
   );
 }
