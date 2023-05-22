@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 import { app } from './app';
 
 dotenv.config();
-const {MONGO_URL, MONGO_PORT} = process.env;
+const { MONGO_URL, MONGO_PORT } = process.env;
 
 app.use(express.json());
 
