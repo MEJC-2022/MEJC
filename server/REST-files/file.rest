@@ -1,0 +1,16 @@
+### Retrieve file
+GET http://localhost:3000/api/file/646ba42ac4bb86221e91c779
+
+### Delete file
+DELETE http://localhost:3000/api/file/646ba42ac4bb86221e91c779
+
+### Upload image
+POST http://localhost:3000/api/file
+Content-Type: multipart/form-data; boundary=FormDataRow
+
+--FormDataRow
+Content-Disposition: form-data; name="image"; filename="UltraBook-X9-Laptop.jpg"
+Content-Type: image/jpeg
+
+< ./UltraBook-X9-Laptop.jpg
+--FormDataRow--

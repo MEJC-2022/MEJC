@@ -1,0 +1,32 @@
+### Retrieve product
+GET http://localhost:3000/api/products/646bbb5dac72fffe05d3c882
+
+### Retrieve all products
+GET http://localhost:3000/api/products
+
+### Delete product
+DELETE http://localhost:3000/api/products/646bbb5dac72fffe05d3c882
+
+### Update product
+PUT http://localhost:3000/api/products/646bbb5dac72fffe05d3c882
+Content-Type: application/json
+
+{
+    "image": "new_image_id",
+    "title": "New Product Title",
+    "description": "Updated Product Description",
+    "price": 149.99,
+    "stock": 20
+}
+
+### Create product
+POST http://localhost:3000/api/products
+Content-Type: application/json
+
+{
+    "image": "646ba42ac4bb86221e91c779",
+    "title": "Product Title 2",
+    "description": "Product Description 2",
+    "price": 99.99,
+    "stock": 10
+}
