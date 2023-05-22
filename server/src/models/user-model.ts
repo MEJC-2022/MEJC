@@ -1,4 +1,5 @@
-import { InferSchemaType, Schema, model } from "mongoose";
+import argon2 from 'argon2';
+import { InferSchemaType, Schema, model } from 'mongoose';
 
 const userSchema = new Schema(
   {
@@ -15,10 +16,18 @@ const userSchema = new Schema(
         return ret;
       },
     },
-    strict: "throw",
-  }
+    strict: 'throw',
+  },
 );
+
+userSchema.pre('save', async function (next) {
+  this.password = await argon2.hash(this.password, {
+    timeCost: 2,
+    memoryCost: 1024,
+  });
+  next();
+});
 
 export type User = InferSchemaType<typeof userSchema> & { _id: string };
 
-export const UserModel = model("User", userSchema);
+export const UserModel = model('User', userSchema);
