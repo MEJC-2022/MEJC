@@ -7,9 +7,9 @@ const createProduct = async (req: Request, res: Response) => {
   res.json(savedProduct);
 };
 
-const getProducts = async (req: Request, res: Response) => {
+const getAllProducts = async (req: Request, res: Response) => {
   const products = await ProductModel.find();
   res.json(products);
 };
 
-export { createProduct, getProducts };
+export { createProduct, getAllProducts };
