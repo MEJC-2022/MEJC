@@ -17,8 +17,14 @@ import { useDisclosure } from '@mantine/hooks';
 import { IconShoppingCart } from '@tabler/icons-react';
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 import { useShoppingCart } from '../contexts/ShoppingCartContext';
-import { AdminButton, SignInButton, UserButton } from './HeaderIcons';
+import {
+  AdminButton,
+  SignInButton,
+  SignOutButton,
+  UserButton,
+} from './HeaderIcons';
 import { ToggleColorButton } from './ToggleColorButton';
 
 const HEADER_HEIGHT = rem(70);
@@ -117,6 +123,7 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
   const [logoType, setLogoType] = useState('dark');
   const theme = useMantineTheme();
+  const { isSignedIn, isAdmin } = useAuth();
 
   useEffect(() => {
     setLogoType(colorScheme === 'dark' ? 'light' : 'dark');
@@ -204,9 +211,21 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
         </Group>
         <Group spacing={1}>
           <ToggleColorButton onToggleColorScheme={handleToggleColorScheme} />
-          <AdminButton/>
-          <SignInButton/>
-          <UserButton/>
+          {isSignedIn ? (
+            isAdmin ? (
+              <>
+                <AdminButton />
+                <SignOutButton />
+              </>
+            ) : (
+              <>
+                <UserButton />
+                <SignOutButton />
+              </>
+            )
+          ) : (
+            <SignInButton />
+          )}
           <Link
             to="/checkout"
             style={{
