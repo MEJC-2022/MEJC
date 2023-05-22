@@ -1,0 +1,29 @@
+### Create a post
+POST http://localhost:3000/api/orders
+Content-Type: application/json
+
+{
+  "userId": "abc123",
+  "address": {
+    "firstName": "Carlito",
+    "lastName": "Margarito",
+    "email": "carlito@gmail.com",
+    "zip": "12345",
+    "city": "New York",
+    "street": "123 Main St",
+    "phone": "1234567890"},
+    "products": [
+        {
+        "id": "1",
+        "quantity": 1,
+        "price": 100,
+        "isArchived": false
+        },
+        {
+        "id": "2",
+        "quantity": 2,
+        "price": 100,
+        "isArchived": false
+        }]
+}
+
