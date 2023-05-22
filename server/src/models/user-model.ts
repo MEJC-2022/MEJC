@@ -3,9 +3,9 @@ import { InferSchemaType, Schema, model } from 'mongoose';
 
 const userSchema = new Schema(
   {
-    isAdmin: { type: Boolean, default: false },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true, select: false },
+    isAdmin: { type: Boolean, default: false },
   },
   {
     versionKey: false,

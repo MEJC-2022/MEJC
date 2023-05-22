@@ -1,7 +1,9 @@
 // user-router.ts
 import { Router } from 'express';
-import { getUserList } from '../controllers/user-controller';
+import { getUserList, registerUser } from '../controllers/user-controller';
 
-const userRouter = Router().get('/api/users', getUserList);
+const userRouter = Router()
+  .get('/api/users', getUserList)
+  .post('/api/users/register', registerUser);
 
 export default userRouter;

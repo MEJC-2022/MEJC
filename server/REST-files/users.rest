@@ -1,13 +1,21 @@
 
-# ### Create user
+### Get all users
 
-# POST http://localhost:3000/api/users/register
-# Content-Type: application/json
+GET http://localhost:3000/api/users
 
-# {
-#     "username": "test1",
-#     "password": "test123"
-# }
+# ### Get user by id
+
+# GET http://localhost:3000/api/users/643e7be19d54a9f1ee48b555
+
+### Create user
+
+POST http://localhost:3000/api/users/register
+Content-Type: application/json
+
+{
+    "email": "test@mejc.com",
+    "password": "hashedpassword"
+}
 
 
 # ### Login user
@@ -24,16 +32,6 @@
 # ## Logout user
 
 # POST http://localhost:3000/api/users/logout
-
-
-### Get all user
-
-GET http://localhost:3000/api/users
-
-
-# ### Get user by id
-
-# GET http://localhost:3000/api/users/643e7be19d54a9f1ee48b555
 
 
 # ### Get current session

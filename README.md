@@ -18,7 +18,7 @@ som en kravspecifikation. Förutom det har ni fria händer att ta fram en grym i
 - [x] Beskriv er företagsidé i en kort textuell presentation, detta ska lämnas in vid idégodkännandet (G)
 - [ ] All data som programmet utnyttjar ska vara sparat i en Mongo-databas (produkter, beställningar, konton m.m.) (G)
 - [ ] Man ska kunna logga in som administratör i systemet (G)
-- [ ] Inga lösenord får sparas i klartext i databasen (G)
+- [x] Inga lösenord får sparas i klartext i databasen (G)
 - [ ] En besökare ska kunna beställa produkter från sidan, detta ska uppdatera lagersaldot i databasen (G)
 - [ ] Administratörer ska kunna uppdatera antalet produkter i lager från admindelen av sidan (G)
 - [ ] Administratörer ska kunna se en lista på alla gjorda beställningar (G)
