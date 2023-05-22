@@ -1,9 +1,9 @@
 import { Button } from '@mantine/core';
 import {
-    IconLogin,
-    IconLogout,
-    IconUser,
-    IconUserShield,
+  IconLogin,
+  IconLogout,
+  IconUser,
+  IconUserShield,
 } from '@tabler/icons-react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
