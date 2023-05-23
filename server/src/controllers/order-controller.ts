@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { OrderModel } from '../models/order-model';
+import { addressSchema } from '../validation/order-validation';
 
 export async function createOrder(req: Request, res: Response) {
   const address = req.body.address;
@@ -8,6 +9,8 @@ export async function createOrder(req: Request, res: Response) {
   let haveArchivedProduct = false;
   let productOutOfStock = false;
   let totalPrice = 0;
+
+  console.log(req.body);
 
   // products.forEach(async (product) => {
   //   const productId = product._id;
@@ -46,6 +49,15 @@ export async function createOrder(req: Request, res: Response) {
   products.forEach((product) => {
     totalPrice += product.price * product.quantity;
   });
+
+  try {
+    await addressSchema.validate(address);
+    console.log('the address was validated');
+  } catch (error) {
+    console.log('the address was not validated');
+    res.set('content-type', 'application/json');
+    return res.status(400).json(JSON.stringify(error.message));
+  }
 
   const completOrder = {
     userId: userId,

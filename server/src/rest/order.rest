@@ -4,26 +4,31 @@ Content-Type: application/json
 
 {
   "userId": "abc123",
+  "totalPrice": 10293,
+  "isShipped": false,
   "address": {
-    "firstName": "Carlito",
+    "firstName": "C",
     "lastName": "Margarito",
     "email": "carlito@gmail.com",
-    "zip": "12345",
+    "zipCode": "12345",
     "city": "New York",
-    "street": "123 Main St",
-    "phone": "1234567890"},
-    "products": [
-        {
-        "id": "1",
-        "quantity": 1,
-        "price": 100,
-        "isArchived": false
-        },
-        {
-        "id": "2",
-        "quantity": 2,
-        "price": 100,
-        "isArchived": false
-        }]
+    "street": "testgatan 31",
+    "phoneNumber": "0707433677"
+  },
+  "orderItems": [
+    {
+      "id": "1334h",
+      "image": "http://hej.jpeg",
+      "title": "Hej",
+      "description": "Hej",
+      "price": 100,
+      "stock": 10,
+      "quantity": 1
+    }
+  ]
 }
+
+
+
+
 
