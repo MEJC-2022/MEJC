@@ -3,13 +3,25 @@ import { Request, Response } from 'express';
 import { UserModel } from '../models/user-model';
 
 export async function getUserList(req: Request, res: Response) {
-  const users = await UserModel.find({});
-  res.status(200).json(users);
+  try {
+    const userList = await UserModel.find({});
+    if (!userList) {
+      throw new Error('User list could not be retrieved');
+    } else {
+      res.status(200).json(userList);
+    }
+  } catch (err) {
+    console.error(err);
+  }
 }
 
 export async function registerUser(req: Request, res: Response) {
-  const user = await UserModel.create(req.body);
-  res.status(201).json(user);
+  try {
+    const user = await UserModel.create(req.body);
+    res.status(201).json(user);
+  } catch (err) {
+    console.error(err);
+  }
 }
 
 export async function loginUser(req: Request, res: Response) {
@@ -50,9 +62,9 @@ export async function logoutUser(req: Request, res: Response) {
   try {
     if (req.session && Object.keys(req.session).length !== 0) {
       req.session = null;
-      res.status(204).send("You have successfully logged out.");
+      res.status(204).send('You have successfully logged out.');
     } else {
-      res.status(401).send("User already logged out.");
+      res.status(401).send('User already logged out.');
     }
   } catch (err) {
     console.error(err);
