@@ -8,6 +8,7 @@ import {
   Title,
   createStyles,
   rem,
+  useMantineTheme,
 } from '@mantine/core';
 import { useForm, yupResolver } from '@mantine/form';
 import { Link } from 'react-router-dom';
@@ -90,6 +91,7 @@ interface FormValues {
 
 export default function SignIn() {
   const { classes } = useStyles();
+  const theme = useMantineTheme();
   const form = useForm({
     validate: yupResolver(schema),
     initialValues: {
@@ -105,7 +107,7 @@ export default function SignIn() {
 
   return (
     <Center className={classes.wrapper}>
-      <Title className={classes.title}>Sign up</Title>
+      <Title className={`${classes.title} ${theme.colorScheme === 'dark' ? 'neonText' : ''}`}>Sign up</Title>
       <Box maw={600} className={classes.form}>
         <form onSubmit={form.onSubmit(handleSubmit)}>
           <TextInput

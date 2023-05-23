@@ -13,6 +13,7 @@ import { useContext, useEffect, useState } from 'react';
 import HeroSlide from '../components/HeroSlide';
 import ProductCard from '../components/ProductCard';
 import { ProductContext } from '../contexts/ProductContext';
+import '../css/Glow.css';
 
 function Home() {
   const theme = useMantineTheme();
@@ -91,7 +92,7 @@ function Home() {
           <img src="/assets/free-returns.svg" alt="free returns icon" />
         </Box>
       </MediaQuery>
-      <Title sx={{ marginBottom: '1rem' }} ta="center">
+      <Title sx={{ marginBottom: '1rem' }} ta="center" className={theme.colorScheme === 'dark' ? "neonText" : ""}>
         Browse our collection
       </Title>
       <Group spacing={5} mb="md">
