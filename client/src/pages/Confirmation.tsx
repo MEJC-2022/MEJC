@@ -15,7 +15,7 @@ function Confirmation() {
   function calculateLastOrderTotal() {
     return lastOrder.cartProducts.reduce((total, item) => {
       if ('id' in item) {
-        const product = products.find((i) => i.id === item.id);
+        const product = products.find((i) => i._id === item.id);
         return total + (product?.price || 0) * item.quantity;
       }
       return total;

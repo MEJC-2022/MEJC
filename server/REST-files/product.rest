@@ -1,0 +1,32 @@
+### Retrieve product
+GET http://localhost:3000/api/products/646bd0534eb83ae87d4731d1
+
+### Retrieve all products
+GET http://localhost:3000/api/products
+
+### Delete product
+DELETE http://localhost:3000/api/products/646bd0534eb83ae87d4731d1
+
+### Update product
+PUT http://localhost:3000/api/products/646bd0534eb83ae87d4731d1
+Content-Type: application/json
+
+{
+    "image": "new_image_id",
+    "title": "New Product Title",
+    "description": "Updated Product Description",
+    "price": 149.99,
+    "stock": 20
+}
+
+### Create product
+POST http://localhost:3000/api/products
+Content-Type: application/json
+
+{
+    "image": "646c714d4eb83ae87d47321f",
+    "title": "TravelBook Mini",
+    "description": "The TravelBook Mini is the perfect laptop for those who are always on-the-go. With its compact size and long-lasting battery, you can take it with you wherever you go. The 11-inch display delivers crisp visuals, while the lightweight design ensures you can carry it with ease.",
+    "price": 5499,
+    "stock": 42
+}
