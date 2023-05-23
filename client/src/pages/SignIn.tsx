@@ -1,17 +1,14 @@
 import {
-  Anchor,
-  Box,
   Button,
   Center,
   Group,
-  Text,
-  TextInput,
   Title,
   createStyles,
-  rem,
+  rem
 } from '@mantine/core';
 import { useForm, yupResolver } from '@mantine/form';
 import * as Yup from 'yup';
+import { SignInForm } from '../components/SignInForm';
 import { useAuth } from '../contexts/AuthContext';
 
 const useStyles = createStyles((theme) => ({
@@ -105,35 +102,7 @@ export default function SignIn() {
   return (
     <Center className={classes.wrapper}>
       <Title className={classes.title}>Sign in</Title>
-      <Box maw={600} className={classes.form}>
-        <form onSubmit={form.onSubmit(handleSubmit)}>
-          <TextInput
-            label="Email"
-            placeholder="your@email.com"
-            {...form.getInputProps('email')}
-            classNames={{ input: classes.input, label: classes.inputLabel }}
-          />
-          <TextInput
-            type="password"
-            mt="md"
-            label="Password"
-            placeholder="********"
-            {...form.getInputProps('password')}
-            classNames={{ input: classes.input, label: classes.inputLabel }}
-          />
-          <Group position="right" mt="md">
-            <Button type="submit" className={classes.control}>
-              Sign in
-            </Button>
-          </Group>
-        </form>
-      </Box>
-      <Text fz="md" mt={6} className={classes.lighterText}>
-        Don't have an account?{' '}
-        <Anchor href="/signup" className={classes.anchor}>
-          Sign up!
-        </Anchor>
-      </Text>
+      <SignInForm />
       {/* Glöm ej ta bort */}
       <Group position="center" mt="md">
         <Button
