@@ -6,7 +6,11 @@ export const userValidationSchema = yup.object({
   password: yup.string().min(8).required(),
 });
 
-export async function validateUser(req: Request, res: Response, next: NextFunction) {
+export async function validateUser(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
   try {
     const user = await userValidationSchema.validate(req.body);
     next();
