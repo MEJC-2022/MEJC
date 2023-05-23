@@ -40,7 +40,7 @@ function ProductCard({ product }: Props) {
         <Card.Section>
           <Link to={link} style={{ textDecoration: 'none', color: 'inherit' }}>
             <Image
-              src={'http://localhost:3000/api/file/' + product.image}
+              src={'/api/file/' + product.image}
               height={230}
               fit="cover"
             />

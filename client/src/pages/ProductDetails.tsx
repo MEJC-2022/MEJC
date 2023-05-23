@@ -72,7 +72,7 @@ function ProductDetails() {
           </Box>
           <Image
             radius="md"
-            src={'http://localhost:3000/api/file/' + product.image}
+            src={'/api/file/' + product.image}
             key={product._id}
             alt={product.title}
             fit="contain"

@@ -27,7 +27,7 @@ function CartProduct({ cartItem }: Props) {
       data-cy="cart-item"
     >
       <Image
-        src={'http://localhost:3000/api/file/' + cartItem.image}
+        src={'/api/file/' + cartItem.image}
         height={150}
         width={220}
         fit="cover"
