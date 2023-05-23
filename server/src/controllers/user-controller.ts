@@ -45,3 +45,16 @@ export async function loginUser(req: Request, res: Response) {
     console.error(err);
   }
 }
+
+export async function logoutUser(req: Request, res: Response) {
+  try {
+    if (req.session && Object.keys(req.session).length !== 0) {
+      throw new Error('User is already logged out');
+    }
+
+    req.session = null;
+    res.status(204).json('You have been logged out');
+  } catch (err) {
+    console.error(err);
+  }
+}
