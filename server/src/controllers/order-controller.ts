@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { OrderModel } from '../models/order-model';
 import { ProductModel } from '../models/product-model';
 import { addressSchema } from '../validation/order-validation';
 
@@ -27,27 +28,31 @@ export async function createOrder(req: Request, res: Response) {
     return;
   }
 
-  orderItems.forEach(async (product) => {
+  for (const product of orderItems) {
     const productId = product._id;
     const quantityOrdered = product.quantity;
     const singleProduct = await ProductModel.findById(productId);
-    if (singleProduct === null) {
-      return;
-    }
 
-    if (singleProduct.stock < quantityOrdered) {
+    if (singleProduct === null || singleProduct.stock < quantityOrdered) {
       productOutOfStock = true;
-    } else {
-      singleProduct.stock = singleProduct.stock - quantityOrdered;
-      await singleProduct.save();
+      break;
     }
-  });
+  }
 
   if (productOutOfStock) {
     res.status(409).send({
       message: 'One of the products you have in your cart is out of stock.',
     });
     return;
+  }
+
+  for (const product of orderItems) {
+    const productId = product._id;
+    const quantityOrdered = product.quantity;
+    const singleProduct = await ProductModel.findById(productId);
+
+    singleProduct!.stock = singleProduct!.stock - quantityOrdered;
+    await singleProduct!.save();
   }
 
   orderItems.forEach((product) => {
@@ -63,12 +68,8 @@ export async function createOrder(req: Request, res: Response) {
     return res.status(400).json(JSON.stringify(error.message));
   }
 
-  const cleanedOrderItems = orderItems.map(({ _id, quantity }) => ({
-    _id,
-    quantity,
-  }));
-
-  console.log('cleanedOrderItems:', cleanedOrderItems);
+  // Validate orderItems
+  // Validate userID and quantity
 
   const completOrder = {
     userId: userId,
@@ -78,9 +79,7 @@ export async function createOrder(req: Request, res: Response) {
     totalPrice: totalPrice,
   };
 
-  // Validate completeOrder, address and products
-
-  // const result = await OrderModel.create(completOrder);
+  const result = await OrderModel.create(completOrder);
 
   res.status(200).send({
     message: 'Order created successfully.',
