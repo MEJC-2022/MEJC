@@ -9,8 +9,9 @@ export const app = express();
 app.use(express.json());
 app.use(
   cookieSession({
-    name: 'session',
+    name: 'loginSession',
     secure: false,
+    httpOnly: true,
     secret: '97d28h8AHSas8dx8A92ppdkj',
     maxAge: 1000 * 60 * 60 * 24 * 7 * 26, // 6 months
   }),
