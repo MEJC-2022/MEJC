@@ -1,11 +1,16 @@
 import { Request, Response } from 'express';
 import { OrderModel } from '../models/order-model';
 import { ProductModel } from '../models/product-model';
-import { addressSchema } from '../validation/order-validation';
+import {
+  addressSchema,
+  orderItemSchema,
+  userIdSchema,
+} from '../validation/order-validation';
 
 export async function createOrder(req: Request, res: Response) {
   const { address, orderItems } = req.body;
 
+  // TODO: Get userID from session
   const userId = '5f9d3b3b9d3b3b9d3b9d3b9d';
   let haveArchivedProduct = false;
   let productOutOfStock = false;
@@ -59,6 +64,7 @@ export async function createOrder(req: Request, res: Response) {
     totalPrice += product.price * product.quantity;
   });
 
+  // Address validation
   try {
     await addressSchema.validate(address);
     console.log('the address was validated');
@@ -68,8 +74,25 @@ export async function createOrder(req: Request, res: Response) {
     return res.status(400).json(JSON.stringify(error.message));
   }
 
-  // Validate orderItems
-  // Validate userID and quantity
+  // OrderItem validation
+  try {
+    await orderItemSchema.validate(orderItems);
+    console.log('the orderItems was validated');
+  } catch (error) {
+    console.log('the orderItem was not validated');
+    res.set('content-type', 'application/json');
+    return res.status(400).json(JSON.stringify(error.message));
+  }
+
+  // UserId validation
+  try {
+    await userIdSchema.validate(userId);
+    console.log('the userId was validated');
+  } catch (error) {
+    console.log('the userId was not validated');
+    res.set('content-type', 'application/json');
+    return res.status(400).json(JSON.stringify(error.message));
+  }
 
   const completOrder = {
     userId: userId,

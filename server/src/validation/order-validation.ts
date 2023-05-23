@@ -27,3 +27,14 @@ export const addressSchema = Yup.object().shape({
     .max(10, 'Your phone number should be 10 numbers long')
     .required('This field is required phoneNumber'),
 });
+
+export const orderItemSchema = Yup.array().of(
+  Yup.object().shape({
+    _id: Yup.string().required('This field is required'),
+    quantity: Yup.number()
+      .min(1, 'Quantity should be at least 1')
+      .required('This field is required'),
+  }),
+);
+
+export const userIdSchema = Yup.string().required('This field is required');
