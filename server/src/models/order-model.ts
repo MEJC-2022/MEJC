@@ -29,11 +29,9 @@ const orderItemSchema = new Schema(
 
 const orderSchema = new Schema(
   {
-    orderId: { type: String, required: true },
     userId: { type: String, required: true },
     deliveryAddress: { type: addressSchema, required: true },
     orderItems: { type: [orderItemSchema], required: true },
-    createdAt: { type: Date, required: true },
     isShipped: { type: Boolean, required: true },
     totalPrice: { type: Number, required: true },
   },
