@@ -27,6 +27,7 @@ import ProductDetails from './pages/ProductDetails';
 import Shop from './pages/Shop';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
+import UserOrders from './pages/UserOrders';
 import Admin from './pages/admin/Admin';
 import AdminOrders from './pages/admin/AdminOrders';
 import AdminProducts from './pages/admin/AdminProducts';
@@ -46,6 +47,7 @@ const router = createBrowserRouter(
         <Route path="confirmation" element={<Confirmation />} />
         <Route path="signin" element={<SignIn />} />
         <Route path="signup" element={<SignUp />} />
+        <Route path="orders" element={<UserOrders />} />
       </Route>
 
       <Route path="admin/*" element={<Admin />}>
