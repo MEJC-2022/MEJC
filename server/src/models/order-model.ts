@@ -22,7 +22,7 @@ const orderItemSchema = new Schema(
     price: { type: Number, required: true },
     stock: { type: Number, required: true },
     quantity: { type: Number, required: true },
-    //   isArchived: { type: Boolean, required: true },
+    isArchived: { type: Boolean },
   },
   { _id: false },
 );
