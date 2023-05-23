@@ -36,11 +36,7 @@ function AdminProductCard({ product, onDelete }: Props) {
         data-cy="product"
       >
         <Card.Section>
-          <Image
-            src={'/api/file/' + product.image}
-            height={230}
-            fit="cover"
-          />
+          <Image src={'/api/file/' + product.image} height={230} fit="cover" />
           <Box pl="md" pr="md">
             <Group position="left" mt="sm" mb="sm">
               <Text
