@@ -122,7 +122,7 @@ function ShoppingCartProvider({ children }: Props) {
         throw new Error(message);
       }
     } catch (error) {
-      console.error('Error creating post:', error);
+      console.error('Error creating order:', error);
     }
   };
 

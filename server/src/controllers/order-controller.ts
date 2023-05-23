@@ -1,52 +1,56 @@
 import { Request, Response } from 'express';
-import { OrderModel } from '../models/order-model';
+import { ProductModel } from '../models/product-model';
 import { addressSchema } from '../validation/order-validation';
 
 export async function createOrder(req: Request, res: Response) {
-  const address = req.body.address;
-  const products = req.body.orderItems;
+  const { address, orderItems } = req.body;
+
   const userId = '5f9d3b3b9d3b3b9d3b9d3b9d';
   let haveArchivedProduct = false;
   let productOutOfStock = false;
   let totalPrice = 0;
 
-  console.log(req.body);
+  orderItems.forEach(async (product) => {
+    const productId = product._id;
+    const singleProduct = await ProductModel.findById(productId);
+    console.log('Gick igenom produkt:', productId);
 
-  // products.forEach(async (product) => {
-  //   const productId = product._id;
-  //   const singleProduct = await productModel.findById(productId);
-  //   if (singleProduct.isArchived) {
-  //     haveArchivedProduct = true;
-  //   }
-  // });
+    if (singleProduct!.isArchived) {
+      haveArchivedProduct = true;
+    }
+  });
 
-  // if (haveArchivedProduct) {
-  //   res.status(409).send({
-  //     message: 'One of the products you have in your cart is archived.',
-  //   });
-  //   return;
-  // }
+  if (haveArchivedProduct) {
+    res.status(409).send({
+      message: 'One of the products you have in your cart is archived.',
+    });
+    return;
+  }
 
-  // products.forEach(async (product) => {
-  //   const productId = product._id;
-  //   const quantityOrdered = product.quantity;
-  //   const singleProduct = await productModel.findById(productId);
-  //   if (singleProduct.stock < quantityOrdered) {
-  //     productOutOfStock = true;
-  //   } else {
-  //     singleProduct.stock = singleProduct.stock - quantityOrdered;
-  //     await singleProduct.save();
-  //   }
-  // });
+  orderItems.forEach(async (product) => {
+    const productId = product._id;
+    const quantityOrdered = product.quantity;
+    const singleProduct = await ProductModel.findById(productId);
+    if (singleProduct === null) {
+      return;
+    }
 
-  // if (productOutOfStock) {
-  //   res.status(409).send({
-  //     message: 'One of the products you have in your cart is out of stock.',
-  //   });
-  //   return;
-  // }
+    if (singleProduct.stock < quantityOrdered) {
+      productOutOfStock = true;
+    } else {
+      singleProduct.stock = singleProduct.stock - quantityOrdered;
+      await singleProduct.save();
+    }
+  });
 
-  products.forEach((product) => {
+  if (productOutOfStock) {
+    res.status(409).send({
+      message: 'One of the products you have in your cart is out of stock.',
+    });
+    return;
+  }
+
+  orderItems.forEach((product) => {
     totalPrice += product.price * product.quantity;
   });
 
@@ -59,20 +63,26 @@ export async function createOrder(req: Request, res: Response) {
     return res.status(400).json(JSON.stringify(error.message));
   }
 
+  const cleanedOrderItems = orderItems.map(({ _id, quantity }) => ({
+    _id,
+    quantity,
+  }));
+
+  console.log('cleanedOrderItems:', cleanedOrderItems);
+
   const completOrder = {
     userId: userId,
     deliveryAddress: address,
-    orderItems: products,
+    orderItems: orderItems,
     isShipped: false,
     totalPrice: totalPrice,
   };
 
   // Validate completeOrder, address and products
 
-  const result = await OrderModel.create(completOrder);
+  // const result = await OrderModel.create(completOrder);
 
   res.status(200).send({
     message: 'Order created successfully.',
-    order: result,
   });
 }

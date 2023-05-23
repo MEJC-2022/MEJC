@@ -15,14 +15,8 @@ const addressSchema = new Schema(
 
 const orderItemSchema = new Schema(
   {
-    id: { type: String, required: true },
-    image: { type: String, required: true },
-    title: { type: String, required: true },
-    description: { type: String, required: true },
-    price: { type: Number, required: true },
-    stock: { type: Number, required: true },
+    _id: { type: String, required: true },
     quantity: { type: Number, required: true },
-    isArchived: { type: Boolean },
   },
   { _id: false },
 );
