@@ -1,6 +1,18 @@
-import { createContext, ReactNode } from 'react';
-import { Product, products as mockedProducts } from '../../data/index';
-import useLocalStorage from '../hooks/useLocalStorage';
+import axios from 'axios';
+import { createContext, ReactNode, useEffect, useState } from 'react';
+
+export interface Product {
+  _id: string;
+  image: string;
+  title: string;
+  description: string;
+  price: number;
+  stock: number;
+}
+
+export interface CartItem extends Product {
+  quantity: number;
+}
 
 interface ContextValue {
   products: Product[];
@@ -15,30 +27,42 @@ interface Props {
   children: ReactNode;
 }
 
-function ProductProvider({ children }: Props) {
-  const [products, setProducts] = useLocalStorage<Product[]>(
-    'products',
-    mockedProducts,
-  );
+export const ProductProvider: React.FC<Props> = ({ children }) => {
+  const [products, setProducts] = useState<Product[]>([]);
 
-  function deleteProduct(id: string) {
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const res = await axios.get('/api/products');
+      setProducts(res.data);
+    };
+
+    fetchProducts();
+  }, []);
+
+  async function deleteProduct(id: string) {
+    await axios.delete(`/api/products/${id}`);
     setProducts((currentProducts) => {
-      return currentProducts.filter((product) => product.id !== id);
+      return currentProducts.filter((product) => product._id !== id);
     });
   }
 
-  function addProduct(product: Product) {
-    setProducts((currentProducts) => [...currentProducts, product]);
+  async function addProduct(product: Product) {
+    const res = await axios.post('/api/products', product);
+    setProducts((currentProducts) => [...currentProducts, res.data]);
   }
 
-  const updateProduct = (updatedProduct: Product) => {
-    const newProducts = products.map((product) =>
-      product.id === updatedProduct.id ? updatedProduct : product,
+  async function updateProduct(updatedProduct: Product) {
+    const res = await axios.put(
+      `/api/products/${updatedProduct._id}`,
+      updatedProduct,
     );
 
-    setProducts(newProducts);
-    localStorage.setItem('products', JSON.stringify(newProducts));
-  };
+    setProducts((currentProducts) =>
+      currentProducts.map((product) =>
+        product._id === updatedProduct._id ? res.data : product,
+      ),
+    );
+  }
 
   return (
     <ProductContext.Provider
@@ -47,6 +71,6 @@ function ProductProvider({ children }: Props) {
       {children}
     </ProductContext.Provider>
   );
-}
+};
 
 export default ProductProvider;

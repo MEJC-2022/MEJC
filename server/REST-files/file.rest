@@ -1,0 +1,16 @@
+### Retrieve file
+GET http://localhost:3000/api/file/
+
+### Delete file
+DELETE http://localhost:3000/api/file/
+
+### Upload image
+POST http://localhost:3000/api/file
+Content-Type: multipart/form-data; boundary=FormDataRow
+
+--FormDataRow
+Content-Disposition: form-data; name="image"; filename="TravelBook-Mini-Laptop.jpg"
+Content-Type: image/jpeg
+
+< ./TravelBook-Mini-Laptop.jpg
+--FormDataRow--

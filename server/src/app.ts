@@ -1,5 +1,6 @@
-import express, { NextFunction, Request, Response } from 'express';
 import cookieSession from 'cookie-session';
+import express, { NextFunction, Request, Response } from 'express';
+import fileRouter from './routers/file-router';
 import productRouter from './routers/product-router';
 import userRouter from './routers/user-router';
 
@@ -19,6 +20,7 @@ app.use(
 
 // Routers:
 app.use(productRouter);
+app.use(fileRouter);
 app.use(userRouter);
 
 // Global error-handling:

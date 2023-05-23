@@ -5,13 +5,13 @@ import {
   Card,
   Group,
   Image,
-  List,
+  Text,
   Title,
 } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconShoppingCartPlus } from '@tabler/icons-react';
 import { Link } from 'react-router-dom';
-import { Product } from '../../data/index';
+import { Product } from '../contexts/ProductContext';
 import { useShoppingCart } from '../contexts/ShoppingCartContext';
 
 export interface Props {
@@ -22,14 +22,28 @@ export interface Props {
 
 function ProductCard({ product }: Props) {
   const { increaseCartQuantity } = useShoppingCart();
-  const link = '/product/' + product.id;
+  const link = '/product/' + product._id;
 
   return (
     <>
-      <Card shadow="xl" radius="lg" withBorder data-cy="product">
+      <Card
+        shadow="xl"
+        radius="lg"
+        withBorder
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+        }}
+        data-cy="product"
+      >
         <Card.Section>
           <Link to={link} style={{ textDecoration: 'none', color: 'inherit' }}>
-            <Image src={product.image} height={230} fit="cover" />
+            <Image
+              src={'/api/file/' + product.image}
+              height={230}
+              fit="cover"
+            />
             <Box pl="md" pr="md">
               <Group
                 mt="xl"
@@ -43,12 +57,9 @@ function ProductCard({ product }: Props) {
                   New!
                 </Badge>
               </Group>
-              <List>
-                {Array.isArray(product.summary) &&
-                  product.summary.map((item) => (
-                    <List.Item key={item}>{item}</List.Item>
-                  ))}
-              </List>
+              <Text size="md" align="left">
+                {product.description}
+              </Text>
             </Box>
           </Link>
         </Card.Section>
@@ -63,7 +74,7 @@ function ProductCard({ product }: Props) {
             mt="md"
             radius="md"
             onClick={() => {
-              increaseCartQuantity(product.id);
+              increaseCartQuantity(product._id);
               notifications.show({
                 icon: <IconShoppingCartPlus />,
                 title: `${product.title}`,

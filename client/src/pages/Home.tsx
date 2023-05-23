@@ -9,7 +9,7 @@ import {
   Title,
   useMantineTheme,
 } from '@mantine/core';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import HeroSlide from '../components/HeroSlide';
 import ProductCard from '../components/ProductCard';
 import { ProductContext } from '../contexts/ProductContext';
@@ -20,6 +20,10 @@ function Home() {
   const [sortDirection, setSortDirection] = useState('');
   const [sortedProducts, setSortedProducts] = useState(products);
   const [activeButton, setActiveButton] = useState('');
+
+  useEffect(() => {
+    setSortedProducts(products);
+  }, [products]);
 
   function sortProductsByLowestPrice() {
     const sorted = [...products].sort((a, b) => a.price - b.price);
@@ -126,7 +130,7 @@ function Home() {
       >
         {sortedProducts.map((product) => (
           <ProductCard
-            key={product.id}
+            key={product._id}
             product={product}
             sortedProducts={sortedProducts}
             sortDirection={sortDirection === 'ascending' ? 'lowest' : 'highest'}
