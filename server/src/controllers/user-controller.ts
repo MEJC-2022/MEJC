@@ -70,3 +70,18 @@ export async function logoutUser(req: Request, res: Response) {
     console.error(err);
   }
 }
+
+export async function updateUserRole(req: Request, res: Response) {
+  try {
+    const { id } = req.params;
+    const { isAdmin } = req.body;
+    const user = await UserModel.findByIdAndUpdate(
+      id,
+      { isAdmin },
+      { new: true },
+    );
+    res.status(200).json(user);
+  } catch (err) {
+    console.error(err);
+  }
+}
