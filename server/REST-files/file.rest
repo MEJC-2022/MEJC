@@ -1,5 +1,5 @@
 ### Retrieve file
-GET http://localhost:3000/api/file/646c714d4eb83ae87d47321f
+GET http://localhost:3000/api/file/
 
 ### Delete file
 DELETE http://localhost:3000/api/file/
