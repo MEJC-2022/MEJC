@@ -8,6 +8,7 @@ export async function createOrder(req: Request, res: Response) {
   const userId = '5f9d3b3b9d3b3b9d3b9d3b9d';
   let haveArchivedProduct = false;
   let productOutOfStock = false;
+  let totalPrice = 0;
 
   // products.forEach(async (product) => {
   //   const productId = product._id;
@@ -43,14 +44,17 @@ export async function createOrder(req: Request, res: Response) {
   //   return;
   // }
 
+  products.forEach((product) => {
+    totalPrice += product.price * product.quantity;
+  });
+
   const completOrder = {
-    orderId: '123884954589',
+    // orderId: '123884954589',
     userId: userId,
     deliveryAddress: address,
     orderItems: products,
-    createdAt: new Date(),
     isShipped: false,
-    totalPrice: 0,
+    totalPrice: totalPrice,
   };
 
   const result = await OrderModel.create(completOrder);
