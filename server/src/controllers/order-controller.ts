@@ -5,23 +5,44 @@ export async function createOrder(req: Request, res: Response) {
   console.log('reached createOrder');
   const address = req.body.address;
   const products = req.body.orderItems;
-  let haveArchivedProduct = false;
   const userId = '5f9d3b3b9d3b3b9d3b9d3b9d';
+  let haveArchivedProduct = false;
+  let productOutOfStock = false;
 
-  // Check if product is archived not depending on req
-  // but in the database instead?
-  // products.forEach((product) => {
-  //   if (product.isArchived) {
+  // products.forEach(async (product) => {
+  //   const productId = product._id;
+  //   const singleProduct = await productModel.findById(productId);
+  //   if (singleProduct.isArchived) {
   //     haveArchivedProduct = true;
   //   }
   // });
 
-  if (haveArchivedProduct) {
-    res.status(400).send({
-      message: 'One of the products you have in your cart is archived.',
-    });
-    return;
-  }
+  // if (haveArchivedProduct) {
+  //   res.status(409).send({
+  //     message: 'One of the products you have in your cart is archived.',
+  //   });
+  //   return;
+  // }
+
+  // products.forEach(async (product) => {
+  //   const productId = product._id;
+  //   const quantityOrdered = product.quantity;
+  //   const singleProduct = await productModel.findById(productId);
+  //   if (singleProduct.stock < quantityOrdered) {
+  //     productOutOfStock = true;
+  //   } else {
+  //     singleProduct.stock = singleProduct.stock - quantityOrdered;
+  //     await singleProduct.save();
+  //   }
+  // });
+
+  // if (productOutOfStock) {
+  //   res.status(409).send({
+  //     message: 'One of the products you have in your cart is out of stock.',
+  //   });
+  //   return;
+  // }
+
   const completOrder = {
     orderId: '123884954589',
     userId: userId,
@@ -36,13 +57,6 @@ export async function createOrder(req: Request, res: Response) {
 
   res.status(200).send({
     message: 'Order created successfully.',
+    order: result,
   });
-
-  // console.log(address);
-  // console.log(products);
-  // Validate the request body
-
-  // Create the order
-
-  // Return the order
 }

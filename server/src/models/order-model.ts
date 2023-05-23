@@ -13,16 +13,19 @@ const addressSchema = new Schema(
   { _id: false },
 );
 
-const orderItemSchema = new Schema({
-  id: { type: String, required: true },
-  image: { type: String, required: true },
-  title: { type: String, required: true },
-  description: { type: String, required: true },
-  price: { type: Number, required: true },
-  stock: { type: Number, required: true },
-  quantity: { type: Number, required: true },
-  //   isArchived: { type: Boolean, required: true },
-});
+const orderItemSchema = new Schema(
+  {
+    id: { type: String, required: true },
+    image: { type: String, required: true },
+    title: { type: String, required: true },
+    description: { type: String, required: true },
+    price: { type: Number, required: true },
+    stock: { type: Number, required: true },
+    quantity: { type: Number, required: true },
+    //   isArchived: { type: Boolean, required: true },
+  },
+  { _id: false },
+);
 
 const orderSchema = new Schema(
   {
