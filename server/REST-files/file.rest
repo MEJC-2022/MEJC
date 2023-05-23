@@ -2,7 +2,7 @@
 GET http://localhost:3000/api/file/646c714d4eb83ae87d47321f
 
 ### Delete file
-DELETE http://localhost:3000/api/file/646ba42ac4bb86221e91c779
+DELETE http://localhost:3000/api/file/
 
 ### Upload image
 POST http://localhost:3000/api/file
