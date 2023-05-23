@@ -1,5 +1,5 @@
 ### Retrieve file
-GET http://localhost:3000/api/file/646ba42ac4bb86221e91c779
+GET http://localhost:3000/api/file/646c714d4eb83ae87d47321f
 
 ### Delete file
 DELETE http://localhost:3000/api/file/646ba42ac4bb86221e91c779
@@ -9,8 +9,8 @@ POST http://localhost:3000/api/file
 Content-Type: multipart/form-data; boundary=FormDataRow
 
 --FormDataRow
-Content-Disposition: form-data; name="image"; filename="UltraBook-X9-Laptop.jpg"
+Content-Disposition: form-data; name="image"; filename="TravelBook-Mini-Laptop.jpg"
 Content-Type: image/jpeg
 
-< ./UltraBook-X9-Laptop.jpg
+< ./TravelBook-Mini-Laptop.jpg
 --FormDataRow--

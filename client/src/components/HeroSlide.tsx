@@ -1,10 +1,8 @@
 import { Box } from '@mantine/core';
 import { Autoplay, Navigation, Pagination } from 'swiper';
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper } from 'swiper/react';
 import 'swiper/swiper-bundle.css';
 import 'swiper/swiper.min.css';
-import { products as mockedProducts } from '../../data/index';
-import HeroSlideItem from './HeroSlideItem';
 
 function HeroSlide() {
   return (
@@ -25,11 +23,12 @@ function HeroSlide() {
         navigation
         pagination={{ clickable: true }}
       >
-        {mockedProducts.slice(0, 4).map((product) => (
+        {/* DISABLED FOR NOW */}
+        {/* {Product.slice(0, 4).map((product) => (
           <SwiperSlide style={{ height: '22rem' }} key={product.id}>
             <HeroSlideItem imageSrc={product.image} />
           </SwiperSlide>
-        ))}
+        ))} */}
       </Swiper>
     </Box>
   );

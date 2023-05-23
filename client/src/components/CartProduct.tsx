@@ -1,8 +1,7 @@
 import { Box, Button, Group, Image, Input, Text } from '@mantine/core';
 import { IconMinus, IconPlus } from '@tabler/icons-react';
 import { useContext } from 'react';
-import { CartItem } from '../../data/index';
-import { ProductContext } from '../contexts/ProductContext';
+import { CartItem, ProductContext } from '../contexts/ProductContext';
 import { useShoppingCart } from '../contexts/ShoppingCartContext';
 
 interface Props {
@@ -12,7 +11,7 @@ interface Props {
 function CartProduct({ cartItem }: Props) {
   const { products } = useContext(ProductContext);
   const { increaseCartQuantity, decreaseCartQuantity } = useShoppingCart();
-  products.find((i) => i.id === cartItem.id);
+  products.find((i) => i._id === cartItem._id);
 
   return (
     <Box
@@ -27,7 +26,12 @@ function CartProduct({ cartItem }: Props) {
       }}
       data-cy="cart-item"
     >
-      <Image src={cartItem.image} height={150} width={220} fit="cover" />
+      <Image
+        src={'http://localhost:3000/api/file/' + cartItem.image}
+        height={150}
+        width={220}
+        fit="cover"
+      />
 
       <Group position="center" pl="xs" pr="xs" mt="sm" mb="sm">
         <Text
@@ -46,7 +50,7 @@ function CartProduct({ cartItem }: Props) {
             variant="light"
             mt="sm"
             radius="sm"
-            onClick={() => decreaseCartQuantity(cartItem.id)}
+            onClick={() => decreaseCartQuantity(cartItem._id)}
             data-cy="decrease-quantity-button"
           >
             <IconMinus size="1.2rem" stroke="0.1rem" />
@@ -67,7 +71,7 @@ function CartProduct({ cartItem }: Props) {
             variant="light"
             mt="sm"
             radius="md"
-            onClick={() => increaseCartQuantity(cartItem.id)}
+            onClick={() => increaseCartQuantity(cartItem._id)}
             data-cy="increase-quantity-button"
           >
             <IconPlus size="1.2rem" stroke="0.1rem" />

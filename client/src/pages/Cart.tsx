@@ -21,7 +21,7 @@ function Cart() {
   <Text weight={500} size={29}>
     total:{' '}
     {cartProducts.reduce((total, cartProduct) => {
-      const product = products.find((i) => i.id === cartProduct.id);
+      const product = products.find((i) => i._id === cartProduct._id);
       return total + (product?.price || 0) * cartProduct.quantity;
     }, 0)}
     €
@@ -73,7 +73,7 @@ function Cart() {
         >
           <Box>
             {cartProducts.map((product) => (
-              <Fragment key={product.id}>
+              <Fragment key={product._id}>
                 <CartProduct cartItem={product} />
                 <Divider mt="md" mb="sm" size="xs" />
               </Fragment>
@@ -123,11 +123,11 @@ function Cart() {
                 <Text weight={500} size={18}>
                   {cartProducts.map((cartproduct) => {
                     const product = products.find(
-                      (i) => i.id === cartproduct.id,
+                      (i) => i._id === cartproduct._id,
                     );
                     return (
                       <Box
-                        key={cartproduct.id}
+                        key={cartproduct._id}
                         sx={{
                           display: 'flex',
                           flexDirection: 'row',
@@ -147,7 +147,7 @@ function Cart() {
                   total:{' '}
                   {cartProducts.reduce((total, cartProduct) => {
                     const product = products.find(
-                      (i) => i.id === cartProduct.id,
+                      (i) => i._id === cartProduct._id,
                     );
                     return total + (product?.price || 0) * cartProduct.quantity;
                   }, 0)}

@@ -3,7 +3,7 @@ import { useForm, yupResolver } from '@mantine/form';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
-import { Product } from '../../data';
+import { Product } from '../contexts/ProductContext';
 import generateID from '../utils/generateID';
 
 interface ProductFormProps {
@@ -14,7 +14,7 @@ interface ProductFormProps {
 }
 
 const schema = Yup.object().shape({
-  image: Yup.string().url('Invalid URL').required('Image URL is required'),
+  image: Yup.string(),
   title: Yup.string()
     .min(2, 'Title should have at least 2 letters')
     .required('Title is required'),
@@ -37,11 +37,10 @@ function ProductForm({
   const form = useForm<Product>({
     validate: yupResolver(schema),
     initialValues: {
-      id: '',
+      _id: '',
       image: '',
       title: '',
       description: '',
-      summary: [],
       price: '' as any,
       stock: '' as any,
     },
@@ -53,11 +52,11 @@ function ProductForm({
   }, [product, isEditing, form.setValues]);
 
   const handleSubmit = (values: Product) => {
-    const editedProduct = { ...values, id: product?.id || '' };
+    const editedProduct = { ...values, id: product?._id || '' };
     if (isEditing) {
       onSubmit(editedProduct);
     } else {
-      addProduct({ ...editedProduct, id: generateID() });
+      addProduct({ ...editedProduct, _id: generateID() });
     }
     form.reset();
     navigate('/admin');
