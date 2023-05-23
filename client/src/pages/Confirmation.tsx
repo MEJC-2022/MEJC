@@ -1,12 +1,12 @@
-import { Card, Container, Divider, List, Text, Title } from '@mantine/core';
-import { useContext } from 'react';
+import { Card, Container, Divider, Text, Title } from '@mantine/core';
+// import { useContext } from 'react';
 import { FormValues } from '../components/CheckoutForm';
 import useBackgroundAnimation from '../components/ConfirmationPageAnimation';
-import { ProductContext } from '../contexts/ProductContext';
+// import { ProductContext } from '../contexts/ProductContext';
 import { useShoppingCart } from '../contexts/ShoppingCartContext';
 
 function Confirmation() {
-  const { products } = useContext(ProductContext);
+  // const { products } = useContext(ProductContext);
   const { orders } = useShoppingCart();
   const lastOrder = orders[orders.length - 1];
   const formData = lastOrder.address as FormValues;
@@ -14,8 +14,8 @@ function Confirmation() {
   function calculateLastOrderTotal() {
     return lastOrder.orderItems.reduce((total, item) => {
       if ('id' in item) {
-        const product = products.find((i) => i.id === item.id);
-        return total + (product?.price || 0) * item.quantity;
+        // const product = products.find((i) => i._id === item.id);
+        // return total + (product?.price || 0) * item.quantity;
       }
       return total;
     }, 0);
@@ -44,8 +44,8 @@ function Confirmation() {
           <Title mb="xs" order={2}>
             Ordered Products
           </Title>
-          <List listStyleType="none">
-            {lastOrder.orderItems.map(
+          {/* <List listStyleType="none">
+            {lastOrder.cartProducts.map(
               (product, index) =>
                 'id' in product && (
                   <List.Item key={index}>
@@ -54,7 +54,7 @@ function Confirmation() {
                   </List.Item>
                 ),
             )}
-          </List>
+          </List> */}
           <Divider mt="lg" mb="sm" size="xs" />
           <h2>Total price: {calculateLastOrderTotal()}€</h2>
         </Card>

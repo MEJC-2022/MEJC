@@ -22,7 +22,7 @@ import { useShoppingCart } from '../contexts/ShoppingCartContext';
 function ProductDetails() {
   const { id } = useParams();
   const { products } = useContext(ProductContext);
-  const product = products.find((p) => p.id === id);
+  const product = products.find((p) => p._id === id);
   const { increaseCartQuantity } = useShoppingCart();
 
   const goBack = () => {
@@ -72,8 +72,8 @@ function ProductDetails() {
           </Box>
           <Image
             radius="md"
-            src={product.image}
-            key={product.id}
+            src={'/api/file/' + product.image}
+            key={product._id}
             alt={product.title}
             fit="contain"
           />
@@ -106,7 +106,7 @@ function ProductDetails() {
             mt="md"
             radius="md"
             onClick={() => {
-              increaseCartQuantity(product.id);
+              increaseCartQuantity(product._id);
               notifications.show({
                 icon: <IconShoppingCartPlus />,
                 title: `${product.title}`,
@@ -124,7 +124,7 @@ function ProductDetails() {
               mt="md"
               radius="md"
               onClick={() => {
-                increaseCartQuantity(product.id);
+                increaseCartQuantity(product._id);
               }}
             >
               Buy now

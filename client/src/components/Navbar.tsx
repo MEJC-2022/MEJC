@@ -14,10 +14,17 @@ import {
   useMantineTheme,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { IconShoppingCart, IconUserShield } from '@tabler/icons-react';
+import { IconShoppingCart } from '@tabler/icons-react';
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 import { useShoppingCart } from '../contexts/ShoppingCartContext';
+import {
+  AdminButton,
+  SignInButton,
+  SignOutButton,
+  UserButton,
+} from './HeaderIcons';
 import { ToggleColorButton } from './ToggleColorButton';
 
 const HEADER_HEIGHT = rem(70);
@@ -70,7 +77,7 @@ const useStyles = createStyles((theme) => ({
   link: {
     display: 'block',
     lineHeight: 1,
-    padding: `${rem(8)} ${rem(12)}`,
+    padding: `${rem(8)} ${rem(10)}`,
     borderRadius: theme.radius.sm,
     textDecoration: 'none',
     color:
@@ -116,6 +123,12 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
   const [logoType, setLogoType] = useState('dark');
   const theme = useMantineTheme();
+  const { isSignedIn, isAdmin, setIsSignedIn } = useAuth();
+  //Behöver ändras
+  const handleSignOut = () => {
+    setIsSignedIn(false);
+  };
+  //-----
 
   useEffect(() => {
     setLogoType(colorScheme === 'dark' ? 'light' : 'dark');
@@ -203,19 +216,16 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
         </Group>
         <Group spacing={1}>
           <ToggleColorButton onToggleColorScheme={handleToggleColorScheme} />
-          <Link
-            to="/admin"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-            data-cy="admin-link"
-          >
-            <Button size="xs" variant="subtle" radius="xl">
-              <IconUserShield size="1.8rem" stroke="1.3" />
-            </Button>
-          </Link>
+          {isSignedIn ? (
+            isAdmin ? (
+              <AdminButton />
+            ) : (
+              <UserButton />
+            )
+          ) : (
+            <SignInButton />
+          )}
+          {!isBurgerVisible && isSignedIn && <SignOutButton />}
           <Link
             to="/checkout"
             style={{
@@ -266,6 +276,21 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
           {(styles) => (
             <Paper className={classes.dropdown} withBorder style={styles}>
               {items}
+              {isSignedIn ? (
+                <ul key="4">
+                  <Link
+                    key="signout"
+                    to="/"
+                    className={classes.link}
+                    onClick={() => {
+                      close();
+                      handleSignOut();
+                    }}
+                  >
+                    Sign out
+                  </Link>
+                </ul>
+              ) : null}
             </Paper>
           )}
         </Transition>
