@@ -9,7 +9,7 @@ function Confirmation() {
   const { products } = useContext(ProductContext);
   const { orders } = useShoppingCart();
   const lastOrder = orders[orders.length - 1];
-  const formData = lastOrder.address.formData as FormValues;
+  const formData = lastOrder.address as FormValues;
 
   function calculateLastOrderTotal() {
     return lastOrder.orderItems.reduce((total, item) => {
@@ -28,7 +28,7 @@ function Confirmation() {
           <Title order={1}>Thank you for your order!</Title>
           <Divider mt="md" mb="sm" size="xs" />
           <Text>We have sent a confirmation to: {formData.email}</Text>
-          <Text>Your order number: {lastOrder.id}</Text>
+          <Text>Your order number: {lastOrder.orderId}</Text>
           <Divider mt="md" mb="sm" size="xs" />
           <Title mb="xs" order={2}>
             Order details:

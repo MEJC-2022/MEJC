@@ -2,7 +2,6 @@ import { Request, Response } from 'express';
 import { OrderModel } from '../models/order-model';
 
 export async function createOrder(req: Request, res: Response) {
-  console.log('reached createOrder');
   const address = req.body.address;
   const products = req.body.orderItems;
   const userId = '5f9d3b3b9d3b3b9d3b9d3b9d';
@@ -49,13 +48,14 @@ export async function createOrder(req: Request, res: Response) {
   });
 
   const completOrder = {
-    // orderId: '123884954589',
     userId: userId,
     deliveryAddress: address,
     orderItems: products,
     isShipped: false,
     totalPrice: totalPrice,
   };
+
+  // Validate completeOrder, address and products
 
   const result = await OrderModel.create(completOrder);
 
