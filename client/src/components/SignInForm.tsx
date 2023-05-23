@@ -1,26 +1,28 @@
 import {
-    Anchor,
-    Box,
-    Button,
-    Group,
-    Text,
-    TextInput,
-    createStyles,
+  Box,
+  Button,
+  Group,
+  Text,
+  TextInput,
+  createStyles,
 } from '@mantine/core';
 import { useForm, yupResolver } from '@mantine/form';
+import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 
 const useStyles = createStyles((theme) => ({
   form: {
-    backgroundColor: theme.white,
+    backgroundColor:
+      theme.colorScheme === 'dark' ? theme.colors.gray[7] : theme.white,
     padding: theme.spacing.xl,
     borderRadius: theme.radius.md,
     boxShadow: theme.shadows.lg,
     width: '100%',
-    minWidth: "290px"
+    minWidth: '290px',
   },
   input: {
-    backgroundColor: theme.white,
+    backgroundColor:
+      theme.colorScheme === 'dark' ? theme.colors.gray[8] : theme.white,
     borderColor: theme.colors.gray[4],
     color: theme.black,
     '&::placeholder': {
@@ -28,7 +30,7 @@ const useStyles = createStyles((theme) => ({
     },
   },
   inputLabel: {
-    color: theme.black,
+    color: theme.colorScheme === 'dark' ? theme.colors.gray[3] : theme.black,
   },
   control: {
     backgroundColor: theme.colors[theme.primaryColor][6],
@@ -41,9 +43,9 @@ const useStyles = createStyles((theme) => ({
   },
   lighterText: {
     color:
-    theme.colorScheme === 'dark'
-      ? theme.colors.dark[2]
-      : theme.colors.gray[8],
+      theme.colorScheme === 'dark'
+        ? theme.colors.dark[2]
+        : theme.colors.gray[8],
   },
 }));
 
@@ -103,9 +105,9 @@ export function SignInForm() {
       </Box>
       <Text fz="md" mt={6} className={classes.lighterText}>
         Don't have an account?{' '}
-        <Anchor href="/signup" className={classes.anchor}>
+        <Link to="/signup" className={classes.anchor}>
           Sign up!
-        </Anchor>
+        </Link>
       </Text>
     </>
   );
