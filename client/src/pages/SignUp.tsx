@@ -51,10 +51,16 @@ const useStyles = createStyles((theme) => ({
     marginBottom: `calc(${theme.spacing.xl} * 1.5)`,
   },
   anchor: {
-    color: theme.white,
+    color:
+      theme.colorScheme === 'dark'
+        ? theme.colors.dark[0]
+        : theme.colors.gray[9],
   },
   lighterText: {
-    color: theme.colors.gray[8],
+    color:
+    theme.colorScheme === 'dark'
+      ? theme.colors.dark[2]
+      : theme.colors.gray[8],
   },
 }));
 

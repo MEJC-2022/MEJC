@@ -17,6 +17,7 @@ const useStyles = createStyles((theme) => ({
     borderRadius: theme.radius.md,
     boxShadow: theme.shadows.lg,
     width: '100%',
+    minWidth: "290px"
   },
   input: {
     backgroundColor: theme.white,
@@ -33,10 +34,16 @@ const useStyles = createStyles((theme) => ({
     backgroundColor: theme.colors[theme.primaryColor][6],
   },
   anchor: {
-    color: theme.white,
+    color:
+      theme.colorScheme === 'dark'
+        ? theme.colors.dark[0]
+        : theme.colors.gray[9],
   },
   lighterText: {
-    color: theme.colors.gray[8],
+    color:
+    theme.colorScheme === 'dark'
+      ? theme.colors.dark[2]
+      : theme.colors.gray[8],
   },
 }));
 
