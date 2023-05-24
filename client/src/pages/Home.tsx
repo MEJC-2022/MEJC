@@ -113,7 +113,7 @@ function Home() {
           radius="sm"
           onClick={() => filterByCategory('Laptops')}
         >
-          Sort by only Laptops
+          Sort by Laptops
         </Button>
         <Button size="xs" variant="light" radius="sm" onClick={resetFilter}>
           Reset filter
