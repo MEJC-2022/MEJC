@@ -97,7 +97,13 @@ function Cart() {
             {isSignedIn ? (
               <CheckoutForm />
             ) : (
-              <Container>
+              <Container
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                }}
+              >
                 <SignInForm />
               </Container>
             )}
