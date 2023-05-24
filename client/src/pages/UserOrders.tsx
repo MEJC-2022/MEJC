@@ -55,22 +55,22 @@ export default function UserOrders() {
           <Accordion.Control>
             <Flex justify="space-between">
               <Flex sx={{ flex: 2 }}>
-                <Text size="sm" weight={500}>
+                <Text size="md" weight={700}>
                   Order #12345
                 </Text>
               </Flex>
               <Flex sx={{ flex: 2 }}>
-                <Text size="sm" weight={500}>
+                <Text size="md" weight={500}>
                   2023-05-23
                 </Text>
               </Flex>
               <Flex sx={{ flex: 3 }}>
-                <Text size="sm" weight={500}>
+                <Text size="md" weight={500}>
                   Shipped
                 </Text>
               </Flex>
               <Flex sx={{ flex: 1, justifyContent: 'flex-end' }}>
-                <Text size="sm" weight={500}>
+                <Text size="md" weight={500}>
                   Details
                 </Text>
               </Flex>
