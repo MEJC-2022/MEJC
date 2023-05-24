@@ -78,7 +78,7 @@ export async function logoutUser(req: Request, res: Response) {
       req.session = null;
       res.status(204).send('You have successfully logged out');
     } else {
-      res.status(401).send({ error: 'User is already logged out' });
+      res.status(401).send({ error: 'You are already logged out' });
     }
   } catch (err) {
     console.error('An error has occurred during user logout:\n', err);

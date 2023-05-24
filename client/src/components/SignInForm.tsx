@@ -87,32 +87,36 @@ export function SignInForm() {
   });
 
   const handleSubmit = async (values: FormValues) => {
-    const { email, password } = values;
-    const response = await fetch('/api/users/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email, password }),
-      credentials: 'include',
-    });
+    try {
+      const { email, password } = values;
+      const response = await fetch('/api/users/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+        credentials: 'include',
+      });
 
-    if (response.ok) {
-      const { session: user } = await response.json();
-      if (user.isAdmin) {
-        handleSignInAsAdmin();
+      if (response.ok) {
+        const { session: user } = await response.json();
+        if (user.isAdmin) {
+          handleSignInAsAdmin();
+        } else {
+          handleSignInAsUser();
+        }
+        navigate('/');
       } else {
-        handleSignInAsUser();
+        const errorMessage = await response.json();
+        if (response.status === 404) {
+          form.setErrors({ email: errorMessage });
+        }
+        if (response.status === 401) {
+          form.setErrors({ password: errorMessage });
+        }
       }
-      navigate('/');
-    } else {
-      const errorMessage = await response.json();
-      if (response.status === 404) {
-        form.setErrors({ email: errorMessage });
-      }
-      if (response.status === 401) {
-        form.setErrors({ password: errorMessage });
-      }
+    } catch (err) {
+      console.error('An error has occured trying to login:\n', err);
     }
   };
 

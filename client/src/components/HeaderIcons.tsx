@@ -39,17 +39,23 @@ export function UserButton() {
 export function SignOutButton() {
   const { setIsSignedIn, setIsAdmin } = useAuth();
   const handleSignOut = async () => {
-    const response = await fetch('/api/users/logout', {
-      method: 'POST',
-      credentials: 'include',
-    });
+    try {
+      const response = await fetch('/api/users/logout', {
+        method: 'POST',
+        credentials: 'include',
+      });
 
-    if (response.ok) {
-      location.reload();
-      setIsSignedIn(false);
-      setIsAdmin(false);
-    } else {
-      console.error('Failed to sign out');
+      if (response.ok) {
+        location.reload();
+        setIsSignedIn(false);
+        setIsAdmin(false);
+      } 
+      if (response.status === 401) {
+        console.error('You are already logged out');
+      }
+      
+    } catch (err) {
+      console.error('An error has occured trying to logout:\n', err);
     }
   };
 
