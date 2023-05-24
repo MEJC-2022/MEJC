@@ -9,6 +9,7 @@ import {
 import { useForm, yupResolver } from '@mantine/form';
 import { Link, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
+import { useAuth } from '../contexts/AuthContext';
 
 const useStyles = createStyles((theme) => ({
   form: {
@@ -66,6 +67,16 @@ interface FormValues {
 
 export function SignInForm() {
   const navigate = useNavigate();
+  const { setIsSignedIn, setIsAdmin } = useAuth();
+  const handleSignInAsUser = () => {
+    setIsSignedIn(true);
+    setIsAdmin(false);
+  };
+
+  const handleSignInAsAdmin = () => {
+    setIsSignedIn(true);
+    setIsAdmin(true);
+  };
   const { classes } = useStyles();
   const form = useForm({
     validate: yupResolver(schema),
@@ -87,7 +98,12 @@ export function SignInForm() {
     });
 
     if (response.ok) {
-      console.log('success');
+      const { session: user } = await response.json();
+      if (user.isAdmin) {
+        handleSignInAsAdmin();
+      } else {
+        handleSignInAsUser();
+      }
       navigate('/');
     } else {
       const errorMessage = await response.json();
