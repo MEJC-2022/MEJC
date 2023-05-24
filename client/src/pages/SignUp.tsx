@@ -11,8 +11,9 @@ import {
   useMantineTheme,
 } from '@mantine/core';
 import { useForm, yupResolver } from '@mantine/form';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
+import { useAuth } from '../contexts/AuthContext';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -90,6 +91,17 @@ interface FormValues {
 }
 
 export default function SignIn() {
+  const navigate = useNavigate();
+  const { setIsSignedIn, setIsAdmin } = useAuth();
+  const handleSignInAsUser = () => {
+    setIsSignedIn(true);
+    setIsAdmin(false);
+  };
+
+  const handleSignInAsAdmin = () => {
+    setIsSignedIn(true);
+    setIsAdmin(true);
+  };
   const { classes } = useStyles();
   const theme = useMantineTheme();
   const form = useForm({
@@ -101,8 +113,28 @@ export default function SignIn() {
     },
   });
 
-  const handleSubmit = (values: FormValues) => {
-    console.log(values.email, values.password);
+  const handleSubmit = async (values: FormValues) => {
+    try {
+      const { email, password } = values;
+      const response = await fetch('/api/users/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+        credentials: 'include',
+      });
+
+      if (response.ok) {
+        // TODO: login after creating user
+        navigate('/');
+      } else {
+        throw new Error('User could not be created');
+      }
+
+    } catch (err) {
+      console.error('An error has occured trying to create an user:\n', err);
+    }
   };
 
   return (
