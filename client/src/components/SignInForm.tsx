@@ -76,21 +76,27 @@ export function SignInForm() {
   });
 
   const handleSubmit = async (values: FormValues) => {
-    const { email, password } = values
-    const response = await fetch("/api/users/login", {
-      method: "POST",
+    const { email, password } = values;
+    const response = await fetch('/api/users/login', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({ email, password }),
-      credentials: "include",
+      credentials: 'include',
     });
 
     if (response.ok) {
-      console.log("success");
-      navigate("/");
+      console.log('success');
+      navigate('/');
     } else {
-      console.log("failure");
+      const error = await response.json();
+      if (response.status === 404) {
+        form.setErrors({ email: error.error });
+      }
+      if (response.status === 401) {
+        form.setErrors({ password: error.error });
+      }
     }
   };
 

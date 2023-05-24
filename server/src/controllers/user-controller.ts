@@ -30,12 +30,10 @@ export async function loginUser(req: Request, res: Response) {
   try {
     // Checks if user is already logged in
     if (req.session && req.session.user) {
-      res
-        .status(409)
-        .json({
-          error: 'User is already logged in',
-          currentSession: req.session.user,
-        });
+      res.status(409).json({
+        error: 'User is already logged in',
+        currentSession: req.session.user,
+      });
       return;
     }
 
@@ -43,9 +41,9 @@ export async function loginUser(req: Request, res: Response) {
     const user = await UserModel.findOne({ email }).select('+password');
 
     if (!user) {
-      res
-        .status(404)
-        .json({ error: 'No registered account with this email exists' });
+      res.status(404).json({
+        error: `No registered account with this email exists. Please make sure you spelled your email correctly`,
+      });
       return;
     }
 
@@ -53,7 +51,7 @@ export async function loginUser(req: Request, res: Response) {
     const isPasswordValid = await argon2.verify(user.password, password);
 
     if (!isPasswordValid) {
-      res.status(401).json({ error: 'Password is incorrect' });
+      res.status(401).json({ error: 'The password is incorrect. Make sure you spelled your password correctly' });
       return;
     }
 
