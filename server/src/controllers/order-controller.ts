@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { OrderModel } from '../models/order-model';
+import { IncomingOrderItem, OrderModel } from '../models/order-model';
 import { ProductModel } from '../models/product-model';
 import {
   addressSchema,
@@ -16,7 +16,7 @@ export async function createOrder(req: Request, res: Response) {
   let productOutOfStock = false;
   let totalPrice = 0;
 
-  orderItems.forEach(async (product) => {
+  orderItems.forEach(async (product: IncomingOrderItem) => {
     const productId = product._id;
     const singleProduct = await ProductModel.findById(productId);
     console.log('Gick igenom produkt:', productId);
@@ -60,38 +60,39 @@ export async function createOrder(req: Request, res: Response) {
     await singleProduct!.save();
   }
 
-  orderItems.forEach((product) => {
+  orderItems.forEach((product: IncomingOrderItem) => {
+    console.log('Gick igenom produkt:', product);
     totalPrice += product.price * product.quantity;
   });
 
   // Address validation
   try {
     await addressSchema.validate(address);
-    console.log('the address was validated');
   } catch (error) {
-    console.log('the address was not validated');
     res.set('content-type', 'application/json');
-    return res.status(400).json(JSON.stringify(error.message));
+    return res
+      .status(400)
+      .json(JSON.stringify('Your address is not in the correct format.'));
   }
 
   // OrderItem validation
   try {
     await orderItemSchema.validate(orderItems);
-    console.log('the orderItems was validated');
   } catch (error) {
-    console.log('the orderItem was not validated');
     res.set('content-type', 'application/json');
-    return res.status(400).json(JSON.stringify(error.message));
+    return res
+      .status(400)
+      .json(JSON.stringify('Something wrong with the products in your order.'));
   }
 
   // UserId validation
   try {
     await userIdSchema.validate(userId);
-    console.log('the userId was validated');
   } catch (error) {
-    console.log('the userId was not validated');
     res.set('content-type', 'application/json');
-    return res.status(400).json(JSON.stringify(error.message));
+    return res
+      .status(400)
+      .json(JSON.stringify('Something wrong with your user id.'));
   }
 
   const completOrder = {

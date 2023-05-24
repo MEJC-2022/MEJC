@@ -35,6 +35,22 @@ const orderSchema = new Schema(
   },
 );
 
+const incomingOrderSchema = new Schema(
+  {
+    _id: { type: String, required: true },
+    image: { type: Schema.Types.ObjectId, ref: 'files' },
+    title: { type: String, required: true },
+    description: { type: String, required: true },
+    price: { type: Number, required: true },
+    stock: { type: Number, required: true },
+    quantity: { type: Number, required: true },
+    createdAt: { type: Date, required: true },
+    updatedAt: { type: Date, required: true },
+  },
+  { _id: false },
+);
+
 export type Order = InferSchemaType<typeof orderSchema>;
+export type IncomingOrderItem = InferSchemaType<typeof incomingOrderSchema>;
 
 export const OrderModel = model<Order>('Order', orderSchema);
