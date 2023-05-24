@@ -51,12 +51,10 @@ export async function loginUser(req: Request, res: Response) {
         email: user.email,
         isAdmin: user.isAdmin,
       };
-      res
-        .status(200)
-        .json({
-          message: 'A new session has been set',
-          session: req.session.user,
-        });
+      res.status(200).json({
+        message: 'A new session has been set',
+        session: req.session.user,
+      });
     }
   } catch (err) {
     console.error('An error trying to login has occured:\n', err);
@@ -92,6 +90,8 @@ export async function updateUserRole(req: Request, res: Response) {
       .json({ message: 'The role for user has been changed', user: user });
   } catch (err) {
     console.error('An error has occurred during user role update:\n', err);
-    res.status(500).json({ error: 'An error has occurred during user role update' });
+    res
+      .status(500)
+      .json({ error: 'An error has occurred during user role update' });
   }
 }
