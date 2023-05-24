@@ -25,7 +25,6 @@ import * as Yup from 'yup';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
-    marginTop: '1rem',
     boxSizing: 'border-box',
     backgroundImage:
       theme.colorScheme === 'dark'

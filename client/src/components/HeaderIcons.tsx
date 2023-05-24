@@ -5,7 +5,7 @@ import {
   IconUser,
   IconUserShield,
 } from '@tabler/icons-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
 interface ButtonLinkProps {
@@ -37,13 +37,40 @@ export function UserButton() {
 }
 
 export function SignOutButton() {
-  const { setIsSignedIn } = useAuth();
-  //Kommer behöva ändras
-  const handleSignOut = () => {
-    setIsSignedIn(false);
+  const navigate = useNavigate();
+  const { setIsSignedIn, setIsAdmin } = useAuth();
+  const handleSignOut = async () => {
+    try {
+      const response = await fetch('/api/users/logout', {
+        method: 'POST',
+        credentials: 'include',
+      });
+
+      if (response.ok) {
+        navigate("/")
+        location.reload();
+        setIsSignedIn(false);
+        setIsAdmin(false);
+      }
+      if (response.status === 401) {
+        console.error('You are already logged out');
+      }
+    } catch (err) {
+      console.error('An error has occured trying to logout:\n', err);
+    }
   };
 
-  return <ButtonLink to="/" icon={IconLogout} onClick={handleSignOut} />;
+  return (
+    <Button
+      size="xs"
+      variant="subtle"
+      radius="xl"
+      onClick={handleSignOut}
+      style={buttonStyling}
+    >
+      <IconLogout size="1.8rem" stroke="1.3" />
+    </Button>
+  );
 }
 
 const buttonStyling = {

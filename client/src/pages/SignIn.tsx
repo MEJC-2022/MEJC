@@ -1,56 +1,88 @@
 import {
+  Box,
   Button,
   Center,
   Group,
+  Loader,
+  Text,
+  TextInput,
   Title,
-  createStyles,
-  rem,
   useMantineTheme,
 } from '@mantine/core';
-import { SignInForm } from '../components/SignInForm';
+import { useForm, yupResolver } from '@mantine/form';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import * as Yup from 'yup';
 import { useAuth } from '../contexts/AuthContext';
+import { formStyle } from '../css/formStyle';
 
-const useStyles = createStyles((theme) => ({
-  wrapper: {
-    margin: '1rem 0',
-    flexDirection: 'column',
-    backgroundImage:
-      theme.colorScheme === 'dark'
-        ? `linear-gradient(-60deg, ${theme.colors.gray[8]} 0%, ${theme.colors.gray[9]} 100%)`
-        : `linear-gradient(-60deg, ${theme.colors.blue[3]} 0%, ${theme.colors.blue[7]} 100%)`,
-    padding: `calc(${theme.spacing.xl} * 5)`,
-    [theme.fn.smallerThan('sm')]: {
-      padding: `calc(${theme.spacing.xl} * 3)`,
-    },
-  },
-  control: {
-    backgroundColor: theme.colors[theme.primaryColor][7],
-  },
-  title: {
-    fontSize: rem(50),
-    color: theme.colorScheme === 'dark' ? theme.colors.blue[5] : theme.white,
-    lineHeight: 1,
-    marginBottom: `calc(${theme.spacing.xl} * 1.5)`,
-  },
-}));
+const schema = Yup.object().shape({
+  email: Yup.string()
+    .email('Invalid email')
+    .matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Invalid email')
+    .required('Email is required'),
+  password: Yup.string()
+    .min(10, 'Password must be at least 8 characters')
+    .required('Password is required'),
+});
 
-export default function SignIn() {
-  const { classes } = useStyles();
+interface FormValues {
+  email: string;
+  password: string;
+}
+
+export function SignInForm() {
   const theme = useMantineTheme();
+  const { classes } = formStyle();
 
-  //GLÖM EJ TA BORT
-  const { setIsSignedIn, setIsAdmin } = useAuth();
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+  const { handleSignInAsUser, handleSignInAsAdmin } = useAuth();
 
-  const handleSignInAsUser = () => {
-    setIsSignedIn(true);
-    setIsAdmin(false);
+  const form = useForm({
+    validate: yupResolver(schema),
+    initialValues: {
+      email: '',
+      password: '',
+    },
+  });
+
+  const handleSubmit = async (values: FormValues) => {
+    try {
+      const { email, password } = values;
+      setIsLoading(true);
+      const response = await fetch('/api/users/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+        credentials: 'include',
+      });
+
+      if (response.ok) {
+        const { session: user } = await response.json();
+        if (user.isAdmin) {
+          handleSignInAsAdmin();
+        } else {
+          handleSignInAsUser();
+        }
+        navigate('/');
+      } else {
+        const errorMessage = await response.json();
+        if (response.status === 404) {
+          form.setErrors({ email: errorMessage });
+        }
+        if (response.status === 401) {
+          form.setErrors({ password: errorMessage });
+        }
+      }
+    } catch (err) {
+      console.error('An error has occured trying to login:\n', err);
+    } finally {
+      setIsLoading(false);
+    }
   };
-
-  const handleSignInAsAdmin = () => {
-    setIsSignedIn(true);
-    setIsAdmin(true);
-  };
-  //------
 
   return (
     <Center className={classes.wrapper}>
@@ -61,25 +93,39 @@ export default function SignIn() {
       >
         Sign in
       </Title>
-      <SignInForm />
-      {/* Glöm ej ta bort */}
-      <Group position="center" mt="md">
-        <Button
-          type="button"
-          onClick={handleSignInAsUser}
-          className={classes.control}
-        >
-          Sign in as User
-        </Button>
-        <Button
-          type="button"
-          onClick={handleSignInAsAdmin}
-          className={classes.control}
-        >
-          Sign in as Admin
-        </Button>
-      </Group>
-      {/* ------ */}
+      <Box maw={600} className={classes.form}>
+        <form onSubmit={form.onSubmit(handleSubmit)}>
+          <TextInput
+            label="Email"
+            placeholder="your@email.com"
+            {...form.getInputProps('email')}
+            classNames={{ input: classes.input, label: classes.inputLabel }}
+          />
+          <TextInput
+            type="password"
+            mt="md"
+            label="Password"
+            placeholder="********"
+            {...form.getInputProps('password')}
+            classNames={{ input: classes.input, label: classes.inputLabel }}
+          />
+          <Group position="right" mt="md">
+            <Button
+              type="submit"
+              className={classes.control}
+              disabled={isLoading}
+            >
+              {isLoading ? <Loader size="sm" color="black" /> : 'Sign in'}
+            </Button>
+          </Group>
+        </form>
+      </Box>
+      <Text fz="md" mt={6} className={classes.lighterText}>
+        Don't have an account?{' '}
+        <Link to="/signup" className={classes.anchor}>
+          Sign up!
+        </Link>
+      </Text>
     </Center>
   );
 }
