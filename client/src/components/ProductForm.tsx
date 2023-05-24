@@ -38,6 +38,7 @@ function ProductForm({
     validate: yupResolver(schema),
     initialValues: {
       _id: '',
+      categories: '' as any,
       image: '',
       title: '',
       description: '',
