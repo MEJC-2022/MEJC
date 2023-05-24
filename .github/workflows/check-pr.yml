@@ -50,4 +50,4 @@ jobs:
           cache-dependency-path: server/package-lock.json
       - run: cd server && npm ci
       - run: cd server && npm run format
-      - run: cd server && npm test --if-present
+      - run: cd server && npm test
