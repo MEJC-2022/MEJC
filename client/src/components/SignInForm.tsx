@@ -7,7 +7,7 @@ import {
   createStyles,
 } from '@mantine/core';
 import { useForm, yupResolver } from '@mantine/form';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 
 const useStyles = createStyles((theme) => ({
@@ -65,6 +65,7 @@ interface FormValues {
 }
 
 export function SignInForm() {
+  const navigate = useNavigate();
   const { classes } = useStyles();
   const form = useForm({
     validate: yupResolver(schema),
@@ -74,8 +75,23 @@ export function SignInForm() {
     },
   });
 
-  const handleSubmit = (values: FormValues) => {
-    console.log(values);
+  const handleSubmit = async (values: FormValues) => {
+    const { email, password } = values
+    const response = await fetch("/api/users/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+      credentials: "include",
+    });
+
+    if (response.ok) {
+      console.log("success");
+      navigate("/");
+    } else {
+      console.log("failure");
+    }
   };
 
   return (
