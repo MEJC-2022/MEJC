@@ -126,12 +126,21 @@ export default function SignIn() {
       });
 
       if (response.ok) {
-        // TODO: login after creating user
-        navigate('/');
+        const response = await fetch('/api/users/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email, password }),
+          credentials: 'include',
+        });
+        if (response.ok) {
+          handleSignInAsUser();
+          navigate('/');
+        }
       } else {
         throw new Error('User could not be created');
       }
-
     } catch (err) {
       console.error('An error has occured trying to create an user:\n', err);
     }
