@@ -2,6 +2,7 @@ import { InferSchemaType, Schema, model } from 'mongoose';
 
 const productSchema = new Schema(
   {
+    categories: [{ type: Schema.Types.ObjectId, ref: 'Category' }],
     image: { type: Schema.Types.ObjectId, ref: 'files' },
     title: { type: String, required: true },
     description: { type: String, required: true },
