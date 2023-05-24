@@ -28,6 +28,12 @@ export async function loginUser(req: Request, res: Response) {
   const { email, password } = req.body;
 
   try {
+    // Checks if user is already logged in
+    if (req.session && req.session.user) {
+      res.status(409).json('User is already logged in');
+      return;
+    }
+
     // Finds user by email
     const user = await UserModel.findOne({ email }).select('+password');
 
