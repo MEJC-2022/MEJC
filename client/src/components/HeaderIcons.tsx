@@ -37,10 +37,20 @@ export function UserButton() {
 }
 
 export function SignOutButton() {
-  const { setIsSignedIn } = useAuth();
-  //Kommer behöva ändras
-  const handleSignOut = () => {
-    setIsSignedIn(false);
+  const { setIsSignedIn, setIsAdmin } = useAuth();
+  const handleSignOut = async () => {
+    const response = await fetch('/api/users/logout', {
+      method: 'POST',
+      credentials: 'include',
+    });
+
+    if (response.ok) {
+      location.reload();
+      setIsSignedIn(false);
+      setIsAdmin(false);
+    } else {
+      console.error('Failed to sign out');
+    }
   };
 
   return <ButtonLink to="/" icon={IconLogout} onClick={handleSignOut} />;
