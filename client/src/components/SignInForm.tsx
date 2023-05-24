@@ -1,32 +1,16 @@
 import {
   Box,
   Button,
-  Center,
   Group,
   Text,
   TextInput,
-  Title,
   createStyles,
-  rem,
-  useMantineTheme,
 } from '@mantine/core';
 import { useForm, yupResolver } from '@mantine/form';
 import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 
 const useStyles = createStyles((theme) => ({
-  wrapper: {
-    margin: '1rem 0',
-    flexDirection: 'column',
-    backgroundImage:
-      theme.colorScheme === 'dark'
-        ? `linear-gradient(-60deg, ${theme.colors.gray[8]} 0%, ${theme.colors.gray[9]} 100%)`
-        : `linear-gradient(-60deg, ${theme.colors.blue[3]} 0%, ${theme.colors.blue[7]} 100%)`,
-    padding: `calc(${theme.spacing.xl} * 5)`,
-    [theme.fn.smallerThan('sm')]: {
-      padding: `calc(${theme.spacing.xl} * 3)`,
-    },
-  },
   form: {
     backgroundColor:
       theme.colorScheme === 'dark' ? theme.colors.gray[7] : theme.white,
@@ -34,6 +18,7 @@ const useStyles = createStyles((theme) => ({
     borderRadius: theme.radius.md,
     boxShadow: theme.shadows.lg,
     width: '100%',
+    minWidth: '290px',
   },
   input: {
     backgroundColor:
@@ -49,12 +34,6 @@ const useStyles = createStyles((theme) => ({
   },
   control: {
     backgroundColor: theme.colors[theme.primaryColor][6],
-  },
-  title: {
-    fontSize: rem(50),
-    color: theme.colorScheme === 'dark' ? theme.colors.blue[5] : theme.white,
-    lineHeight: 1,
-    marginBottom: `calc(${theme.spacing.xl} * 1.5)`,
   },
   anchor: {
     color:
@@ -78,42 +57,29 @@ const schema = Yup.object().shape({
   password: Yup.string()
     .min(10, 'Password must be at least 8 characters')
     .required('Password is required'),
-  passwordConfirmation: Yup.string()
-    .oneOf([Yup.ref('password', undefined)], 'Passwords must match')
-    .required('Password confirmation is required'),
 });
 
 interface FormValues {
   email: string;
   password: string;
-  passwordConfirmation: string;
 }
 
-export default function SignIn() {
+export function SignInForm() {
   const { classes } = useStyles();
-  const theme = useMantineTheme();
   const form = useForm({
     validate: yupResolver(schema),
     initialValues: {
       email: '',
       password: '',
-      passwordConfirmation: '',
     },
   });
 
   const handleSubmit = (values: FormValues) => {
-    console.log(values.email, values.password);
+    console.log(values);
   };
 
   return (
-    <Center className={classes.wrapper}>
-      <Title
-        className={`${classes.title} ${
-          theme.colorScheme === 'dark' ? 'neonText' : ''
-        }`}
-      >
-        Sign up
-      </Title>
+    <>
       <Box maw={600} className={classes.form}>
         <form onSubmit={form.onSubmit(handleSubmit)}>
           <TextInput
@@ -130,27 +96,19 @@ export default function SignIn() {
             {...form.getInputProps('password')}
             classNames={{ input: classes.input, label: classes.inputLabel }}
           />
-          <TextInput
-            type="password"
-            mt="md"
-            label="Confirm password"
-            placeholder="********"
-            {...form.getInputProps('passwordConfirmation')}
-            classNames={{ input: classes.input, label: classes.inputLabel }}
-          />
           <Group position="right" mt="md">
             <Button type="submit" className={classes.control}>
-              Create account
+              Sign in
             </Button>
           </Group>
         </form>
       </Box>
       <Text fz="md" mt={6} className={classes.lighterText}>
-        Already have an account?{' '}
-        <Link to="/signin" className={classes.anchor}>
-          Sign in!
+        Don't have an account?{' '}
+        <Link to="/signup" className={classes.anchor}>
+          Sign up!
         </Link>
       </Text>
-    </Center>
+    </>
   );
 }
