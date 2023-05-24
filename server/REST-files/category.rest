@@ -1,0 +1,25 @@
+### Retrieve category
+GET http://localhost:3000/api/categories/646df95e71bd5c21bc6338d3
+
+### Retrieve all categories
+GET http://localhost:3000/api/categories
+
+### Delete category
+DELETE DELETE http://localhost:3000/api/categories/646df95e71bd5c21bc6338d3
+
+
+### Update category
+PUT http://localhost:3000/api/categories/646df95e71bd5c21bc6338d3
+Content-Type: application/json
+
+{
+  "title": "Laptops"
+}
+
+### Create category
+POST http://localhost:3000/api/categories
+Content-Type: application/json
+
+{
+  "title": "Brands"
+}
