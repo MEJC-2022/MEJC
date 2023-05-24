@@ -1,10 +1,36 @@
 import { NextFunction, Request, Response } from 'express';
 import * as yup from 'yup';
 
-export const userValidationSchema = yup.object({
+export const userFormSchema = yup.object({
   email: yup.string().email().required(),
   password: yup.string().min(8).required(),
 });
+
+export const userSchema = yup.object({
+  _id: yup.string().required(),
+  email: yup.string().required(),
+  isAdmin: yup.boolean().required(),
+  createdAt: yup.string().required(),
+});
+
+export async function validateUserForm(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
+  try {
+    await userFormSchema.validate(req.body);
+    next();
+  } catch (err) {
+    console.error(
+      'A validation error has occurred during user creation or login:\n',
+      err,
+    );
+    res.status(400).json({
+      error: 'A validation error has occurred during user creation or login',
+    });
+  }
+}
 
 export async function validateUser(
   req: Request,
@@ -12,9 +38,15 @@ export async function validateUser(
   next: NextFunction,
 ) {
   try {
-    const user = await userValidationSchema.validate(req.body);
+    await userSchema.validate(req.body);
     next();
-  } catch (error) {
-    res.status(401).json(error.message);
+  } catch (err) {
+    console.error(
+      'A validation error has occurred during user role update:\n',
+      err,
+    );
+    res.status(400).json({
+      error: 'A validation error has occurred during user role update',
+    });
   }
 }
