@@ -3,6 +3,7 @@ import {
   Button,
   Center,
   Group,
+  Loader,
   Text,
   TextInput,
   Title,
@@ -11,6 +12,7 @@ import {
   useMantineTheme,
 } from '@mantine/core';
 import { useForm, yupResolver } from '@mantine/form';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { useAuth } from '../contexts/AuthContext';
@@ -92,16 +94,13 @@ interface FormValues {
 
 export default function SignIn() {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
   const { setIsSignedIn, setIsAdmin } = useAuth();
   const handleSignInAsUser = () => {
     setIsSignedIn(true);
     setIsAdmin(false);
   };
 
-  const handleSignInAsAdmin = () => {
-    setIsSignedIn(true);
-    setIsAdmin(true);
-  };
   const { classes } = useStyles();
   const theme = useMantineTheme();
   const form = useForm({
@@ -116,6 +115,7 @@ export default function SignIn() {
   const handleSubmit = async (values: FormValues) => {
     try {
       const { email, password } = values;
+      setIsLoading(true);
       const response = await fetch('/api/users/register', {
         method: 'POST',
         headers: {
@@ -143,6 +143,8 @@ export default function SignIn() {
       }
     } catch (err) {
       console.error('An error has occured trying to create an user:\n', err);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -180,8 +182,8 @@ export default function SignIn() {
             classNames={{ input: classes.input, label: classes.inputLabel }}
           />
           <Group position="right" mt="md">
-            <Button type="submit" className={classes.control}>
-              Create account
+          <Button type="submit" className={classes.control} disabled={isLoading}>
+            {isLoading ? <Loader size="sm" color="black" /> : 'Create account'}
             </Button>
           </Group>
         </form>

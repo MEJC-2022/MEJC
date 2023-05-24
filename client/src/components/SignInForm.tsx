@@ -2,11 +2,13 @@ import {
   Box,
   Button,
   Group,
+  Loader,
   Text,
   TextInput,
   createStyles,
 } from '@mantine/core';
 import { useForm, yupResolver } from '@mantine/form';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { useAuth } from '../contexts/AuthContext';
@@ -67,6 +69,7 @@ interface FormValues {
 
 export function SignInForm() {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
   const { setIsSignedIn, setIsAdmin } = useAuth();
   const handleSignInAsUser = () => {
     setIsSignedIn(true);
@@ -89,6 +92,7 @@ export function SignInForm() {
   const handleSubmit = async (values: FormValues) => {
     try {
       const { email, password } = values;
+      setIsLoading(true);
       const response = await fetch('/api/users/login', {
         method: 'POST',
         headers: {
@@ -117,6 +121,8 @@ export function SignInForm() {
       }
     } catch (err) {
       console.error('An error has occured trying to login:\n', err);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -139,8 +145,8 @@ export function SignInForm() {
             classNames={{ input: classes.input, label: classes.inputLabel }}
           />
           <Group position="right" mt="md">
-            <Button type="submit" className={classes.control}>
-              Sign in
+            <Button type="submit" className={classes.control} disabled={isLoading}>
+            {isLoading ? <Loader size="sm" color="black" /> : 'Sign in'}
             </Button>
           </Group>
         </form>
