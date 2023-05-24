@@ -8,6 +8,7 @@
     "build": "tsc",
     "check": "tsc --noEmit",
     "dev": "nodemon --transpile-only src/server.ts",
+    "test": "vitest --config test/vitest.config.ts",
     "format": "prettier --check \"src/**/*.{ts,tsx}\""
   },
   "keywords": [],
