@@ -1,4 +1,12 @@
-import { Button, Center, Group, Title, createStyles, rem, useMantineTheme } from '@mantine/core';
+import {
+  Button,
+  Center,
+  Group,
+  Title,
+  createStyles,
+  rem,
+  useMantineTheme,
+} from '@mantine/core';
 import { SignInForm } from '../components/SignInForm';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -46,7 +54,13 @@ export default function SignIn() {
 
   return (
     <Center className={classes.wrapper}>
-      <Title className={`${classes.title} ${theme.colorScheme === 'dark' ? 'neonText' : ''}`}>Sign in</Title>
+      <Title
+        className={`${classes.title} ${
+          theme.colorScheme === 'dark' ? 'neonText' : ''
+        }`}
+      >
+        Sign in
+      </Title>
       <SignInForm />
       {/* Glöm ej ta bort */}
       <Group position="center" mt="md">

@@ -92,7 +92,11 @@ function Home() {
           <img src="/assets/free-returns.svg" alt="free returns icon" />
         </Box>
       </MediaQuery>
-      <Title sx={{ marginBottom: '1rem' }} ta="center" className={theme.colorScheme === 'dark' ? "neonText" : ""}>
+      <Title
+        sx={{ marginBottom: '1rem' }}
+        ta="center"
+        className={theme.colorScheme === 'dark' ? 'neonText' : ''}
+      >
         Browse our collection
       </Title>
       <Group spacing={5} mb="md">

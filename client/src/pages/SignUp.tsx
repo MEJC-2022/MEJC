@@ -107,7 +107,13 @@ export default function SignIn() {
 
   return (
     <Center className={classes.wrapper}>
-      <Title className={`${classes.title} ${theme.colorScheme === 'dark' ? 'neonText' : ''}`}>Sign up</Title>
+      <Title
+        className={`${classes.title} ${
+          theme.colorScheme === 'dark' ? 'neonText' : ''
+        }`}
+      >
+        Sign up
+      </Title>
       <Box maw={600} className={classes.form}>
         <form onSubmit={form.onSubmit(handleSubmit)}>
           <TextInput
