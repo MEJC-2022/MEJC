@@ -7,71 +7,14 @@ import {
   Text,
   TextInput,
   Title,
-  createStyles,
-  rem,
-  useMantineTheme,
+  useMantineTheme
 } from '@mantine/core';
 import { useForm, yupResolver } from '@mantine/form';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { useAuth } from '../contexts/AuthContext';
-
-const useStyles = createStyles((theme) => ({
-  wrapper: {
-    margin: '1rem 0',
-    flexDirection: 'column',
-    backgroundImage:
-      theme.colorScheme === 'dark'
-        ? `linear-gradient(-60deg, ${theme.colors.gray[8]} 0%, ${theme.colors.gray[9]} 100%)`
-        : `linear-gradient(-60deg, ${theme.colors.blue[3]} 0%, ${theme.colors.blue[7]} 100%)`,
-    padding: `calc(${theme.spacing.xl} * 5)`,
-    [theme.fn.smallerThan('sm')]: {
-      padding: `calc(${theme.spacing.xl} * 3)`,
-    },
-  },
-  form: {
-    backgroundColor:
-      theme.colorScheme === 'dark' ? theme.colors.gray[7] : theme.white,
-    padding: theme.spacing.xl,
-    borderRadius: theme.radius.md,
-    boxShadow: theme.shadows.lg,
-    width: '100%',
-  },
-  input: {
-    backgroundColor:
-      theme.colorScheme === 'dark' ? theme.colors.gray[8] : theme.white,
-    borderColor: theme.colors.gray[4],
-    color: theme.black,
-    '&::placeholder': {
-      color: theme.colors.gray[5],
-    },
-  },
-  inputLabel: {
-    color: theme.colorScheme === 'dark' ? theme.colors.gray[3] : theme.black,
-  },
-  control: {
-    backgroundColor: theme.colors[theme.primaryColor][6],
-  },
-  title: {
-    fontSize: rem(50),
-    color: theme.colorScheme === 'dark' ? theme.colors.blue[5] : theme.white,
-    lineHeight: 1,
-    marginBottom: `calc(${theme.spacing.xl} * 1.5)`,
-  },
-  anchor: {
-    color:
-      theme.colorScheme === 'dark'
-        ? theme.colors.dark[0]
-        : theme.colors.gray[9],
-  },
-  lighterText: {
-    color:
-      theme.colorScheme === 'dark'
-        ? theme.colors.dark[2]
-        : theme.colors.gray[8],
-  },
-}));
+import { formStyle } from '../css/formStyle';
 
 const schema = Yup.object().shape({
   email: Yup.string()
@@ -101,7 +44,7 @@ export default function SignIn() {
     setIsAdmin(false);
   };
 
-  const { classes } = useStyles();
+  const { classes } = formStyle();
   const theme = useMantineTheme();
   const form = useForm({
     validate: yupResolver(schema),
@@ -182,8 +125,16 @@ export default function SignIn() {
             classNames={{ input: classes.input, label: classes.inputLabel }}
           />
           <Group position="right" mt="md">
-          <Button type="submit" className={classes.control} disabled={isLoading}>
-            {isLoading ? <Loader size="sm" color="black" /> : 'Create account'}
+            <Button
+              type="submit"
+              className={classes.control}
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <Loader size="sm" color="black" />
+              ) : (
+                'Create account'
+              )}
             </Button>
           </Group>
         </form>
@@ -194,6 +145,6 @@ export default function SignIn() {
           Sign in!
         </Link>
       </Text>
-    </Center>
+      </Center>
   );
 }

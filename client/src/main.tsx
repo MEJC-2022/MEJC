@@ -25,8 +25,8 @@ import { Faq } from './pages/Faq';
 import Home from './pages/Home';
 import ProductDetails from './pages/ProductDetails';
 import Shop from './pages/Shop';
-import SignIn from './pages/SignIn';
-import SignUp from './pages/SignUp';
+import { SignInForm } from './pages/SignIn';
+import { default as SignUp } from './pages/SignUp';
 import UserOrders from './pages/UserOrders';
 import Admin from './pages/admin/Admin';
 import AdminOrders from './pages/admin/AdminOrders';
@@ -45,7 +45,7 @@ const router = createBrowserRouter(
         <Route path="product/:id" element={<ProductDetails />} />
         <Route path="checkout" element={<Cart />} />
         <Route path="confirmation" element={<Confirmation />} />
-        <Route path="signin" element={<SignIn />} />
+        <Route path="signin" element={<SignInForm />} />
         <Route path="signup" element={<SignUp />} />
         <Route path="orders" element={<UserOrders />} />
       </Route>
