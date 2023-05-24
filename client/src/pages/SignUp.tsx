@@ -7,7 +7,7 @@ import {
   Text,
   TextInput,
   Title,
-  useMantineTheme
+  useMantineTheme,
 } from '@mantine/core';
 import { useForm, yupResolver } from '@mantine/form';
 import { useState } from 'react';
@@ -36,11 +36,13 @@ interface FormValues {
 }
 
 export default function SignIn() {
+  const theme = useMantineTheme();
+  const { classes } = formStyle();
+
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const { handleSignInAsUser } = useAuth();
-  const { classes } = formStyle();
-  const theme = useMantineTheme();
+
   const form = useForm({
     validate: yupResolver(schema),
     initialValues: {
@@ -140,6 +142,6 @@ export default function SignIn() {
           Sign in!
         </Link>
       </Text>
-      </Center>
+    </Center>
   );
 }

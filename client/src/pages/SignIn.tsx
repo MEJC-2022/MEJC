@@ -32,11 +32,13 @@ interface FormValues {
 }
 
 export function SignInForm() {
+  const theme = useMantineTheme();
+  const { classes } = formStyle();
+
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const { handleSignInAsUser, handleSignInAsAdmin } = useAuth();
-  const { classes } = formStyle();
-  const theme = useMantineTheme();
+
   const form = useForm({
     validate: yupResolver(schema),
     initialValues: {

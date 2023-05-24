@@ -24,7 +24,7 @@ const initialAuthValues: AuthContextValue = {
   },
   handleSignInAsAdmin: () => {
     throw new Error('handleSignInAsAdmin was called without being initialized');
-  }
+  },
 };
 
 interface Props {
