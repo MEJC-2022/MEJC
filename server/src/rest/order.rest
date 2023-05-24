@@ -23,8 +23,7 @@ Content-Type: application/json
       "description": "Hej",
       "price": 100,
       "stock": 10,
-      "quantity": 1,
-      "isArchived": false
+      "quantity": 1
     }
   ]
 }
