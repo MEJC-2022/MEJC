@@ -90,12 +90,12 @@ export function SignInForm() {
       console.log('success');
       navigate('/');
     } else {
-      const error = await response.json();
+      const errorMessage = await response.json();
       if (response.status === 404) {
-        form.setErrors({ email: error.error });
+        form.setErrors({ email: errorMessage });
       }
       if (response.status === 401) {
-        form.setErrors({ password: error.error });
+        form.setErrors({ password: errorMessage });
       }
     }
   };
