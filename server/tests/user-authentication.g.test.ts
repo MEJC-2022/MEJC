@@ -18,7 +18,6 @@ describe('Authenticating a user (POST)', () => {
     expect(response.status).toBe(200);
     expect(response.headers['content-type']).toMatch(/json/);
     expect(response.headers['set-cookie']).toBeDefined();
-    console.log(response.body);
     expect(response.body.session._id).toBeDefined();
     expect(response.body.session.email).toBe('user@plugga.se');
     expect(response.body.session.password).toBeUndefined();
