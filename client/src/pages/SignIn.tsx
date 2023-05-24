@@ -7,7 +7,7 @@ import {
   Text,
   TextInput,
   Title,
-  useMantineTheme
+  useMantineTheme,
 } from '@mantine/core';
 import { useForm, yupResolver } from '@mantine/form';
 import { useState } from 'react';
@@ -34,16 +34,7 @@ interface FormValues {
 export function SignInForm() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const { setIsSignedIn, setIsAdmin } = useAuth();
-  const handleSignInAsUser = () => {
-    setIsSignedIn(true);
-    setIsAdmin(false);
-  };
-
-  const handleSignInAsAdmin = () => {
-    setIsSignedIn(true);
-    setIsAdmin(true);
-  };
+  const { handleSignInAsUser, handleSignInAsAdmin } = useAuth();
   const { classes } = formStyle();
   const theme = useMantineTheme();
   const form = useForm({
@@ -133,6 +124,6 @@ export function SignInForm() {
           Sign up!
         </Link>
       </Text>
-      </Center>
+    </Center>
   );
 }

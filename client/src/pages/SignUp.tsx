@@ -38,12 +38,7 @@ interface FormValues {
 export default function SignIn() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const { setIsSignedIn, setIsAdmin } = useAuth();
-  const handleSignInAsUser = () => {
-    setIsSignedIn(true);
-    setIsAdmin(false);
-  };
-
+  const { handleSignInAsUser } = useAuth();
   const { classes } = formStyle();
   const theme = useMantineTheme();
   const form = useForm({
