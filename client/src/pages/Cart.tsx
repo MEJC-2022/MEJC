@@ -11,10 +11,10 @@ import { Fragment, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import CartProduct from '../components/CartProduct';
 import CheckoutForm from '../components/CheckoutForm';
+import SignInForm from '../components/SignInForm';
 import { useAuth } from '../contexts/AuthContext';
 import { ProductContext } from '../contexts/ProductContext';
 import { useShoppingCart } from '../contexts/ShoppingCartContext';
-import { SignInForm } from './SignIn';
 
 function Cart() {
   const { cartProducts, cartQuantity } = useShoppingCart();
@@ -39,6 +39,7 @@ function Cart() {
           alignItems: 'center',
           justifyContent: 'center',
           marginTop: '2rem',
+          marginBottom: '2rem',
         }}
         size="xs"
       >
@@ -66,7 +67,10 @@ function Cart() {
     );
   } else {
     return (
-      <Container size={'1680px'} sx={{ marginTop: '0.5rem' }}>
+      <Container
+        size={'1680px'}
+        sx={{ marginTop: '0.5rem', marginBottom: '2rem' }}
+      >
         <Flex
           gap="3rem"
           wrap="wrap"
