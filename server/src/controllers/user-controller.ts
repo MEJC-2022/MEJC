@@ -5,7 +5,7 @@ import { UserModel } from '../models/user-model';
 export async function getUserList(req: Request, res: Response) {
   try {
     const userList = await UserModel.find({});
-    res.status(200).json({ userList: userList });
+    res.status(200).json({ userList });
   } catch (err) {
     console.error('User list could not be retrieved', err);
     res.status(500).json({ error: 'User list could not be retrieved' });
