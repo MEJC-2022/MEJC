@@ -5,35 +5,44 @@ import { UserModel } from '../models/user-model';
 export async function getUserList(req: Request, res: Response) {
   try {
     const userList = await UserModel.find({});
-    if (!userList) {
-      throw new Error('User list could not be retrieved');
-    } else {
-      res.status(200).json(userList);
-    }
+    res.status(200).json(userList);
   } catch (err) {
-    console.error(err);
+    console.error('User list could not be retrieved:\n', err);
+    res.status(500).json({ error: 'User list could not be retrieved' });
   }
 }
 
 export async function registerUser(req: Request, res: Response) {
   try {
     const user = await UserModel.create(req.body);
-    res.status(201).json(user);
+    res
+      .status(201)
+      .json({ message: 'A new user has been created', user: user });
   } catch (err) {
-    console.error(err);
+    console.error('User could not be created:\n', err);
+    res.status(500).json({ error: 'User could not be created' });
   }
 }
 
 export async function loginUser(req: Request, res: Response) {
   const { email, password } = req.body;
-  const user = await UserModel.findOne({ email }).select('+password');
 
   try {
-    if (!user) {
-      res.status(401).json('No registered account with this email exists');
+    // Checks if user is already logged in
+    if (req.session && req.session.user) {
+      res.status(409).json('User is already logged in');
       return;
     }
 
+    // Finds user by email
+    const user = await UserModel.findOne({ email }).select('+password');
+
+    if (!user) {
+      res.status(404).json('No registered account with this email exists');
+      return;
+    }
+
+    // Verifies password
     const isPasswordValid = await argon2.verify(user.password, password);
 
     if (!isPasswordValid) {
@@ -41,20 +50,21 @@ export async function loginUser(req: Request, res: Response) {
       return;
     }
 
-    if (!req.session) {
-      throw new Error('Session not found');
-    }
-
     // Creates cookie session for logged in user
-    req.session.user = {
-      _id: user._id,
-      email: user.email,
-      isAdmin: user.isAdmin,
-    };
-
-    res.status(200).json(req.session.user);
+    if (req.session) {
+      req.session.user = {
+        _id: user._id,
+        email: user.email,
+        isAdmin: user.isAdmin,
+      };
+      res.status(200).json({
+        message: 'A new session has been set',
+        session: req.session.user,
+      });
+    }
   } catch (err) {
-    console.error(err);
+    console.error('An error trying to login has occured:\n', err);
+    res.status(500).json({ error: 'An error trying to login has occurred' });
   }
 }
 
@@ -62,11 +72,32 @@ export async function logoutUser(req: Request, res: Response) {
   try {
     if (req.session && Object.keys(req.session).length !== 0) {
       req.session = null;
-      res.status(204).send('You have successfully logged out.');
+      res.status(204).send('You have successfully logged out');
     } else {
-      res.status(401).send('User already logged out.');
+      res.status(401).send('User is already logged out');
     }
   } catch (err) {
-    console.error(err);
+    console.error('An error has occurred during user logout:\n', err);
+    res.status(500).json({ error: 'An error has occurred during user logout' });
+  }
+}
+
+export async function updateUserRole(req: Request, res: Response) {
+  try {
+    const { id } = req.params;
+    const { isAdmin } = req.body;
+    const user = await UserModel.findByIdAndUpdate(
+      id,
+      { isAdmin },
+      { new: true },
+    );
+    res
+      .status(200)
+      .json({ message: 'The role for user has been changed', user: user });
+  } catch (err) {
+    console.error('An error has occurred during user role update:\n', err);
+    res
+      .status(500)
+      .json({ error: 'An error has occurred during user role update' });
   }
 }

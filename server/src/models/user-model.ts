@@ -27,7 +27,7 @@ userSchema.pre('save', async function (next) {
       memoryCost: 1024,
     });
   } catch (err) {
-    console.error(err);
+    console.error('An error has occurred during password hashing:\n', err);
   }
   next();
 });
