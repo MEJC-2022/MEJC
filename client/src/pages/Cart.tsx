@@ -98,7 +98,7 @@ function Cart() {
               <CheckoutForm />
             ) : (
               <Container>
-                <SignInForm/>
+                <SignInForm />
               </Container>
             )}
             <Box
