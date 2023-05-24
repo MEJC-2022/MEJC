@@ -19,7 +19,6 @@ export async function createOrder(req: Request, res: Response) {
   orderItems.forEach(async (product: IncomingOrderItem) => {
     const productId = product._id;
     const singleProduct = await ProductModel.findById(productId);
-    console.log('Gick igenom produkt:', productId);
 
     if (singleProduct!.isArchived) {
       haveArchivedProduct = true;
@@ -61,7 +60,6 @@ export async function createOrder(req: Request, res: Response) {
   }
 
   orderItems.forEach((product: IncomingOrderItem) => {
-    console.log('Gick igenom produkt:', product);
     totalPrice += product.price * product.quantity;
   });
 
