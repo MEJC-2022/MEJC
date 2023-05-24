@@ -11,12 +11,15 @@ import { Fragment, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import CartProduct from '../components/CartProduct';
 import CheckoutForm from '../components/CheckoutForm';
+import { SignInForm } from '../components/SignInForm';
+import { useAuth } from '../contexts/AuthContext';
 import { ProductContext } from '../contexts/ProductContext';
 import { useShoppingCart } from '../contexts/ShoppingCartContext';
 
 function Cart() {
   const { cartProducts, cartQuantity } = useShoppingCart();
   const { products } = useContext(ProductContext);
+  const { isSignedIn } = useAuth();
 
   <Text weight={500} size={29}>
     total:{' '}
@@ -91,7 +94,19 @@ function Cart() {
               },
             }}
           >
-            <CheckoutForm />
+            {isSignedIn ? (
+              <CheckoutForm />
+            ) : (
+              <Container
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                }}
+              >
+                <SignInForm />
+              </Container>
+            )}
             <Box
               sx={{
                 display: 'flex',

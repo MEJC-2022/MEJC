@@ -27,7 +27,10 @@ const useStyles = createStyles((theme) => ({
   wrapper: {
     marginTop: '1rem',
     boxSizing: 'border-box',
-    backgroundImage: `linear-gradient(-60deg, ${theme.colors.blue[3]} 0%, ${theme.colors.blue[7]} 100%)`,
+    backgroundImage:
+      theme.colorScheme === 'dark'
+        ? `linear-gradient(-60deg, ${theme.colors.gray[8]} 0%, ${theme.colors.gray[9]} 100%)`
+        : `linear-gradient(-60deg, ${theme.colors.blue[3]} 0%, ${theme.colors.blue[7]} 100%)`,
     borderRadius: theme.radius.md,
     padding: `calc(${theme.spacing.xl} * 5)`,
 
@@ -37,7 +40,7 @@ const useStyles = createStyles((theme) => ({
   },
 
   title: {
-    color: theme.white,
+    color: theme.colorScheme === 'dark' ? theme.colors.blue[5] : theme.white,
     lineHeight: 1,
   },
 
@@ -51,14 +54,15 @@ const useStyles = createStyles((theme) => ({
   },
 
   form: {
-    backgroundColor: theme.white,
+    backgroundColor:
+      theme.colorScheme === 'dark' ? theme.colors.gray[7] : theme.white,
     padding: theme.spacing.xl,
     borderRadius: theme.radius.md,
     boxShadow: theme.shadows.lg,
   },
 
   social: {
-    color: theme.white,
+    color: theme.colorScheme === 'dark' ? theme.colors.blue[5] : theme.white,
 
     '&:hover': {
       color: theme.colors[theme.primaryColor][1],
@@ -66,7 +70,8 @@ const useStyles = createStyles((theme) => ({
   },
 
   input: {
-    backgroundColor: theme.white,
+    backgroundColor:
+      theme.colorScheme === 'dark' ? theme.colors.gray[8] : theme.white,
     borderColor: theme.colors.gray[4],
     color: theme.black,
 
@@ -76,7 +81,7 @@ const useStyles = createStyles((theme) => ({
   },
 
   inputLabel: {
-    color: theme.black,
+    color: theme.colorScheme === 'dark' ? theme.colors.gray[3] : theme.black,
   },
 
   control: {
