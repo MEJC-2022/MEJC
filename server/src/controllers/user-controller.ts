@@ -7,7 +7,7 @@ export async function getUserList(req: Request, res: Response) {
     const userList = await UserModel.find({});
     res.status(200).json({ userList });
   } catch (err) {
-    console.error('User list could not be retrieved', err);
+    console.error('User list could not be retrieved:\n', err);
     res.status(500).json({ error: 'User list could not be retrieved' });
   }
 }
@@ -19,7 +19,7 @@ export async function registerUser(req: Request, res: Response) {
       .status(201)
       .json({ message: 'A new user has been created', user: user });
   } catch (err) {
-    console.error('User could not be created', err);
+    console.error('User could not be created:\n', err);
     res.status(500).json({ error: 'User could not be created' });
   }
 }
@@ -59,7 +59,7 @@ export async function loginUser(req: Request, res: Response) {
         });
     }
   } catch (err) {
-    console.error('An error trying to login has occured', err);
+    console.error('An error trying to login has occured:\n', err);
     res.status(500).json({ error: 'An error trying to login has occurred' });
   }
 }
@@ -73,7 +73,7 @@ export async function logoutUser(req: Request, res: Response) {
       res.status(401).send('User is already logged out');
     }
   } catch (err) {
-    console.error('An error has occurred during user logout', err);
+    console.error('An error has occurred during user logout:\n', err);
     res.status(500).json({ error: 'An error has occurred during user logout' });
   }
 }
@@ -91,7 +91,7 @@ export async function updateUserRole(req: Request, res: Response) {
       .status(204)
       .json({ message: 'The role for user has been changed', user: user });
   } catch (err) {
-    console.error('An error has occurred during user role update', err);
+    console.error('An error has occurred during user role update:\n', err);
     res.status(500).json({ error: 'An error has occurred during user role update' });
   }
 }
