@@ -5,7 +5,7 @@ GET http://localhost:3000/api/categories/646df95e71bd5c21bc6338d3
 GET http://localhost:3000/api/categories
 
 ### Delete category
-DELETE DELETE http://localhost:3000/api/categories/646df95e71bd5c21bc6338d3
+DELETE http://localhost:3000/api/categories/646df95e71bd5c21bc6338d8
 
 
 ### Update category
