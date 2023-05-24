@@ -6,10 +6,8 @@ import { useShoppingCart } from '../contexts/ShoppingCartContext';
 
 function Confirmation() {
   const { order, loading } = useShoppingCart();
-  if (!order) {
-    return null;
-  }
-  const formData = order.address as FormValues;
+
+  const formData = order?.address as FormValues;
 
   function calculateLastOrderTotal() {
     if (!order) {
@@ -30,42 +28,51 @@ function Confirmation() {
       {loading ? (
         <h1>Loading...</h1>
       ) : (
-        order &&
-        formData && (
-          <Card shadow="md" sx={{ textAlign: 'center' }}>
-            <Title order={1}>Thank you for your order!</Title>
-            <Divider mt="md" mb="sm" size="xs" />
-            <Text>We have sent a confirmation to: {formData.email}</Text>
-            <Divider mt="md" mb="sm" size="xs" />
-            <Title mb="xs" order={2}>
-              Order details:
-            </Title>
-            <Text>First name: {formData.firstName}</Text>
-            <Text>Last name: {formData.lastName}</Text>
-            <Text>Email: {formData.email}</Text>
-            <Text>Street: {formData.street}</Text>
-            <Text>Zip Code: {formData.zipCode}</Text>
-            <Text>Phone Number: {formData.phoneNumber}</Text>
-            <Text>City: {formData.city}</Text>
-            <Divider mt="md" mb="sm" size="xs" />
-            <Title mb="xs" order={2}>
-              Ordered Products
-            </Title>
-            <List listStyleType="none">
-              {order.orderItems.map(
-                (product, index) =>
-                  '_id' in product && (
-                    <List.Item key={index}>
-                      {product.title} - {product.price} € - Quantity:{' '}
-                      {product.quantity}
-                    </List.Item>
-                  ),
-              )}
-            </List>
-            <Divider mt="lg" mb="sm" size="xs" />
-            <h2>Total price: {calculateLastOrderTotal()}€</h2>
-          </Card>
-        )
+        <>
+          {!order ? (
+            <Card shadow="md" sx={{ textAlign: 'center' }}>
+              <Title order={1}>Something went wrong with your order!</Title>
+              <Text>
+                If the issue persists, try to remove items from your cart.
+              </Text>
+            </Card>
+          ) : null}
+          {order && formData && (
+            <Card shadow="md" sx={{ textAlign: 'center' }}>
+              <Title order={1}>Thank you for your order!</Title>
+              <Divider mt="md" mb="sm" size="xs" />
+              <Text>We have sent a confirmation to: {formData.email}</Text>
+              <Divider mt="md" mb="sm" size="xs" />
+              <Title mb="xs" order={2}>
+                Order details:
+              </Title>
+              <Text>First name: {formData.firstName}</Text>
+              <Text>Last name: {formData.lastName}</Text>
+              <Text>Email: {formData.email}</Text>
+              <Text>Street: {formData.street}</Text>
+              <Text>Zip Code: {formData.zipCode}</Text>
+              <Text>Phone Number: {formData.phoneNumber}</Text>
+              <Text>City: {formData.city}</Text>
+              <Divider mt="md" mb="sm" size="xs" />
+              <Title mb="xs" order={2}>
+                Ordered Products
+              </Title>
+              <List listStyleType="none">
+                {order.orderItems.map(
+                  (product, index) =>
+                    '_id' in product && (
+                      <List.Item key={index}>
+                        {product.title} - {product.price} € - Quantity:{' '}
+                        {product.quantity}
+                      </List.Item>
+                    ),
+                )}
+              </List>
+              <Divider mt="lg" mb="sm" size="xs" />
+              <h2>Total price: {calculateLastOrderTotal()}€</h2>
+            </Card>
+          )}
+        </>
       )}
     </Container>
   );
