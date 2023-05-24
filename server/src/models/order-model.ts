@@ -39,13 +39,13 @@ const incomingOrderSchema = new Schema(
   {
     _id: { type: String, required: true },
     image: { type: Schema.Types.ObjectId, ref: 'files' },
-    title: { type: String, required: true },
-    description: { type: String, required: true },
+    title: { type: String },
+    description: { type: String },
     price: { type: Number, required: true },
-    stock: { type: Number, required: true },
+    stock: { type: Number },
     quantity: { type: Number, required: true },
-    createdAt: { type: Date, required: true },
-    updatedAt: { type: Date, required: true },
+    createdAt: { type: Date },
+    updatedAt: { type: Date },
   },
   { _id: false },
 );

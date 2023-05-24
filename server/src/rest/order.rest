@@ -1,4 +1,4 @@
-### Create a post
+### Create an order
 POST http://localhost:3000/api/orders
 Content-Type: application/json
 
@@ -7,7 +7,7 @@ Content-Type: application/json
   "totalPrice": 10293,
   "isShipped": false,
   "address": {
-    "firstName": "C",
+    "firstName": "Carlito",
     "lastName": "Margarito",
     "email": "carlito@gmail.com",
     "zipCode": "12345",
@@ -17,13 +17,14 @@ Content-Type: application/json
   },
   "orderItems": [
     {
-      "id": "1334h",
+      "_id": "646bd0534eb83ae87d4731d1",
       "image": "http://hej.jpeg",
       "title": "Hej",
       "description": "Hej",
       "price": 100,
       "stock": 10,
-      "quantity": 1
+      "quantity": 1,
+      "isArchived": false
     }
   ]
 }
