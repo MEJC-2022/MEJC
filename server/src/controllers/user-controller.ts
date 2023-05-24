@@ -38,7 +38,7 @@ export async function loginUser(req: Request, res: Response) {
     const user = await UserModel.findOne({ email }).select('+password');
 
     if (!user) {
-      res.status(401).json('No registered account with this email exists');
+      res.status(404).json('No registered account with this email exists');
       return;
     }
 
@@ -92,7 +92,7 @@ export async function updateUserRole(req: Request, res: Response) {
       { new: true },
     );
     res
-      .status(204)
+      .status(200)
       .json({ message: 'The role for user has been changed', user: user });
   } catch (err) {
     console.error('An error has occurred during user role update:\n', err);
