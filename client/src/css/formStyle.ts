@@ -2,7 +2,7 @@ import { createStyles, rem } from '@mantine/core';
 
 export const formStyle = createStyles((theme) => ({
   wrapper: {
-    margin: '1rem 0',
+    margin: '0rem 0rem 0rem 0rem',
     flexDirection: 'column',
     backgroundImage:
       theme.colorScheme === 'dark'
