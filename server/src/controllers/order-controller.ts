@@ -106,5 +106,6 @@ export async function createOrder(req: Request, res: Response) {
 
   res.status(200).send({
     message: 'Order created successfully.',
+    result,
   });
 }

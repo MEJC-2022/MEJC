@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useContext } from 'react';
+import { createContext, ReactNode, useContext, useState } from 'react';
 import { FormValues } from '../components/CheckoutForm';
 import { CartItem } from '../contexts/ProductContext';
 import useLocalStorage from '../hooks/useLocalStorage';
@@ -11,12 +11,12 @@ interface ShoppingCartContext {
   removeFromCart: (id: string) => void;
   cartProducts: CartItem[];
   cartQuantity: number;
-  orders: Order[];
+  order: Order | null;
   addOrder: (cartProducts: CartItem[], formData: FormValues) => void;
+  loading: boolean;
 }
 
 interface Order {
-  orderId: number;
   orderItems: CartItem[];
   address: FormValues;
 }
@@ -40,7 +40,8 @@ function ShoppingCartProvider({ children }: Props) {
     [],
   );
 
-  const [orders, setOrders] = useLocalStorage<Order[]>('Orders:', []);
+  const [order, setOrder] = useLocalStorage<Order | null>('Order', null);
+  const [loading, setLoading] = useState(false);
 
   const cartQuantity = cartProducts.reduce(
     (quantity, product) => product.quantity + quantity,
@@ -97,14 +98,12 @@ function ShoppingCartProvider({ children }: Props) {
   }
 
   const addOrder = async (cartProducts: CartItem[], formData: FormValues) => {
+    setLoading(true);
+
     const newOrder: Order = {
-      orderId: orders.length + 1,
       orderItems: [...cartProducts],
       address: formData,
     };
-
-    console.log(orders);
-    setCartProducts([]);
 
     try {
       const response = await fetch('/api/orders', {
@@ -116,13 +115,19 @@ function ShoppingCartProvider({ children }: Props) {
       });
 
       if (response.ok) {
-        setOrders((prevOrders) => [...prevOrders, newOrder]);
+        setOrder(newOrder);
+        console.log('This is the order that was made:', order);
+        setCartProducts([]);
       } else {
         const message = await response.text();
+        setOrder(null);
         throw new Error(message);
       }
     } catch (error) {
+      setOrder(null);
       console.error('Error creating order:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -135,8 +140,9 @@ function ShoppingCartProvider({ children }: Props) {
         removeFromCart,
         cartProducts,
         cartQuantity,
-        orders,
+        order,
         addOrder,
+        loading,
       }}
     >
       {children}
