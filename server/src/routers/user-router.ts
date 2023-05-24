@@ -11,10 +11,10 @@ import { validateUser } from '../validations/user-validation';
 import { isAdmin } from '../handlers/admin-handler';
 
 const userRouter = Router()
-  .get('/api/users', getUserList)
+  .get('/api/users', isAdmin, getUserList)
   .post('/api/users/register', validateUser, registerUser)
   .post('/api/users/login', validateUser, loginUser)
-  .post('/api/users/logout', logoutUser) // Behövs denna?
+  .post('/api/users/logout', logoutUser) // ? Behövs validering? Troligtvis inte
   .put('/api/users/:id', isAdmin, updateUserRole);
 
 export default userRouter;
