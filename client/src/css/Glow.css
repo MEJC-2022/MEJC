@@ -11,7 +11,7 @@
         0px 0px 15px var(--neon-color),
         0px 0px 20px var(--neon-color);
     animation: flickerAnimation 2.5s ease-in-out 2;
-    animation-delay: 10s;
+    animation-delay: 6s;
 }
 
 @keyframes flickerAnimation {

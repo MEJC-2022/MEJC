@@ -8,6 +8,7 @@ import {
   rem,
   useMantineTheme
 } from '@mantine/core';
+import { mockOrders } from './mockOrder';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -31,15 +32,21 @@ const useStyles = createStyles((theme) => ({
   item: {
     borderRadius: theme.radius.md,
     marginBottom: theme.spacing.lg,
+    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.gray[8] : theme.white,
     border: `${rem(1)} solid ${
       theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[3]
     }`,
   },
+  panel: {
+    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.gray[7] : theme.colors.blue[2],
+  }
 }));
 
 export default function UserOrders() {
   const { classes } = useStyles();
   const theme = useMantineTheme();
+
+  const orders = mockOrders; 
 
   return (
     <Center className={classes.wrapper}>
@@ -48,36 +55,56 @@ export default function UserOrders() {
           theme.colorScheme === 'dark' ? 'neonText' : ''
         }`}
       >
-        Order history
+        Orderhistorik
       </Title>
       <Accordion sx={{ width: '60%' }}>
-        <Accordion.Item className={classes.item} value="test">
-          <Accordion.Control>
-            <Flex justify="space-between">
-              <Flex sx={{ flex: 2 }}>
-                <Text size="md" weight={700}>
-                  Order #12345
-                </Text>
+        {orders.map((order) => (
+          <Accordion.Item className={classes.item} key={order._id} value={order._id}>
+            <Accordion.Control>
+              <Flex justify="space-between">
+                <Flex sx={{ flex: 2 }}>
+                  <Text size="md" weight={700}>
+                    Order #{order._id}
+                  </Text>
+                </Flex>
+                <Flex sx={{ flex: 2 }}>
+                  <Text size="md" weight={500}>
+                    {order.createdAt.toISOString().substring(0, 10)}
+                  </Text>
+                </Flex>
+                <Flex sx={{ flex: 3 }}>
+                  <Text size="md" weight={500}>
+                    {order.isShipped ? 'Shipped' : 'Processing'}
+                  </Text>
+                </Flex>
+                <Flex sx={{ flex: 1, justifyContent: 'flex-end' }}>
+                  <Text size="md" weight={500}>
+                    Details
+                  </Text>
+                </Flex>
               </Flex>
-              <Flex sx={{ flex: 2 }}>
-                <Text size="md" weight={500}>
-                  2023-05-23
-                </Text>
+            </Accordion.Control>
+            <Accordion.Panel className={classes.panel}>
+              <Flex direction="row">
+                <Flex direction="column" style={{ flex: 1, marginRight: '2rem' }}>
+                  {order.orderItems.map((item, index) => (
+                    <Text key={index}>
+                      Product: {item.productId}, Amount: {item.quantity}
+                    </Text>
+                  ))}
+                  <Text>Total price: {order.totalPrice}€</Text>
+                </Flex>
+                <Flex direction="column" style={{ flex: 1 }}>
+                  <Text>Name: {order.deliveryAddress.fullName}</Text>
+                  <Text>Street: {order.deliveryAddress.street}</Text>
+                  <Text>City: {order.deliveryAddress.city}</Text>
+                  <Text>Postcode: {order.deliveryAddress.zipCode}</Text>
+                  <Text>Phonenumber: {order.deliveryAddress.phoneNumber}</Text>
+                </Flex>
               </Flex>
-              <Flex sx={{ flex: 3 }}>
-                <Text size="md" weight={500}>
-                  Shipped
-                </Text>
-              </Flex>
-              <Flex sx={{ flex: 1, justifyContent: 'flex-end' }}>
-                <Text size="md" weight={500}>
-                  Details
-                </Text>
-              </Flex>
-            </Flex>
-          </Accordion.Control>
-          <Accordion.Panel>Order Details</Accordion.Panel>
-        </Accordion.Item>
+            </Accordion.Panel>
+          </Accordion.Item>
+        ))}
       </Accordion>
     </Center>
   );
