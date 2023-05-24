@@ -8,7 +8,7 @@ const createProduct = async (req: Request, res: Response) => {
 };
 
 const getAllProducts = async (req: Request, res: Response) => {
-  const products = await ProductModel.find();
+  const products = await ProductModel.find().populate('categories');
   res.json(products);
 };
 

@@ -1,6 +1,10 @@
 import axios from 'axios';
 import { createContext, ReactNode, useEffect, useState } from 'react';
 
+export interface Category {
+  _id: string;
+  title: string;
+}
 export interface Product {
   _id: string;
   image: string;
@@ -8,6 +12,7 @@ export interface Product {
   description: string;
   price: number;
   stock: number;
+  categories: Category[];
 }
 
 export interface CartItem extends Product {
@@ -19,6 +24,7 @@ interface ContextValue {
   deleteProduct: (id: string) => void;
   addProduct: (product: Product) => void;
   updateProduct: (product: Product) => void;
+  fetchProducts: () => void;
 }
 
 export const ProductContext = createContext<ContextValue>(null as any);
@@ -30,12 +36,12 @@ interface Props {
 export const ProductProvider: React.FC<Props> = ({ children }) => {
   const [products, setProducts] = useState<Product[]>([]);
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      const res = await axios.get('/api/products');
-      setProducts(res.data);
-    };
+  async function fetchProducts() {
+    const res = await axios.get('/api/products');
+    setProducts(res.data);
+  }
 
+  useEffect(() => {
     fetchProducts();
   }, []);
 
@@ -66,7 +72,13 @@ export const ProductProvider: React.FC<Props> = ({ children }) => {
 
   return (
     <ProductContext.Provider
-      value={{ products, deleteProduct, addProduct, updateProduct }}
+      value={{
+        products,
+        deleteProduct,
+        addProduct,
+        updateProduct,
+        fetchProducts,
+      }}
     >
       {children}
     </ProductContext.Provider>

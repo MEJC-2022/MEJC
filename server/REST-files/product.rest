@@ -24,6 +24,7 @@ POST http://localhost:3000/api/products
 Content-Type: application/json
 
 {
+    "categories": "646df95e71bd5c21bc6338d3",
     "image": "646c714d4eb83ae87d47321f",
     "title": "TravelBook Mini",
     "description": "The TravelBook Mini is the perfect laptop for those who are always on-the-go. With its compact size and long-lasting battery, you can take it with you wherever you go. The 11-inch display delivers crisp visuals, while the lightweight design ensures you can carry it with ease.",

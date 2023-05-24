@@ -16,8 +16,6 @@ import { useShoppingCart } from '../contexts/ShoppingCartContext';
 
 export interface Props {
   product: Product;
-  sortDirection: 'lowest' | 'highest';
-  sortedProducts: Product[];
 }
 
 function ProductCard({ product }: Props) {
@@ -60,6 +58,19 @@ function ProductCard({ product }: Props) {
               <Text size="md" align="left">
                 {product.description}
               </Text>
+              <Group
+                mt="xl"
+                mb="xl"
+                style={{ display: 'flex', justifyContent: 'space-between' }}
+              >
+                {product.categories.length > 0 && (
+                  <Badge size="md">
+                    {product.categories
+                      .map((category) => category.title)
+                      .join(', ')}
+                  </Badge>
+                )}
+              </Group>
             </Box>
           </Link>
         </Card.Section>

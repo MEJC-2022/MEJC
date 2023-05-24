@@ -17,27 +17,30 @@ import '../css/Glow.css';
 
 function Home() {
   const theme = useMantineTheme();
-  const { products } = useContext(ProductContext);
-  const [sortDirection, setSortDirection] = useState('');
-  const [sortedProducts, setSortedProducts] = useState(products);
+  const { products, fetchProducts } = useContext(ProductContext);
+
+  const [filteredProducts, setFilteredProducts] = useState(products);
   const [activeButton, setActiveButton] = useState('');
 
   useEffect(() => {
-    setSortedProducts(products);
+    fetchProducts();
+  }, []);
+
+  useEffect(() => {
+    setFilteredProducts(products);
   }, [products]);
 
-  function sortProductsByLowestPrice() {
-    const sorted = [...products].sort((a, b) => a.price - b.price);
-    setSortedProducts(sorted);
-    setSortDirection('ascending');
-    setActiveButton('lowest');
+  function filterByCategory(categoryName: string) {
+    const filtered = products.filter((product) =>
+      product.categories.some((category) => category.title === categoryName),
+    );
+    setFilteredProducts(filtered);
+    setActiveButton(categoryName);
   }
 
-  function sortProductsByHighestPrice() {
-    const sorted = [...products].sort((a, b) => b.price - a.price);
-    setSortedProducts(sorted);
-    setSortDirection('descending');
-    setActiveButton('highest');
+  function resetFilter() {
+    setFilteredProducts(products);
+    setActiveButton('');
   }
 
   return (
@@ -102,28 +105,21 @@ function Home() {
       <Group spacing={5} mb="md">
         <Button
           sx={{
-            border: activeButton === 'lowest' ? '2px solid lightblue' : 'none',
-          }}
-          variant="light"
-          size="xs"
-          radius="sm"
-          onClick={sortProductsByLowestPrice}
-        >
-          Sort by lowest price
-        </Button>
-        <Button
-          sx={{
             border:
-              activeButton === 'highest' ? '2px solid lightblue ' : 'none',
+              activeButton === 'Laptops' ? '2px solid lightblue ' : 'none',
           }}
           size="xs"
           variant="light"
           radius="sm"
-          onClick={sortProductsByHighestPrice}
+          onClick={() => filterByCategory('Laptops')}
         >
-          Sort by highest price
+          Sort by only Laptops
+        </Button>
+        <Button size="xs" variant="light" radius="sm" onClick={resetFilter}>
+          Reset filter
         </Button>
       </Group>
+
       <SimpleGrid
         cols={3}
         spacing="xl"
@@ -133,13 +129,8 @@ function Home() {
           { maxWidth: '36rem', cols: 1, spacing: 'sm' },
         ]}
       >
-        {sortedProducts.map((product) => (
-          <ProductCard
-            key={product._id}
-            product={product}
-            sortedProducts={sortedProducts}
-            sortDirection={sortDirection === 'ascending' ? 'lowest' : 'highest'}
-          />
+        {filteredProducts.map((product) => (
+          <ProductCard key={product._id} product={product} />
         ))}
       </SimpleGrid>
     </Container>
