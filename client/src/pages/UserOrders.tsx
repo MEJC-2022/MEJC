@@ -16,7 +16,7 @@ const useStyles = createStyles((theme) => ({
     backgroundImage:
       theme.colorScheme === 'dark'
         ? `linear-gradient(-60deg, ${theme.colors.gray[8]} 0%, ${theme.colors.gray[9]} 100%)`
-        : `linear-gradient(-60deg, ${theme.colors.blue[3]} 0%, ${theme.colors.blue[7]} 100%)`,
+        : `linear-gradient(-60deg, ${theme.colors.gray[1]} 0%, ${theme.colors.gray[3]} 100%)`,
     padding: `calc(${theme.spacing.xl} * 5)`,
     [theme.fn.smallerThan('sm')]: {
       padding: `calc(${theme.spacing.xl})`,
@@ -27,7 +27,7 @@ const useStyles = createStyles((theme) => ({
     [theme.fn.smallerThan('sm')]: {
       fontSize: rem(40),
     },
-    color: theme.colorScheme === 'dark' ? theme.colors.blue[5] : theme.white,
+    color: theme.colorScheme === 'dark' ? theme.colors.blue[5] : theme.colors.gray[7],
     lineHeight: 1,
     marginBottom: `calc(${theme.spacing.xl} * 1.5)`,
   },
@@ -50,11 +50,11 @@ export default function UserOrders() {
           theme.colorScheme === 'dark' ? 'neonText' : ''
         }`}
       >
-        Orderhistorik
+        Order history
       </Title>
       <Accordion transitionDuration={600} className={classes.accordion}>
         {orders.map((order: Order) => (
-          <UserOrderAccordion order={order}/>
+          <UserOrderAccordion order={order} key={order._id}/>
         ))}
       </Accordion>
     </Center>
