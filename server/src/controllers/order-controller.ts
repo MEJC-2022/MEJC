@@ -106,3 +106,28 @@ export async function createOrder(req: Request, res: Response) {
     result,
   });
 }
+
+export async function getOrderById(req: Request, res: Response) {}
+
+export async function getOrdersByUserId(req: Request, res: Response) {}
+
+export async function getAllOrders(req: Request, res: Response) {
+  try {
+    const orders = await OrderModel.find();
+
+    if (orders.length === 0 || orders === null) {
+      return res.status(404).send({
+        message: 'No orders found.',
+      });
+    }
+
+    res.status(200).send({
+      message: 'All orders fetched successfully.',
+      orders,
+    });
+  } catch (error) {
+    res.status(500).send({
+      message: 'Something went wrong with getting orders.',
+    });
+  }
+}
