@@ -107,12 +107,6 @@ export async function createOrder(req: Request, res: Response) {
   });
 }
 
-export async function getOrdersByUserId(req: Request, res: Response) {
-  const userId = req.params.id;
-  console.log(req.params.id);
-  console.log(req.session);
-}
-
 export async function getAllOrders(req: Request, res: Response) {
   try {
     const orders = await OrderModel.find();
@@ -159,6 +153,46 @@ export async function getOrderById(req: Request, res: Response) {
       return res.status(200).send({
         message: 'Order fetched successfully.',
         fetchedOrder,
+      });
+    }
+  } catch (error) {
+    return res.status(500).send({
+      message: 'Something went wrong with getting order.',
+    });
+  }
+}
+
+export async function getOrdersByUserId(req: Request, res: Response) {
+  const session = req.session;
+  const incomingUserId = req.params.id;
+
+  if (!session || !session.user || !session.user._id) {
+    console.log('not logged in');
+    return res.status(401).send({
+      message: 'You are not logged in.',
+    });
+  }
+
+  if (!session.user.isAdmin || session.user._id == !incomingUserId) {
+    console.log('not admin or not the same user');
+    return res.status(401).send({
+      message: 'You are not authorized to see this order.',
+    });
+  }
+
+  try {
+    const fetchedListOfOrders = await OrderModel.find({
+      userId: incomingUserId,
+    });
+
+    if (!fetchedListOfOrders) {
+      return res.status(404).send({
+        message: 'No orders found.',
+      });
+    } else if (session.user.isAdmin || session.user._id === incomingUserId) {
+      return res.status(200).send({
+        message: 'All orders fetched successfully.',
+        fetchedListOfOrders,
       });
     }
   } catch (error) {

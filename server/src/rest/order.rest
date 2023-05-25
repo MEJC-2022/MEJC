@@ -48,3 +48,7 @@ Content-Type: application/json
   "email": "calle@lysmask.se",
   "password": "calle12345"
 }
+
+
+### Get all orders for a user
+GET http://localhost:3000/api/orders/user/646efed07eeb137089ce5519
