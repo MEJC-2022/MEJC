@@ -5,7 +5,6 @@ import {
   Loader,
   Text,
   TextInput,
-  useMantineTheme,
 } from '@mantine/core';
 import { useForm, yupResolver } from '@mantine/form';
 import { useState } from 'react';
@@ -30,7 +29,6 @@ interface FormValues {
 }
 
 export default function SignInForm() {
-  const theme = useMantineTheme();
   const { classes } = formStyle();
 
   const navigate = useNavigate();
