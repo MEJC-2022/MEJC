@@ -3,8 +3,9 @@ import {
   ColorSchemeProvider,
   MantineProvider,
 } from '@mantine/core';
+import { useLocalStorage } from '@mantine/hooks';
 import { Notifications } from '@mantine/notifications';
-import React, { useState } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom/client';
 import {
   Navigate,
@@ -64,7 +65,11 @@ const router = createBrowserRouter(
 );
 
 function Root() {
-  const [colorScheme, setColorScheme] = useState<ColorScheme>('light');
+  const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
+    key: 'mantine-color-scheme',
+    defaultValue: 'light',
+    getInitialValueInEffect: true,
+  });
   const toggleColorScheme = (value?: ColorScheme) =>
     setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
   return (
