@@ -3,19 +3,20 @@ import { Outlet } from 'react-router-dom';
 import { useAuth } from './contexts/AuthContext';
 
 function App() {
-  const { handleSignInAsUser, handleSignInAsAdmin } = useAuth();
+  const { setUser } = useAuth();
 
   useEffect(() => {
     async function userAuthentication() {
       try {
         const response = await fetch('/api/users/authentication');
         if (response.status === 200) {
-          const result = await response.json();
-          if (result.isAdmin) {
-            handleSignInAsAdmin();
-          } else {
-            handleSignInAsUser();
-          }
+          const user = await response.json();
+          setUser(user);
+          // if (user.isAdmin) {
+          //   handleSignInAsAdmin();
+          // } else {
+          //   handleSignInAsUser();
+          // }
         }
       } catch (err) {
         console.error(
@@ -26,7 +27,7 @@ function App() {
     }
 
     userAuthentication();
-  }, [handleSignInAsAdmin, handleSignInAsUser]);
+  }, [setUser]);
 
   return <Outlet />;
 }

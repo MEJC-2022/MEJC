@@ -8,16 +8,16 @@ import { formStyle } from '../css/formStyle';
 export function SignIn() {
   const theme = useMantineTheme();
   const { classes } = formStyle();
-  const { isSignedIn } = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isSignedIn) {
+    if (user) {
       navigate(-1);
     }
-  }, [isSignedIn, navigate]);
+  }, [user, navigate]);
 
-  return !isSignedIn ? (
+  return !user ? (
     <Center className={classes.wrapper}>
       <Title
         className={`${classes.title} ${

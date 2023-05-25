@@ -38,7 +38,7 @@ export function UserButton() {
 
 export function SignOutButton() {
   const navigate = useNavigate();
-  const { setIsSignedIn, setIsAdmin } = useAuth();
+  const { setUser } = useAuth();
   const handleSignOut = async () => {
     try {
       const response = await fetch('/api/users/logout', {
@@ -47,8 +47,7 @@ export function SignOutButton() {
       });
 
       if (response.ok) {
-        setIsSignedIn(false);
-        setIsAdmin(false);
+        setUser(null);
         navigate('/');
         location.reload();
       }

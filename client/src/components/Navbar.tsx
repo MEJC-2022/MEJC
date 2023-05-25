@@ -16,7 +16,7 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import { IconShoppingCart } from '@tabler/icons-react';
 import { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useShoppingCart } from '../contexts/ShoppingCartContext';
 import {
@@ -123,12 +123,29 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
   const [logoType, setLogoType] = useState('dark');
   const theme = useMantineTheme();
-  const { isSignedIn, isAdmin, setIsSignedIn } = useAuth();
-  //Behöver ändras
-  const handleSignOut = () => {
-    setIsSignedIn(false);
-  };
-  //-----
+  const { user, setUser } = useAuth();
+  const navigate = useNavigate();
+
+  const handleSignOut = async () => {
+      try {
+        const response = await fetch('/api/users/logout', {
+          method: 'POST',
+          credentials: 'include',
+        });
+
+        if (response.ok) {
+          setUser(null);
+          navigate('/');
+          location.reload();
+        }
+        if (response.status === 401) {
+          console.error('You are already logged out');
+        }
+      } catch (err) {
+        console.error('An error has occured trying to logout:\n', err);
+      }
+    };
+
 
   useEffect(() => {
     setLogoType(colorScheme === 'dark' ? 'light' : 'dark');
@@ -216,8 +233,8 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
         </Group>
         <Group spacing={1}>
           <ToggleColorButton onToggleColorScheme={handleToggleColorScheme} />
-          {isSignedIn ? (
-            isAdmin ? (
+          {user ? (
+            user.isAdmin ? (
               <AdminButton />
             ) : (
               <UserButton />
@@ -225,7 +242,7 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
           ) : (
             <SignInButton />
           )}
-          {!isBurgerVisible && isSignedIn && <SignOutButton />}
+          {!isBurgerVisible && user && <SignOutButton />}
           <Link
             to="/checkout"
             style={{
@@ -276,7 +293,7 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
           {(styles) => (
             <Paper className={classes.dropdown} withBorder style={styles}>
               {items}
-              {isSignedIn ? (
+              {user ? (
                 <ul key="4">
                   <Link
                     key="signout"

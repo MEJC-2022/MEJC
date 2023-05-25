@@ -44,7 +44,7 @@ function ShoppingCartProvider({ children }: Props) {
 
   const [order, setOrder] = useLocalStorage<Order | null>('Order', null);
   const [loading, setLoading] = useState(false);
-  const { sessionId } = useAuth();
+  const { user } = useAuth();
 
   const cartQuantity = cartProducts.reduce(
     (quantity, product) => product.quantity + quantity,
@@ -103,7 +103,7 @@ function ShoppingCartProvider({ children }: Props) {
   const addOrder = async (cartProducts: CartItem[], formData: FormValues) => {
     setLoading(true);
     const newOrder: Order = {
-      userId: sessionId,
+      userId: user._id,
       orderItems: [...cartProducts],
       address: formData,
     };
