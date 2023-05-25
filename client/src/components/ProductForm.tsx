@@ -1,4 +1,11 @@
-import { Box, Button, Group, MultiSelect, TextInput } from '@mantine/core';
+import {
+  Box,
+  Button,
+  FileInput,
+  Group,
+  MultiSelect,
+  TextInput,
+} from '@mantine/core';
 import { useForm, yupResolver } from '@mantine/form';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -26,7 +33,7 @@ const schema = Yup.object().shape({
   categories: Yup.array()
     .of(Yup.string().required('Category is required'))
     .required('At least one category is required'),
-  image: Yup.string(),
+  image: Yup.string().required('Image is required'),
   title: Yup.string()
     .min(2, 'Title should have at least 2 letters')
     .required('Title is required'),
@@ -91,6 +98,32 @@ function ProductForm({
     navigate('/admin');
   };
 
+  const handleFileChange = async (file: File | null) => {
+    if (!file) {
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('image', file);
+
+    try {
+      const response = await fetch('/api/file', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error('File upload failed');
+      }
+
+      const result = await response.json();
+
+      form.setFieldValue('image', result);
+    } catch (error) {
+      console.error('Error uploading file:', error);
+    }
+  };
+
   return (
     <Box maw={300} mx="auto">
       <form
@@ -116,13 +149,11 @@ function ProductForm({
           searchable={false}
           {...form.getInputProps('categories')}
         />
-        <TextInput
+        <FileInput
           withAsterisk
-          label="Image URL"
-          placeholder="https://www.image.com/image1.png"
-          {...form.getInputProps('image')}
-          data-cy="product-image"
-          errorProps={{ 'data-cy': 'product-image-error' }}
+          placeholder="Select an image"
+          label="Image"
+          onChange={handleFileChange}
         />
         <TextInput
           withAsterisk
