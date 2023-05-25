@@ -15,6 +15,7 @@ export async function getUserList(req: Request, res: Response) {
 export function getLoggedInUser(req: Request, res: Response) {
   // Checks if user is logged in
   try {
+    console.log(req.session)
     if (!req.session || !req.session.user) {
       return res.status(204).end();
     }
