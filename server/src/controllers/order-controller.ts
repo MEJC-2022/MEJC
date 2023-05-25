@@ -8,10 +8,8 @@ import {
 } from '../validation/order-validation';
 
 export async function createOrder(req: Request, res: Response) {
-  const { address, orderItems } = req.body;
+  const { address, orderItems, userId } = req.body;
 
-  // TODO: Get userID from session
-  const userId = '5f9d3b3b9d3b3b9d3b9d3b9d';
   let haveArchivedProduct = false;
   let productOutOfStock = false;
   let totalPrice = 0;

@@ -2,6 +2,7 @@ import { createContext, ReactNode, useContext, useState } from 'react';
 import { FormValues } from '../components/CheckoutForm';
 import { CartItem } from '../contexts/ProductContext';
 import useLocalStorage from '../hooks/useLocalStorage';
+import { useAuth } from './AuthContext';
 import { ProductContext } from './ProductContext';
 
 interface ShoppingCartContext {
@@ -17,6 +18,7 @@ interface ShoppingCartContext {
 }
 
 interface Order {
+  userId: string | null;
   orderItems: CartItem[];
   address: FormValues;
 }
@@ -42,6 +44,7 @@ function ShoppingCartProvider({ children }: Props) {
 
   const [order, setOrder] = useLocalStorage<Order | null>('Order', null);
   const [loading, setLoading] = useState(false);
+  const { sessionId } = useAuth();
 
   const cartQuantity = cartProducts.reduce(
     (quantity, product) => product.quantity + quantity,
@@ -99,8 +102,8 @@ function ShoppingCartProvider({ children }: Props) {
 
   const addOrder = async (cartProducts: CartItem[], formData: FormValues) => {
     setLoading(true);
-
     const newOrder: Order = {
+      userId: sessionId,
       orderItems: [...cartProducts],
       address: formData,
     };
@@ -116,7 +119,6 @@ function ShoppingCartProvider({ children }: Props) {
 
       if (response.ok) {
         setOrder(newOrder);
-        console.log('This is the order that was made:', order);
         setCartProducts([]);
       } else {
         const message = await response.text();
