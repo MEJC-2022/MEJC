@@ -2,12 +2,16 @@ import {
   Accordion,
   Center,
   Flex,
+  Loader,
+  Progress,
   Text,
   Title,
   createStyles,
   rem,
   useMantineTheme,
 } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
+import { IconCheck } from '@tabler/icons-react';
 import { mockOrders } from './mockOrder';
 
 const useStyles = createStyles((theme) => ({
@@ -20,11 +24,14 @@ const useStyles = createStyles((theme) => ({
         : `linear-gradient(-60deg, ${theme.colors.blue[3]} 0%, ${theme.colors.blue[7]} 100%)`,
     padding: `calc(${theme.spacing.xl} * 5)`,
     [theme.fn.smallerThan('sm')]: {
-      padding: `calc(${theme.spacing.xl} * 3)`,
+      padding: `calc(${theme.spacing.xl})`,
     },
   },
   title: {
     fontSize: rem(50),
+    [theme.fn.smallerThan('sm')]: {
+      fontSize: rem(40),
+    },
     color: theme.colorScheme === 'dark' ? theme.colors.blue[5] : theme.white,
     lineHeight: 1,
     marginBottom: `calc(${theme.spacing.xl} * 1.5)`,
@@ -43,6 +50,24 @@ const useStyles = createStyles((theme) => ({
       theme.colorScheme === 'dark'
         ? theme.colors.gray[7]
         : theme.colors.blue[2],
+  },
+  accordion: {
+    width: '100%',
+    maxWidth: '1250px',
+  },
+  controlText: {
+    display: 'block',
+    [theme.fn.smallerThan('sm')]: {
+      display: 'none',
+    },
+  },
+  statusBar: {
+    flex: 3,
+    [theme.fn.smallerThan('sm')]: {
+      flex: 1,
+      justifyContent: 'flex-end',
+    },
+    alignItems: 'center',
   },
 }));
 
@@ -71,6 +96,7 @@ interface Order {
 export default function UserOrders() {
   const { classes } = useStyles();
   const theme = useMantineTheme();
+  const isSmallScreen = useMediaQuery('(max-width: 768px)');
 
   const orders = mockOrders;
 
@@ -83,7 +109,7 @@ export default function UserOrders() {
       >
         Orderhistorik
       </Title>
-      <Accordion sx={{ width: '60%' }}>
+      <Accordion className={classes.accordion}>
         {orders.map((order: Order) => (
           <Accordion.Item
             className={classes.item}
@@ -92,22 +118,60 @@ export default function UserOrders() {
           >
             <Accordion.Control>
               <Flex justify="space-between">
-                <Flex sx={{ flex: 2 }}>
+                <Flex
+                  sx={{ flex: 2, [theme.fn.smallerThan('sm')]: { flex: 3 } }}
+                >
                   <Text size="md" weight={700}>
-                    Order #{order._id}
+                    #{order._id}
                   </Text>
                 </Flex>
-                <Flex sx={{ flex: 2 }}>
+                <Flex
+                  sx={{
+                    flex: 2,
+                    [theme.fn.smallerThan('sm')]: {
+                      flex: 3,
+                      justifyContent: 'center',
+                    },
+                  }}
+                >
                   <Text size="md" weight={500}>
                     {order.createdAt.toISOString().substring(0, 10)}
                   </Text>
                 </Flex>
-                <Flex sx={{ flex: 3 }}>
-                  <Text size="md" weight={500}>
-                    {order.isShipped ? 'Shipped' : 'Processing'}
-                  </Text>
+                <Flex className={classes.statusBar}>
+                  {isSmallScreen ? (
+                    order.isShipped ? (
+                      <IconCheck
+                        size={30}
+                        color={theme.colors.green[6]}
+                      />
+                    ) : (
+                      <Loader color="yellow" size="sm" />
+                    )
+                  ) : order.isShipped ? (
+                    <Progress
+                      value={100}
+                      color={theme.colors.green[6]}
+                      animate
+                      style={{ width: '100%' }}
+                      label="Shipped"
+                      size="xl"
+                    />
+                  ) : (
+                    <Progress
+                      value={50}
+                      color={theme.colors.yellow[6]}
+                      animate
+                      style={{ width: '100%' }}
+                      label="Processing.."
+                      size="xl"
+                    />
+                  )}
                 </Flex>
-                <Flex sx={{ flex: 1, justifyContent: 'flex-end' }}>
+                <Flex
+                  sx={{ flex: 1, justifyContent: 'flex-end' }}
+                  className={classes.controlText}
+                >
                   <Text size="md" weight={500}>
                     Details
                   </Text>

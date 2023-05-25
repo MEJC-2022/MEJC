@@ -16,7 +16,7 @@ export const mockOrders = [
         { _id: 'productId2', quantity: 2 },
       ],
       createdAt: new Date(),
-      isShipped: false,
+      isShipped: true,
       totalPrice: 300,
       updatedAt: new Date(),
     },
