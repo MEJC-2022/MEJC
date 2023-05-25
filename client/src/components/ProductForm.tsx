@@ -4,7 +4,16 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { Category, Product } from '../contexts/ProductContext';
-import generateID from '../utils/generateID';
+
+interface FormValues {
+  _id: string;
+  image: string;
+  title: string;
+  description: string;
+  price: number;
+  stock: number;
+  categories: string[];
+}
 
 interface ProductFormProps {
   onSubmit: (product: Product) => void;
@@ -38,11 +47,11 @@ function ProductForm({
 }: ProductFormProps) {
   const [categories, setCategories] = useState<Category[]>([]);
   const navigate = useNavigate();
-  const form = useForm<Product>({
+  const form = useForm<FormValues>({
     validate: yupResolver(schema),
     initialValues: {
       _id: '',
-      categories: '' as any,
+      categories: [],
       image: '',
       title: '',
       description: '',
@@ -59,20 +68,24 @@ function ProductForm({
 
   useEffect(() => {
     if (isEditing && product) {
-      form.setValues(product);
+      form.setValues({
+        ...product,
+        categories: product.categories.map((category) => category._id),
+      });
     }
   }, [product, isEditing, form.setValues]);
 
-  const handleSubmit = (values: Product) => {
+  const handleSubmit = (values: FormValues) => {
     const editedProduct = {
       ...values,
-      categories: values.categories,
-      id: product?._id || '',
+      categories: categories.filter((category) =>
+        values.categories.includes(category._id),
+      ),
     };
     if (isEditing) {
       onSubmit(editedProduct);
     } else {
-      addProduct({ ...editedProduct, _id: generateID() });
+      addProduct(editedProduct);
     }
     form.reset();
     navigate('/admin');
