@@ -13,7 +13,7 @@ import * as Yup from 'yup';
 import { Category, Product } from '../contexts/ProductContext';
 
 interface FormValues {
-  _id: string;
+  _id?: string;
   image: string;
   title: string;
   description: string;
@@ -44,6 +44,11 @@ const schema = Yup.object().shape({
     .min(1, 'Nothing is this cheap...')
     .required('Price is required')
     .strict(),
+  stock: Yup.number()
+    .min(0, 'Stock cannot be negative')
+    .required('Stock is required')
+    .typeError('Stock must be a number')
+    .integer('Stock must be an integer'),
 });
 
 function ProductForm({
@@ -56,15 +61,20 @@ function ProductForm({
   const navigate = useNavigate();
   const form = useForm<FormValues>({
     validate: yupResolver(schema),
-    initialValues: {
-      _id: '',
-      categories: [],
-      image: '',
-      title: '',
-      description: '',
-      price: '' as any,
-      stock: '' as any,
-    },
+    initialValues:
+      isEditing && product
+        ? {
+            ...product,
+            categories: product.categories.map((category) => category._id),
+          }
+        : {
+            categories: [],
+            image: '',
+            title: '',
+            description: '',
+            price: '' as any,
+            stock: '' as any,
+          },
   });
 
   useEffect(() => {
@@ -82,17 +92,30 @@ function ProductForm({
     }
   }, [product, isEditing, form.setValues]);
 
-  const handleSubmit = (values: FormValues) => {
-    const editedProduct = {
-      ...values,
-      categories: categories.filter((category) =>
-        values.categories.includes(category._id),
-      ),
-    };
+  const handleSubmit = (values: Partial<FormValues>) => {
+    let editedProduct;
+
     if (isEditing) {
-      onSubmit(editedProduct);
+      editedProduct = {
+        ...values,
+        categories: categories.filter((category) =>
+          (values.categories || []).includes(category._id),
+        ),
+      };
     } else {
-      addProduct(editedProduct);
+      const { _id, ...restValues } = values;
+      editedProduct = {
+        ...restValues,
+        categories: categories.filter((category) =>
+          (values.categories || []).includes(category._id),
+        ),
+      };
+    }
+
+    if (isEditing) {
+      onSubmit(editedProduct as Product);
+    } else {
+      addProduct(editedProduct as Product);
     }
     form.reset();
     navigate('/admin');

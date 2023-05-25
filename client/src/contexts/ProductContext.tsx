@@ -52,10 +52,21 @@ export const ProductProvider: React.FC<Props> = ({ children }) => {
     });
   }
 
-  async function addProduct(product: Product) {
-    const res = await axios.post('/api/products', product);
-    setProducts((currentProducts) => [...currentProducts, res.data]);
-  }
+  const addProduct = async (product: Product) => {
+    try {
+      const response = await fetch('/api/products', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(product),
+      });
+      const newProduct = await response.json();
+      setProducts((prevProducts) => [...prevProducts, newProduct]);
+    } catch (error) {
+      console.error('Error creating product:', error);
+    }
+  };
 
   async function updateProduct(updatedProduct: Product) {
     const res = await axios.put(
