@@ -5,7 +5,7 @@ export function isAdmin(req: Request, res: Response, next: NextFunction) {
     if (req.session && req.session.user && req.session.user.isAdmin) {
       next();
     } else {
-      res.status(403).json('You do not have access to this resource');
+      res.status(401).json('You do not have admin rights');
     }
   } catch (err) {
     console.error('An error has occurred during admin authorization:\n', err);
