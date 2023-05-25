@@ -47,7 +47,6 @@ export default function AuthProvider({ children }: Props) {
       const response = await fetch('/api/users/authentication');
       if (response.status === 200) {
         const user = await response.json();
-        console.log(user)
         setUser(user);
       }
     } catch (err) {

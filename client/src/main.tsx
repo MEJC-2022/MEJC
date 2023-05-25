@@ -47,11 +47,15 @@ const router = createBrowserRouter(
         <Route path="product/:id" element={<ProductDetails />} />
         <Route path="checkout" element={<Cart />} />
         <Route path="confirmation" element={<Confirmation />} />
-        <Route path="signin" element={<SignIn />} />
-        <Route path="signup" element={<SignUp />} />
+        <Route path="/" element={<AuthenticationRoutes />}>
+          <Route path="signin" element={<SignIn />} />
+          <Route path="signup" element={<SignUp />} />
+        </Route>
+        <Route path="/" element={<UserRoutes />}>
         <Route path="orders" element={<UserOrders />} />
+        </Route>
       </Route>
-      <Route path="/" element={<ProtectedRoute />}>
+      <Route path="/" element={<AdminRoutes />}>
         <Route path="admin/*" element={<Admin />}>
           <Route index element={<Navigate to="products" />} />
           <Route path="products" element={<AdminProducts />} />
@@ -66,12 +70,34 @@ const router = createBrowserRouter(
   ),
 );
 
-function ProtectedRoute(element: any) {
-  const { user, isLoading } = useAuth();
+function AdminRoutes(element: any) {
+  const { user, isLoading, userAuthentication } = useAuth();
+  useEffect(() => {
+    userAuthentication();
+  }, [userAuthentication]);
   if (isLoading) {
     return null;
   }
   return user && user.isAdmin ? <Outlet /> : <Navigate to="/" replace />;
+}
+
+function UserRoutes(element: any) {
+  const { user, isLoading, userAuthentication } = useAuth();
+  useEffect(() => {
+    userAuthentication();
+  }, [userAuthentication]);
+  if (isLoading) {
+    return null;
+  }
+  return user ? <Outlet /> : <Navigate to="/signin" replace />;
+}
+
+function AuthenticationRoutes(element: any) {
+  const { user, isLoading } = useAuth();
+  if (isLoading) {
+    return null;
+  }
+  return !user ? <Outlet /> : <Navigate to="/" replace />;
 }
 
 function Root() {
