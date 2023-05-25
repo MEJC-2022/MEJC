@@ -1,56 +1,10 @@
-import {
-  Button,
-  Center,
-  Group,
-  Title,
-  createStyles,
-  rem,
-  useMantineTheme,
-} from '@mantine/core';
-import { SignInForm } from '../components/SignInForm';
-import { useAuth } from '../contexts/AuthContext';
+import { Center, Title, useMantineTheme } from '@mantine/core';
+import SignInForm from '../components/SignInForm';
+import { formStyle } from '../css/formStyle';
 
-const useStyles = createStyles((theme) => ({
-  wrapper: {
-    margin: '1rem 0',
-    flexDirection: 'column',
-    backgroundImage:
-      theme.colorScheme === 'dark'
-        ? `linear-gradient(-60deg, ${theme.colors.gray[8]} 0%, ${theme.colors.gray[9]} 100%)`
-        : `linear-gradient(-60deg, ${theme.colors.blue[3]} 0%, ${theme.colors.blue[7]} 100%)`,
-    padding: `calc(${theme.spacing.xl} * 5)`,
-    [theme.fn.smallerThan('sm')]: {
-      padding: `calc(${theme.spacing.xl} * 3)`,
-    },
-  },
-  control: {
-    backgroundColor: theme.colors[theme.primaryColor][7],
-  },
-  title: {
-    fontSize: rem(50),
-    color: theme.colorScheme === 'dark' ? theme.colors.blue[5] : theme.white,
-    lineHeight: 1,
-    marginBottom: `calc(${theme.spacing.xl} * 1.5)`,
-  },
-}));
-
-export default function SignIn() {
-  const { classes } = useStyles();
+export function SignIn() {
   const theme = useMantineTheme();
-
-  //GLÖM EJ TA BORT
-  const { setIsSignedIn, setIsAdmin } = useAuth();
-
-  const handleSignInAsUser = () => {
-    setIsSignedIn(true);
-    setIsAdmin(false);
-  };
-
-  const handleSignInAsAdmin = () => {
-    setIsSignedIn(true);
-    setIsAdmin(true);
-  };
-  //------
+  const { classes } = formStyle();
 
   return (
     <Center className={classes.wrapper}>
@@ -62,24 +16,6 @@ export default function SignIn() {
         Sign in
       </Title>
       <SignInForm />
-      {/* Glöm ej ta bort */}
-      <Group position="center" mt="md">
-        <Button
-          type="button"
-          onClick={handleSignInAsUser}
-          className={classes.control}
-        >
-          Sign in as User
-        </Button>
-        <Button
-          type="button"
-          onClick={handleSignInAsAdmin}
-          className={classes.control}
-        >
-          Sign in as Admin
-        </Button>
-      </Group>
-      {/* ------ */}
     </Center>
   );
 }

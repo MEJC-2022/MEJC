@@ -17,7 +17,6 @@ import {
 
 const useStyles = createStyles((theme) => ({
   footer: {
-    marginTop: rem(15),
     borderTop: `${rem(1)} solid ${
       theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[2]
     }`,
@@ -125,7 +124,7 @@ export function FooterCentered({ links }: FooterCenteredProps) {
             radius="xl"
             className={classes.actionIcon}
           >
-            <IconBrandInstagram size="1.5rem" stroke="1.4" />
+            <IconBrandInstagram size={24} stroke="1.4" />
           </ActionIcon>
           <ActionIcon
             size="lg"
@@ -133,7 +132,7 @@ export function FooterCentered({ links }: FooterCenteredProps) {
             radius="xl"
             className={classes.actionIcon}
           >
-            <IconBrandTwitter size="1.5rem" stroke="1.4" />
+            <IconBrandTwitter size={24} stroke="1.4" />
           </ActionIcon>
           <ActionIcon
             size="lg"
@@ -141,7 +140,7 @@ export function FooterCentered({ links }: FooterCenteredProps) {
             radius="xl"
             className={classes.actionIcon}
           >
-            <IconBrandYoutube size="1.5rem" stroke="1.4" />
+            <IconBrandYoutube size={24} stroke="1.4" />
           </ActionIcon>
         </Group>
       </div>

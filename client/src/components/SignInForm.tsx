@@ -1,53 +1,10 @@
-import {
-  Box,
-  Button,
-  Group,
-  Text,
-  TextInput,
-  createStyles,
-} from '@mantine/core';
+import { Box, Button, Group, Loader, Text, TextInput } from '@mantine/core';
 import { useForm, yupResolver } from '@mantine/form';
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
-
-const useStyles = createStyles((theme) => ({
-  form: {
-    backgroundColor:
-      theme.colorScheme === 'dark' ? theme.colors.gray[7] : theme.white,
-    padding: theme.spacing.xl,
-    borderRadius: theme.radius.md,
-    boxShadow: theme.shadows.lg,
-    width: '100%',
-    minWidth: '290px',
-  },
-  input: {
-    backgroundColor:
-      theme.colorScheme === 'dark' ? theme.colors.gray[8] : theme.white,
-    borderColor: theme.colors.gray[4],
-    color: theme.black,
-    '&::placeholder': {
-      color: theme.colors.gray[5],
-    },
-  },
-  inputLabel: {
-    color: theme.colorScheme === 'dark' ? theme.colors.gray[3] : theme.black,
-  },
-  control: {
-    backgroundColor: theme.colors[theme.primaryColor][6],
-  },
-  anchor: {
-    color:
-      theme.colorScheme === 'dark'
-        ? theme.colors.dark[0]
-        : theme.colors.gray[9],
-  },
-  lighterText: {
-    color:
-      theme.colorScheme === 'dark'
-        ? theme.colors.dark[2]
-        : theme.colors.gray[8],
-  },
-}));
+import { useAuth } from '../contexts/AuthContext';
+import { formStyle } from '../css/formStyle';
 
 const schema = Yup.object().shape({
   email: Yup.string()
@@ -64,8 +21,13 @@ interface FormValues {
   password: string;
 }
 
-export function SignInForm() {
-  const { classes } = useStyles();
+export default function SignInForm() {
+  const { classes } = formStyle();
+
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+  const { handleSignInAsUser, handleSignInAsAdmin } = useAuth();
+
   const form = useForm({
     validate: yupResolver(schema),
     initialValues: {
@@ -74,8 +36,41 @@ export function SignInForm() {
     },
   });
 
-  const handleSubmit = (values: FormValues) => {
-    console.log(values);
+  const handleSubmit = async (values: FormValues) => {
+    try {
+      const { email, password } = values;
+      setIsLoading(true);
+      const response = await fetch('/api/users/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+        credentials: 'include',
+      });
+
+      if (response.ok) {
+        const { session: user } = await response.json();
+        if (user.isAdmin) {
+          handleSignInAsAdmin();
+        } else {
+          handleSignInAsUser();
+        }
+        navigate('/');
+      } else {
+        const errorMessage = await response.json();
+        if (response.status === 404) {
+          form.setErrors({ email: errorMessage });
+        }
+        if (response.status === 401) {
+          form.setErrors({ password: errorMessage });
+        }
+      }
+    } catch (err) {
+      console.error('An error has occured trying to login:\n', err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -97,8 +92,12 @@ export function SignInForm() {
             classNames={{ input: classes.input, label: classes.inputLabel }}
           />
           <Group position="right" mt="md">
-            <Button type="submit" className={classes.control}>
-              Sign in
+            <Button
+              type="submit"
+              className={classes.control}
+              disabled={isLoading}
+            >
+              {isLoading ? <Loader size="sm" color="black" /> : 'Sign in'}
             </Button>
           </Group>
         </form>

@@ -241,7 +241,7 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
               data-cy="cart-link"
               radius="xl"
             >
-              <IconShoppingCart size="1.8rem" stroke="1.2" />
+              <IconShoppingCart size={29} stroke="1.2" />
               {cartQuantity > 0 && (
                 <Box
                   sx={{

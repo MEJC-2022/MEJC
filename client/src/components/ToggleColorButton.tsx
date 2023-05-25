@@ -27,9 +27,9 @@ export function ToggleColorButton({
       radius="xl"
     >
       {dark ? (
-        <IconSunHigh size="1.8rem" stroke="1.1" />
+        <IconSunHigh size={29} stroke="1.1" />
       ) : (
-        <IconMoonStars size="1.8rem" stroke="1.1" />
+        <IconMoonStars size={29} stroke="1.1" />
       )}
     </Button>
   );
