@@ -56,7 +56,10 @@ export default function SignInForm() {
         } else {
           handleSignInAsUser();
         }
-        navigate('/');
+        const currentPage = window.location.pathname;
+        if (currentPage === '/signin') {
+          navigate('/');
+        }
       } else {
         const errorMessage = await response.json();
         if (response.status === 404) {

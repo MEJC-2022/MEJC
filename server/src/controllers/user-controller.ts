@@ -16,7 +16,7 @@ export function getLoggedInUser(req: Request, res: Response) {
   // Checks if user is logged in
   try {
     if (!req.session || !req.session.user) {
-      return res.status(401).json('User is not logged in');
+      return res.status(204).end();
     }
     res.status(200).json(req.session?.user);
   } catch (err) {

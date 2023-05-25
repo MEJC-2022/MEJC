@@ -1,25 +1,34 @@
+import { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import { useAuth } from './contexts/AuthContext';
 
 function App() {
-  async function userAuthentication() {
-    try {
-      const { handleSignInAsUser, handleSignInAsAdmin } = useAuth();
-      const response = await fetch('/api/users/authentication');
-      if (response.ok) {
-        const result = await response.json();
-        if (result.isAdmin) {
-          handleSignInAsAdmin();
-        } else {
-          handleSignInAsUser();
+  const { handleSignInAsUser, handleSignInAsAdmin } = useAuth();
+
+  useEffect(() => {
+    async function userAuthentication() {
+      try {
+        const response = await fetch('/api/users/authentication');
+        if (response.status === 200) {
+          const result = await response.json();
+          if (result.isAdmin) {
+            handleSignInAsAdmin();
+          } else {
+            handleSignInAsUser();
+          }
         }
+      } catch (err) {
+        console.error(
+          'An error has occurred while trying to verify user authentication:\n',
+          err,
+        );
       }
-    } catch (err) {
-      console.error('An error has occured trying verify user authentication:\n', err);
     }
-  }
-  userAuthentication();
+
+    userAuthentication();
+  }, [handleSignInAsAdmin, handleSignInAsUser]);
 
   return <Outlet />;
 }
+
 export default App;
