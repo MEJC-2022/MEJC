@@ -21,7 +21,7 @@ som en kravspecifikation. Förutom det har ni fria händer att ta fram en grym i
 - [x] Man ska kunna logga in som administratör i systemet (G)
 - [x] Inga lösenord får sparas i klartext i databasen (G)
 - [ ] En besökare ska kunna beställa produkter från sidan, detta ska uppdatera lagersaldot i databasen (G)
-- [ ] Administratörer ska kunna uppdatera antalet produkter i lager från admindelen av sidan (G)
+- [x] Administratörer ska kunna uppdatera antalet produkter i lager från admindelen av sidan (G)
 - [ ] Administratörer ska kunna se en lista på alla gjorda beställningar (G)
 - [x] Sidans produkter ska delas upp i kategorier, en produkt ska tillhöra minst en kategori, men kan tillhöra flera (G)
 - [x] Från hemsidan ska man kunna se en lista över alla produkter, och man ska kunna lista bara dom produkter som tillhör en kategori (G)
