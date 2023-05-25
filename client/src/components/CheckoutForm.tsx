@@ -5,7 +5,8 @@ import * as Yup from 'yup';
 import { useShoppingCart } from '../contexts/ShoppingCartContext';
 
 export interface FormValues {
-  fullName: string;
+  firstName: string;
+  lastName: string;
   email: string;
   street: string;
   city: string;
@@ -14,8 +15,11 @@ export interface FormValues {
 }
 
 const schema = Yup.object().shape({
-  fullName: Yup.string()
-    .min(2, 'Name should have at least 2 letters')
+  firstName: Yup.string()
+    .min(2, 'First name should have at least 2 letters')
+    .required('This field is required'),
+  lastName: Yup.string()
+    .min(2, 'Last name should have at least 2 letters')
     .required('This field is required'),
   email: Yup.string()
     .email('Invalid email')
@@ -49,7 +53,8 @@ function CheckoutForm() {
   const form = useForm<FormValues>({
     validate: yupResolver(schema),
     initialValues: {
-      fullName: '',
+      firstName: '',
+      lastName: '',
       email: '',
       street: '',
       zipCode: '',
@@ -73,13 +78,21 @@ function CheckoutForm() {
       </Title>
       <form onSubmit={form.onSubmit(onSubmit)} data-cy="customer-form">
         <TextInput
-          autoComplete="name"
+          autoComplete="given-name"
           withAsterisk
-          label="Full Name"
-          placeholder="Firstname Lastname"
-          {...form.getInputProps('fullName')}
+          label="First name"
+          placeholder="First name"
+          {...form.getInputProps('firstName')}
           data-cy="customer-name"
-          errorProps={{ 'data-cy': 'customer-name-error' }}
+          errorProps={{ 'data-cy': 'customer-firstName-error' }}
+        />
+        <TextInput
+          autoComplete="family-name"
+          withAsterisk
+          label="Last name"
+          placeholder="Last ame"
+          {...form.getInputProps('lastName')}
+          errorProps={{ 'data-cy': 'customer-lastName-error' }}
         />
         <TextInput
           autoComplete="email"

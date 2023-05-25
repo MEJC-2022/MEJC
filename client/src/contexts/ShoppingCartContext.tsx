@@ -1,7 +1,8 @@
-import { createContext, ReactNode, useContext } from 'react';
+import { createContext, ReactNode, useContext, useState } from 'react';
 import { FormValues } from '../components/CheckoutForm';
 import { CartItem } from '../contexts/ProductContext';
 import useLocalStorage from '../hooks/useLocalStorage';
+import { useAuth } from './AuthContext';
 import { ProductContext } from './ProductContext';
 
 interface ShoppingCartContext {
@@ -11,13 +12,15 @@ interface ShoppingCartContext {
   removeFromCart: (id: string) => void;
   cartProducts: CartItem[];
   cartQuantity: number;
-  orders: Order[];
+  order: Order | null;
   addOrder: (cartProducts: CartItem[], formData: FormValues) => void;
+  loading: boolean;
 }
 
 interface Order {
-  id: number;
-  cartProducts: (CartItem | { formData: FormValues })[];
+  userId: string | null;
+  orderItems: CartItem[];
+  address: FormValues;
 }
 
 export function useShoppingCart() {
@@ -39,7 +42,9 @@ function ShoppingCartProvider({ children }: Props) {
     [],
   );
 
-  const [orders, setOrders] = useLocalStorage<Order[]>('Orders:', []);
+  const [order, setOrder] = useLocalStorage<Order | null>('Order', null);
+  const [loading, setLoading] = useState(false);
+  const { sessionId } = useAuth();
 
   const cartQuantity = cartProducts.reduce(
     (quantity, product) => product.quantity + quantity,
@@ -95,14 +100,37 @@ function ShoppingCartProvider({ children }: Props) {
     });
   }
 
-  const addOrder = (cartProducts: CartItem[], formData: FormValues) => {
+  const addOrder = async (cartProducts: CartItem[], formData: FormValues) => {
+    setLoading(true);
     const newOrder: Order = {
-      id: orders.length + 1,
-      cartProducts: [...cartProducts, { formData }],
+      userId: sessionId,
+      orderItems: [...cartProducts],
+      address: formData,
     };
 
-    setOrders((prevOrders) => [...prevOrders, newOrder]);
-    setCartProducts([]);
+    try {
+      const response = await fetch('/api/orders', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newOrder),
+      });
+
+      if (response.ok) {
+        setOrder(newOrder);
+        setCartProducts([]);
+      } else {
+        const message = await response.text();
+        setOrder(null);
+        throw new Error(message);
+      }
+    } catch (error) {
+      setOrder(null);
+      console.error('Error creating order:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -114,8 +142,9 @@ function ShoppingCartProvider({ children }: Props) {
         removeFromCart,
         cartProducts,
         cartQuantity,
-        orders,
+        order,
         addOrder,
+        loading,
       }}
     >
       {children}
