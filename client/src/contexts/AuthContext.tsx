@@ -8,15 +8,19 @@ import {
 
 // Interfaces and initial values
 interface AuthContextValue {
-  user: any;
-  setUser: (user: any) => void;
+  user: User | null;
+  setUser: (user: User | null) => void;
   userAuthentication: () => void;
+  isLoading: boolean;
+  setLoading: (loading: boolean) => void;
 }
 
 const initialAuthValues: AuthContextValue = {
-  user: {},
+  user: null,
   setUser: () => {},
   userAuthentication: () => {},
+  isLoading: false,
+  setLoading: () => {},
 };
 interface User {
   _id: string;
@@ -35,12 +39,15 @@ export const useAuth = () => useContext(AuthContext);
 // Provider
 export default function AuthProvider({ children }: Props) {
   const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setLoading] = useState(true);
 
   const userAuthentication = useCallback(async () => {
+    setLoading(true);
     try {
       const response = await fetch('/api/users/authentication');
       if (response.status === 200) {
         const user = await response.json();
+        console.log(user)
         setUser(user);
       }
     } catch (err) {
@@ -48,6 +55,8 @@ export default function AuthProvider({ children }: Props) {
         'An error has occurred while trying to verify user authentication:\n',
         err,
       );
+    } finally {
+      setLoading(false);
     }
   }, []);
 
@@ -57,6 +66,8 @@ export default function AuthProvider({ children }: Props) {
         user,
         setUser,
         userAuthentication,
+        isLoading,
+        setLoading,
       }}
     >
       {children}

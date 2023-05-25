@@ -5,17 +5,18 @@ import {
 } from '@mantine/core';
 import { useLocalStorage } from '@mantine/hooks';
 import { Notifications } from '@mantine/notifications';
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
 import {
   Navigate,
+  Outlet,
   Route,
   RouterProvider,
   createBrowserRouter,
   createRoutesFromElements,
 } from 'react-router-dom';
 import App from './App';
-import AuthProvider from './contexts/AuthContext';
+import AuthProvider, { useAuth } from './contexts/AuthContext';
 import ProductProvider from './contexts/ProductContext';
 import ShoppingCartProvider from './contexts/ShoppingCartContext';
 import './index.css';
@@ -50,21 +51,36 @@ const router = createBrowserRouter(
         <Route path="signup" element={<SignUp />} />
         <Route path="orders" element={<UserOrders />} />
       </Route>
-
-      <Route path="admin/*" element={<Admin />}>
-        <Route index element={<Navigate to="products" />} />
-        <Route path="products" element={<AdminProducts />} />
-        <Route path="product/:id" element={<EditProduct />} />
-        <Route path="product/:id/edit" element={<EditProduct />} />
-        <Route path="product/new" element={<NewProduct />} />
-        <Route path="orders" element={<AdminOrders />} />
-        <Route path="users" element={<AdminUsers />} />
+      <Route path="/" element={<ProtectedRoute />}>
+        <Route path="admin/*" element={<Admin />}>
+          <Route index element={<Navigate to="products" />} />
+          <Route path="products" element={<AdminProducts />} />
+          <Route path="product/:id" element={<EditProduct />} />
+          <Route path="product/:id/edit" element={<EditProduct />} />
+          <Route path="product/new" element={<NewProduct />} />
+          <Route path="orders" element={<AdminOrders />} />
+          <Route path="users" element={<AdminUsers />} />
+        </Route>
       </Route>
     </Route>,
   ),
 );
 
+function ProtectedRoute(element: any) {
+  const { user, isLoading } = useAuth();
+  if (isLoading) {
+    return null;
+  }
+  return user && user.isAdmin ? <Outlet /> : <Navigate to="/" replace />;
+}
+
 function Root() {
+  const { userAuthentication } = useAuth();
+
+  useEffect(() => {
+    userAuthentication();
+  }, [userAuthentication]);
+
   const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
     key: 'mantine-color-scheme',
     defaultValue: 'light',
