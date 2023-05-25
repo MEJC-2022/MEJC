@@ -3,16 +3,19 @@ import { useAuth } from './contexts/AuthContext';
 
 function App() {
   async function userAuthentication() {
-    const { handleSignInAsUser, handleSignInAsAdmin } = useAuth();
-    const response = await fetch('/api/users/authentication');
-    if (response.ok) {
-      const result = await response.json();
-      console.log(result)
-      if (result.isAdmin) {
-        handleSignInAsAdmin();
-      } else {
-        handleSignInAsUser();
+    try {
+      const { handleSignInAsUser, handleSignInAsAdmin } = useAuth();
+      const response = await fetch('/api/users/authentication');
+      if (response.ok) {
+        const result = await response.json();
+        if (result.isAdmin) {
+          handleSignInAsAdmin();
+        } else {
+          handleSignInAsUser();
+        }
       }
+    } catch (err) {
+      console.error('An error has occured trying verify user authentication:\n', err);
     }
   }
   userAuthentication();
