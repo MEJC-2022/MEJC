@@ -5,7 +5,7 @@ import {
 } from '@mantine/core';
 import { useLocalStorage } from '@mantine/hooks';
 import { Notifications } from '@mantine/notifications';
-import React, { useEffect } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom/client';
 import {
   Navigate,
@@ -52,7 +52,7 @@ const router = createBrowserRouter(
           <Route path="signup" element={<SignUp />} />
         </Route>
         <Route path="/" element={<UserRoutes />}>
-        <Route path="orders" element={<UserOrders />} />
+          <Route path="orders" element={<UserOrders />} />
         </Route>
       </Route>
       <Route path="/" element={<AdminRoutes />}>
@@ -72,9 +72,6 @@ const router = createBrowserRouter(
 
 function AdminRoutes(element: any) {
   const { user, isLoading, userAuthentication } = useAuth();
-  useEffect(() => {
-    userAuthentication();
-  }, [userAuthentication]);
   if (isLoading) {
     return null;
   }
@@ -82,10 +79,7 @@ function AdminRoutes(element: any) {
 }
 
 function UserRoutes(element: any) {
-  const { user, isLoading, userAuthentication } = useAuth();
-  useEffect(() => {
-    userAuthentication();
-  }, [userAuthentication]);
+  const { user, isLoading } = useAuth();
   if (isLoading) {
     return null;
   }
@@ -101,12 +95,6 @@ function AuthenticationRoutes(element: any) {
 }
 
 function Root() {
-  const { userAuthentication } = useAuth();
-
-  useEffect(() => {
-    userAuthentication();
-  }, [userAuthentication]);
-
   const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
     key: 'mantine-color-scheme',
     defaultValue: 'light',
