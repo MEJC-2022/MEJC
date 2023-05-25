@@ -6,7 +6,7 @@ import {
   Title,
   createStyles,
   rem,
-  useMantineTheme
+  useMantineTheme,
 } from '@mantine/core';
 import { mockOrders } from './mockOrder';
 
@@ -32,21 +32,47 @@ const useStyles = createStyles((theme) => ({
   item: {
     borderRadius: theme.radius.md,
     marginBottom: theme.spacing.lg,
-    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.gray[8] : theme.white,
+    backgroundColor:
+      theme.colorScheme === 'dark' ? theme.colors.gray[8] : theme.white,
     border: `${rem(1)} solid ${
       theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[3]
     }`,
   },
   panel: {
-    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.gray[7] : theme.colors.blue[2],
-  }
+    backgroundColor:
+      theme.colorScheme === 'dark'
+        ? theme.colors.gray[7]
+        : theme.colors.blue[2],
+  },
 }));
+
+interface Order {
+  _id: string;
+  userId: string;
+  deliveryAddress: {
+    firstName: string;
+    lastName: string;
+    email: string;
+    street: string;
+    city: string;
+    zipCode: number;
+    phoneNumber: number;
+  };
+  orderItems: {
+    _id: string;
+    quantity: number;
+  }[];
+  isShipped: boolean;
+  totalPrice: number;
+  createdAt: Date;
+  updatedAt: Date;
+}
 
 export default function UserOrders() {
   const { classes } = useStyles();
   const theme = useMantineTheme();
 
-  const orders = mockOrders; 
+  const orders = mockOrders;
 
   return (
     <Center className={classes.wrapper}>
@@ -58,8 +84,12 @@ export default function UserOrders() {
         Orderhistorik
       </Title>
       <Accordion sx={{ width: '60%' }}>
-        {orders.map((order) => (
-          <Accordion.Item className={classes.item} key={order._id} value={order._id}>
+        {orders.map((order: Order) => (
+          <Accordion.Item
+            className={classes.item}
+            key={order._id}
+            value={order._id}
+          >
             <Accordion.Control>
               <Flex justify="space-between">
                 <Flex sx={{ flex: 2 }}>
@@ -86,16 +116,23 @@ export default function UserOrders() {
             </Accordion.Control>
             <Accordion.Panel className={classes.panel}>
               <Flex direction="row">
-                <Flex direction="column" style={{ flex: 1, marginRight: '2rem' }}>
+                <Flex
+                  direction="column"
+                  style={{ flex: 1, marginRight: '2rem' }}
+                >
                   {order.orderItems.map((item, index) => (
                     <Text key={index}>
-                      Product: {item.productId}, Amount: {item.quantity}
+                      Produkt: {item._id}, Antal: {item.quantity}
                     </Text>
                   ))}
-                  <Text>Total price: {order.totalPrice}€</Text>
+                  <Text>Total price: {order.totalPrice}kr</Text>
                 </Flex>
                 <Flex direction="column" style={{ flex: 1 }}>
-                  <Text>Name: {order.deliveryAddress.fullName}</Text>
+                  <Text>
+                    Name: {order.deliveryAddress.firstName}{' '}
+                    {order.deliveryAddress.lastName}
+                  </Text>
+                  <Text>Email: {order.deliveryAddress.email}</Text>
                   <Text>Street: {order.deliveryAddress.street}</Text>
                   <Text>City: {order.deliveryAddress.city}</Text>
                   <Text>Postcode: {order.deliveryAddress.zipCode}</Text>
