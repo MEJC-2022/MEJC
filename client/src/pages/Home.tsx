@@ -1,4 +1,5 @@
 import {
+  Badge,
   Box,
   Button,
   Container,
@@ -102,6 +103,9 @@ function Home() {
       >
         Browse our collection
       </Title>
+      <Badge sx={{ marginBottom: '1rem' }} size="lg" radius="sm">
+        Sort By Category:
+      </Badge>
       <Group spacing={5} mb="md">
         <Button
           sx={{
@@ -113,9 +117,31 @@ function Home() {
           radius="sm"
           onClick={() => filterByCategory('Laptops')}
         >
-          Sort by Laptops
+          Laptops
         </Button>
-        <Button size="xs" variant="light" radius="sm" onClick={resetFilter}>
+        <Button
+          sx={{
+            border: activeButton === 'Apple' ? '2px solid lightblue ' : 'none',
+          }}
+          size="xs"
+          variant="light"
+          radius="sm"
+          onClick={() => filterByCategory('Apple')}
+        >
+          Apple Products
+        </Button>
+        <Button
+          sx={{
+            border: activeButton === 'Asus' ? '2px solid lightblue ' : 'none',
+          }}
+          size="xs"
+          variant="light"
+          radius="sm"
+          onClick={() => filterByCategory('Asus')}
+        >
+          Asus Products
+        </Button>
+        <Button size="xs" variant="outlined" radius="sm" onClick={resetFilter}>
           Reset filter
         </Button>
       </Group>
