@@ -75,7 +75,8 @@ export default function SignIn() {
           credentials: 'include',
         });
         if (response.ok) {
-          handleSignInAsUser();
+          const { session: user } = await response.json();
+          handleSignInAsUser(user._id);
           navigate('/');
         }
       } else {
