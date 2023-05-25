@@ -9,6 +9,7 @@ import {
 
 const productRouter = express.Router();
 
+// TODO: Add AUTH to this route
 productRouter.post('/api/products', createProduct);
 productRouter.get('/api/products', getAllProducts);
 productRouter.get('/api/products/:id', getProductById);

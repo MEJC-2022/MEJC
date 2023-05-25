@@ -52,9 +52,9 @@ export default function SignInForm() {
       if (response.ok) {
         const { session: user } = await response.json();
         if (user.isAdmin) {
-          handleSignInAsAdmin();
+          handleSignInAsAdmin(user._id);
         } else {
-          handleSignInAsUser();
+          handleSignInAsUser(user._id);
         }
         const currentPage = window.location.pathname;
         if (currentPage === '/signin') {
