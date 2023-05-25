@@ -61,7 +61,7 @@ function ProductForm({
   });
 
   useEffect(() => {
-    fetch('http://localhost:3000/api/categories')
+    fetch('/api/categories')
       .then((response) => response.json())
       .then((data) => setCategories(data));
   }, []);

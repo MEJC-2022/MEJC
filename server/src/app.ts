@@ -1,5 +1,4 @@
 import cookieSession from 'cookie-session';
-import cors from 'cors';
 import express, { NextFunction, Request, Response } from 'express';
 import categoryRouter from './routers/category-router';
 import fileRouter from './routers/file-router';
@@ -11,7 +10,6 @@ export const app = express();
 
 // Global middlewares
 app.use(express.json());
-app.use(cors());
 app.use(
   cookieSession({
     name: 'loginSession',
