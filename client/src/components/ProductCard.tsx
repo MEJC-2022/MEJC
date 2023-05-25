@@ -67,7 +67,7 @@ function ProductCard({ product }: Props) {
                   <Badge size="md">
                     {product.categories
                       .map((category) => category.title)
-                      .join(', ')}
+                      .join(' | ')}
                   </Badge>
                 )}
               </Group>

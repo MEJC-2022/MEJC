@@ -1,4 +1,13 @@
-import { Box, Button, Card, Group, Image, Text, Title } from '@mantine/core';
+import {
+  Badge,
+  Box,
+  Button,
+  Card,
+  Group,
+  Image,
+  Text,
+  Title,
+} from '@mantine/core';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Product } from '../contexts/ProductContext';
@@ -57,6 +66,13 @@ function AdminProductCard({ product, onDelete }: Props) {
             <Text size="md" align="left">
               {product.description}
             </Text>
+            {product.categories.length > 0 && (
+              <Badge size="md" mt="lg">
+                {product.categories
+                  .map((category) => category.title)
+                  .join(' | ')}
+              </Badge>
+            )}
           </Box>
         </Card.Section>
         <Group position="left" mt="md" mb="xs">
