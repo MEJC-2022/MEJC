@@ -142,6 +142,14 @@ function ProductForm({
           data-cy="product-price"
           errorProps={{ 'data-cy': 'product-price-error' }}
         />
+        <TextInput
+          withAsterisk
+          type="number"
+          label="Stock"
+          placeholder="10"
+          {...form.getInputProps('stock')}
+          onChange={(e) => form.setFieldValue('stock', Number(e.target.value))}
+        />
         <Group mt="xl">
           <Button type="submit">
             {isEditing ? 'Save changes' : 'Add new Product'}

@@ -59,9 +59,14 @@ function ProductCard({ product }: Props) {
                 {product.description}
               </Text>
               <Group
-                mt="xl"
-                mb="xl"
-                style={{ display: 'flex', justifyContent: 'space-between' }}
+                mt="lg"
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  placeItems: 'center',
+                  textAlign: 'center',
+                }}
               >
                 {product.categories.length > 0 && (
                   <Badge size="md">
@@ -70,6 +75,7 @@ function ProductCard({ product }: Props) {
                       .join(' | ')}
                   </Badge>
                 )}
+                <Badge variant="gradient">{product.stock} in stock</Badge>
               </Group>
             </Box>
           </Link>

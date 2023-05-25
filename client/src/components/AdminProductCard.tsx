@@ -66,13 +66,25 @@ function AdminProductCard({ product, onDelete }: Props) {
             <Text size="md" align="left">
               {product.description}
             </Text>
-            {product.categories.length > 0 && (
-              <Badge size="md" mt="lg">
-                {product.categories
-                  .map((category) => category.title)
-                  .join(' | ')}
-              </Badge>
-            )}
+            <Group
+              mt="lg"
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                placeItems: 'center',
+                textAlign: 'center',
+              }}
+            >
+              {product.categories.length > 0 && (
+                <Badge size="md">
+                  {product.categories
+                    .map((category) => category.title)
+                    .join(' | ')}
+                </Badge>
+              )}
+              <Badge variant="gradient">{product.stock} in stock</Badge>
+            </Group>
           </Box>
         </Card.Section>
         <Group position="left" mt="md" mb="xs">
