@@ -2,6 +2,7 @@ import cookieSession from 'cookie-session';
 import express, { NextFunction, Request, Response } from 'express';
 import categoryRouter from './routers/category-router';
 import fileRouter from './routers/file-router';
+import orderRouter from './routers/order-router';
 import productRouter from './routers/product-router';
 import userRouter from './routers/user-router';
 
@@ -24,6 +25,7 @@ app.use(productRouter);
 app.use(fileRouter);
 app.use(userRouter);
 app.use(categoryRouter);
+app.use(orderRouter);
 
 // Global error-handling:
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {

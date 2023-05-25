@@ -1,0 +1,34 @@
+### Create an order
+POST http://localhost:3000/api/orders
+Content-Type: application/json
+
+{
+  "userId": "abc123",
+  "totalPrice": 10293,
+  "isShipped": false,
+  "address": {
+    "firstName": "Carlito",
+    "lastName": "Margarito",
+    "email": "carlito@gmail.com",
+    "zipCode": "12345",
+    "city": "New York",
+    "street": "testgatan 31",
+    "phoneNumber": "0707433677"
+  },
+  "orderItems": [
+    {
+      "_id": "646bd0534eb83ae87d4731d1",
+      "image": "http://hej.jpeg",
+      "title": "Hej",
+      "description": "Hej",
+      "price": 100,
+      "stock": 10,
+      "quantity": 1
+    }
+  ]
+}
+
+
+
+
+
