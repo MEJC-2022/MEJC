@@ -47,7 +47,7 @@ export function SignOutButton() {
       });
 
       if (response.ok) {
-        navigate("/")
+        navigate('/');
         location.reload();
         setIsSignedIn(false);
         setIsAdmin(false);

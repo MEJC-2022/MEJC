@@ -41,8 +41,11 @@ export async function loginUser(req: Request, res: Response) {
     const user = await UserModel.findOne({ email }).select('+password');
 
     if (!user) {
-      res.status(404).json(`No registered account with this email exists. Please make sure you spelled your email correctly`,
-      );
+      res
+        .status(404)
+        .json(
+          `No registered account with this email exists. Please make sure you spelled your email correctly`,
+        );
       return;
     }
 
@@ -50,7 +53,11 @@ export async function loginUser(req: Request, res: Response) {
     const isPasswordValid = await argon2.verify(user.password, password);
 
     if (!isPasswordValid) {
-      res.status(401).json('The password is incorrect. Make sure you spelled your password correctly');
+      res
+        .status(401)
+        .json(
+          'The password is incorrect. Make sure you spelled your password correctly',
+        );
       return;
     }
 
