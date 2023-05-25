@@ -12,6 +12,21 @@ export async function getUserList(req: Request, res: Response) {
   }
 }
 
+export function getLoggedInUser(req: Request, res: Response) {
+  // Checks if user is logged in
+  try {
+    if (!req.session || !req.session.user) {
+      return res.status(401).json('User is not logged in');
+    }
+    res.status(200).json(req.session?.user);
+  } catch (err) {
+    console.error('User authentication could not be verified:\n', err);
+    res
+      .status(500)
+      .json({ error: 'User authentication could not be verified' });
+  }
+}
+
 export async function registerUser(req: Request, res: Response) {
   try {
     const user = await UserModel.create(req.body);
@@ -41,8 +56,11 @@ export async function loginUser(req: Request, res: Response) {
     const user = await UserModel.findOne({ email }).select('+password');
 
     if (!user) {
-      res.status(404).json(`No registered account with this email exists. Please make sure you spelled your email correctly`,
-      );
+      res
+        .status(404)
+        .json(
+          `No registered account with this email exists. Please make sure you spelled your email correctly`,
+        );
       return;
     }
 
@@ -50,7 +68,11 @@ export async function loginUser(req: Request, res: Response) {
     const isPasswordValid = await argon2.verify(user.password, password);
 
     if (!isPasswordValid) {
-      res.status(401).json('The password is incorrect. Make sure you spelled your password correctly');
+      res
+        .status(401)
+        .json(
+          'The password is incorrect. Make sure you spelled your password correctly',
+        );
       return;
     }
 
