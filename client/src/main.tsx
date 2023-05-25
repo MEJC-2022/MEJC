@@ -70,15 +70,15 @@ const router = createBrowserRouter(
   ),
 );
 
-function AdminRoutes(element: any) {
-  const { user, isLoading, userAuthentication } = useAuth();
+function AdminRoutes() {
+  const { user, isLoading } = useAuth();
   if (isLoading) {
     return null;
   }
   return user && user.isAdmin ? <Outlet /> : <Navigate to="/" replace />;
 }
 
-function UserRoutes(element: any) {
+function UserRoutes() {
   const { user, isLoading } = useAuth();
   if (isLoading) {
     return null;
@@ -86,7 +86,7 @@ function UserRoutes(element: any) {
   return user ? <Outlet /> : <Navigate to="/signin" replace />;
 }
 
-function AuthenticationRoutes(element: any) {
+function AuthenticationRoutes() {
   const { user, isLoading } = useAuth();
   if (isLoading) {
     return null;
