@@ -46,12 +46,12 @@ const router = createBrowserRouter(
         <Route path="contact" element={<Contact />} />
         <Route path="product/:id" element={<ProductDetails />} />
         <Route path="checkout" element={<Cart />} />
-        <Route path="confirmation" element={<Confirmation />} />
         <Route path="/" element={<AuthenticationRoutes />}>
           <Route path="signin" element={<SignIn />} />
           <Route path="signup" element={<SignUp />} />
         </Route>
         <Route path="/" element={<UserRoutes />}>
+          <Route path="confirmation" element={<Confirmation />} />
           <Route path="orders" element={<UserOrders />} />
         </Route>
       </Route>
