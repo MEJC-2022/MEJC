@@ -24,8 +24,9 @@ const getProductById = async (req: Request, res: Response) => {
 const updateProduct = async (req: Request, res: Response) => {
   const product = await ProductModel.findById(req.params.id);
   if (product) {
-    product.image = req.body.image;
     product.title = req.body.title;
+    product.categories = req.body.categories;
+    product.image = req.body.image;
     product.description = req.body.description;
     product.price = req.body.price;
     product.stock = req.body.stock;
