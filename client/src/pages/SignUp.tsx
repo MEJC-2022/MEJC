@@ -3,72 +3,18 @@ import {
   Button,
   Center,
   Group,
+  Loader,
   Text,
   TextInput,
   Title,
-  createStyles,
-  rem,
   useMantineTheme,
 } from '@mantine/core';
 import { useForm, yupResolver } from '@mantine/form';
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
-
-const useStyles = createStyles((theme) => ({
-  wrapper: {
-    margin: '1rem 0',
-    flexDirection: 'column',
-    backgroundImage:
-      theme.colorScheme === 'dark'
-        ? `linear-gradient(-60deg, ${theme.colors.gray[8]} 0%, ${theme.colors.gray[9]} 100%)`
-        : `linear-gradient(-60deg, ${theme.colors.blue[3]} 0%, ${theme.colors.blue[7]} 100%)`,
-    padding: `calc(${theme.spacing.xl} * 5)`,
-    [theme.fn.smallerThan('sm')]: {
-      padding: `calc(${theme.spacing.xl} * 3)`,
-    },
-  },
-  form: {
-    backgroundColor:
-      theme.colorScheme === 'dark' ? theme.colors.gray[7] : theme.white,
-    padding: theme.spacing.xl,
-    borderRadius: theme.radius.md,
-    boxShadow: theme.shadows.lg,
-    width: '100%',
-  },
-  input: {
-    backgroundColor:
-      theme.colorScheme === 'dark' ? theme.colors.gray[8] : theme.white,
-    borderColor: theme.colors.gray[4],
-    color: theme.black,
-    '&::placeholder': {
-      color: theme.colors.gray[5],
-    },
-  },
-  inputLabel: {
-    color: theme.colorScheme === 'dark' ? theme.colors.gray[3] : theme.black,
-  },
-  control: {
-    backgroundColor: theme.colors[theme.primaryColor][6],
-  },
-  title: {
-    fontSize: rem(50),
-    color: theme.colorScheme === 'dark' ? theme.colors.blue[5] : theme.white,
-    lineHeight: 1,
-    marginBottom: `calc(${theme.spacing.xl} * 1.5)`,
-  },
-  anchor: {
-    color:
-      theme.colorScheme === 'dark'
-        ? theme.colors.dark[0]
-        : theme.colors.gray[9],
-  },
-  lighterText: {
-    color:
-      theme.colorScheme === 'dark'
-        ? theme.colors.dark[2]
-        : theme.colors.gray[8],
-  },
-}));
+import { useAuth } from '../contexts/AuthContext';
+import { formStyle } from '../css/formStyle';
 
 const schema = Yup.object().shape({
   email: Yup.string()
@@ -90,8 +36,13 @@ interface FormValues {
 }
 
 export default function SignIn() {
-  const { classes } = useStyles();
   const theme = useMantineTheme();
+  const { classes } = formStyle();
+
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+  const { handleSignInAsUser } = useAuth();
+
   const form = useForm({
     validate: yupResolver(schema),
     initialValues: {
@@ -101,8 +52,40 @@ export default function SignIn() {
     },
   });
 
-  const handleSubmit = (values: FormValues) => {
-    console.log(values.email, values.password);
+  const handleSubmit = async (values: FormValues) => {
+    try {
+      const { email, password } = values;
+      setIsLoading(true);
+      const response = await fetch('/api/users/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+        credentials: 'include',
+      });
+
+      if (response.ok) {
+        const response = await fetch('/api/users/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email, password }),
+          credentials: 'include',
+        });
+        if (response.ok) {
+          handleSignInAsUser();
+          navigate('/');
+        }
+      } else {
+        throw new Error('User could not be created');
+      }
+    } catch (err) {
+      console.error('An error has occured trying to create an user:\n', err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -139,8 +122,16 @@ export default function SignIn() {
             classNames={{ input: classes.input, label: classes.inputLabel }}
           />
           <Group position="right" mt="md">
-            <Button type="submit" className={classes.control}>
-              Create account
+            <Button
+              type="submit"
+              className={classes.control}
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <Loader size="sm" color="black" />
+              ) : (
+                'Create account'
+              )}
             </Button>
           </Group>
         </form>
