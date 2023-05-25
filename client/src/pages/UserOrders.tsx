@@ -4,7 +4,7 @@ import {
   Title,
   createStyles,
   rem,
-  useMantineTheme
+  useMantineTheme,
 } from '@mantine/core';
 import { Order, UserOrderAccordion } from '../components/UserOrderAcc';
 import { mockOrders } from './mockOrder';
@@ -27,7 +27,10 @@ const useStyles = createStyles((theme) => ({
     [theme.fn.smallerThan('sm')]: {
       fontSize: rem(40),
     },
-    color: theme.colorScheme === 'dark' ? theme.colors.blue[5] : theme.colors.gray[7],
+    color:
+      theme.colorScheme === 'dark'
+        ? theme.colors.blue[5]
+        : theme.colors.gray[7],
     lineHeight: 1,
     marginBottom: `calc(${theme.spacing.xl} * 1.5)`,
   },
@@ -54,7 +57,7 @@ export default function UserOrders() {
       </Title>
       <Accordion transitionDuration={600} className={classes.accordion}>
         {orders.map((order: Order) => (
-          <UserOrderAccordion order={order} key={order._id}/>
+          <UserOrderAccordion order={order} key={order._id} />
         ))}
       </Accordion>
     </Center>

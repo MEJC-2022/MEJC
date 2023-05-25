@@ -9,14 +9,10 @@ import {
   Text,
   createStyles,
   rem,
-  useMantineTheme
+  useMantineTheme,
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import {
-  IconAt,
-  IconCheck,
-  IconPhone
-} from '@tabler/icons-react';
+import { IconAt, IconCheck, IconPhone } from '@tabler/icons-react';
 
 const useStyles = createStyles((theme) => ({
   item: {
@@ -150,7 +146,7 @@ export function UserOrderAccordion({ order }: { order: Order }) {
                 </tr>
               </thead>
               <tbody>
-                {order.orderItems.map((item, index) => (
+                {order.orderItems.map((item) => (
                   <tr key={item._id}>
                     <td>{item._id}</td>
                     <td>{item.quantity}</td>
@@ -159,33 +155,37 @@ export function UserOrderAccordion({ order }: { order: Order }) {
                 ))}
               </tbody>
             </Table>
-            <Flex justify="flex-end" align="flex-end" style={{ height: "100%"}}>
+            <Flex
+              justify="flex-end"
+              align="flex-end"
+              style={{ height: '100%' }}
+            >
               <Text>Total price: €{order.totalPrice}</Text>
             </Flex>
           </Flex>
           <Flex direction="column" style={{ flex: 1 }}>
             <Card shadow="xs" padding="md">
-              <Flex direction="column" align={{ base: 'center', md: 'flex-start' }}>
+              <Flex
+                direction="column"
+                align={{ base: 'center', md: 'flex-start' }}
+              >
                 <Text>
-                {order.deliveryAddress.firstName}{' '}
+                  {order.deliveryAddress.firstName}{' '}
                   {order.deliveryAddress.lastName}
                 </Text>
+                <Text>{order.deliveryAddress.street}</Text>
                 <Text>
-                 {order.deliveryAddress.street}
+                  {order.deliveryAddress.zipCode}, {order.deliveryAddress.city}
                 </Text>
                 <Text>
-                {order.deliveryAddress.zipCode}, {order.deliveryAddress.city}
+                  <Divider variant="dashed" my="md" />
+                  <IconAt size={18} /> {order.deliveryAddress.email}
                 </Text>
                 <Text>
-                 <Divider variant="dashed" my="md" />
-                  <IconAt size={18}/> {order.deliveryAddress.email}
-                </Text>
-                <Text>
-                  <IconPhone size={18}/> {order.deliveryAddress.phoneNumber}
+                  <IconPhone size={18} /> {order.deliveryAddress.phoneNumber}
                 </Text>
               </Flex>
-              <Flex direction="column">
-              </Flex>
+              <Flex direction="column"></Flex>
             </Card>
           </Flex>
         </Flex>
