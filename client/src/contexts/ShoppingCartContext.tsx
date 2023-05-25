@@ -104,7 +104,7 @@ function ShoppingCartProvider({ children }: Props) {
   const addOrder = async (cartProducts: CartItem[], formData: FormValues) => {
     setLoading(true);
     const newOrder: Order = {
-      userId: user!._id,
+      userId: user !== null ? user._id : null,
       orderItems: [...cartProducts],
       address: formData,
     };
