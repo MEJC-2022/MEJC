@@ -52,3 +52,8 @@ Content-Type: application/json
 
 ### Get all orders for a user
 GET http://localhost:3000/api/orders/user/646efed07eeb137089ce5519
+
+
+
+### Ship/Unship and order
+PATCH http://localhost:3000/api/orders/646f2212584277fa3ceeab5f

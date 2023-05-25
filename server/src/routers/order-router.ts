@@ -4,6 +4,7 @@ import {
   getAllOrders,
   getOrderById,
   getOrdersByUserId,
+  shipOrder,
 } from '../controllers/order-controller';
 
 const orderRouter = express.Router();
@@ -13,5 +14,6 @@ orderRouter.post('/api/orders', createOrder);
 orderRouter.get('/api/orders', getAllOrders);
 orderRouter.get('/api/orders/:id', getOrderById);
 orderRouter.get('/api/orders/user/:id', getOrdersByUserId);
+orderRouter.patch('/api/orders/:id', shipOrder);
 
 export default orderRouter;

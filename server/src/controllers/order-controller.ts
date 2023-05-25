@@ -201,3 +201,32 @@ export async function getOrdersByUserId(req: Request, res: Response) {
     });
   }
 }
+
+export async function shipOrder(req: Request, res: Response) {
+  // TODO: Add admin auth on the route
+  const incomingOrderId = req.params.id;
+
+  const fetchedOrder = await OrderModel.findById(incomingOrderId);
+
+  if (!fetchedOrder) {
+    return res.status(404).send({
+      message: 'Order not found.',
+    });
+  }
+
+  if (fetchedOrder.isShipped) {
+    await OrderModel.findByIdAndUpdate(incomingOrderId, {
+      isShipped: false,
+    });
+    res.status(200).send({
+      message: 'Order has been unshipped.',
+    });
+  } else if (!fetchedOrder.isShipped) {
+    await OrderModel.findByIdAndUpdate(incomingOrderId, {
+      isShipped: true,
+    });
+    res.status(200).send({
+      message: 'Order shipped successfully.',
+    });
+  }
+}
