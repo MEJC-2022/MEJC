@@ -1,9 +1,9 @@
-import { Box, Button, Group, TextInput } from '@mantine/core';
+import { Box, Button, Group, MultiSelect, TextInput } from '@mantine/core';
 import { useForm, yupResolver } from '@mantine/form';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
-import { Product } from '../contexts/ProductContext';
+import { Category, Product } from '../contexts/ProductContext';
 import generateID from '../utils/generateID';
 
 interface ProductFormProps {
@@ -14,6 +14,9 @@ interface ProductFormProps {
 }
 
 const schema = Yup.object().shape({
+  categories: Yup.array()
+    .of(Yup.string().required('Category is required'))
+    .required('At least one category is required'),
   image: Yup.string(),
   title: Yup.string()
     .min(2, 'Title should have at least 2 letters')
@@ -33,6 +36,7 @@ function ProductForm({
   isEditing,
   product,
 }: ProductFormProps) {
+  const [categories, setCategories] = useState<Category[]>([]);
   const navigate = useNavigate();
   const form = useForm<Product>({
     validate: yupResolver(schema),
@@ -46,6 +50,13 @@ function ProductForm({
       stock: '' as any,
     },
   });
+
+  useEffect(() => {
+    fetch('http://localhost:3000/api/categories')
+      .then((response) => response.json())
+      .then((data) => setCategories(data));
+  }, []);
+
   useEffect(() => {
     if (isEditing && product) {
       form.setValues(product);
@@ -53,7 +64,11 @@ function ProductForm({
   }, [product, isEditing, form.setValues]);
 
   const handleSubmit = (values: Product) => {
-    const editedProduct = { ...values, id: product?._id || '' };
+    const editedProduct = {
+      ...values,
+      categories: values.categories,
+      id: product?._id || '',
+    };
     if (isEditing) {
       onSubmit(editedProduct);
     } else {
@@ -77,6 +92,16 @@ function ProductForm({
           {...form.getInputProps('title')}
           data-cy="product-title"
           errorProps={{ 'data-cy': 'product-title-error' }}
+        />
+        <MultiSelect
+          data={categories.map((category) => ({
+            value: category._id,
+            label: category.title,
+          }))}
+          label="Categories"
+          placeholder="Select categories"
+          searchable
+          {...form.getInputProps('categories')}
         />
         <TextInput
           withAsterisk
