@@ -113,7 +113,7 @@ function ProductForm({
           }))}
           label="Categories"
           placeholder="Select categories"
-          searchable
+          searchable={false}
           {...form.getInputProps('categories')}
         />
         <TextInput
