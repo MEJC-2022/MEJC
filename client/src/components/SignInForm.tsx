@@ -51,7 +51,7 @@ export default function SignInForm() {
 
       if (response.ok) {
         const { session: user } = await response.json();
-        setUser(user)
+        setUser(user);
         const currentPage = window.location.pathname;
         if (currentPage === '/signin') {
           navigate('/');

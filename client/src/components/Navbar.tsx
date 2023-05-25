@@ -127,25 +127,24 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
   const navigate = useNavigate();
 
   const handleSignOut = async () => {
-      try {
-        const response = await fetch('/api/users/logout', {
-          method: 'POST',
-          credentials: 'include',
-        });
+    try {
+      const response = await fetch('/api/users/logout', {
+        method: 'POST',
+        credentials: 'include',
+      });
 
-        if (response.ok) {
-          setUser(null);
-          navigate('/');
-          location.reload();
-        }
-        if (response.status === 401) {
-          console.error('You are already logged out');
-        }
-      } catch (err) {
-        console.error('An error has occured trying to logout:\n', err);
+      if (response.ok) {
+        setUser(null);
+        navigate('/');
+        location.reload();
       }
-    };
-
+      if (response.status === 401) {
+        console.error('You are already logged out');
+      }
+    } catch (err) {
+      console.error('An error has occured trying to logout:\n', err);
+    }
+  };
 
   useEffect(() => {
     setLogoType(colorScheme === 'dark' ? 'light' : 'dark');
