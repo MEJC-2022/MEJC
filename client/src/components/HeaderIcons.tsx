@@ -18,7 +18,7 @@ function ButtonLink({ to, icon: Icon, onClick }: ButtonLinkProps) {
   return (
     <Link to={to} style={buttonStyling}>
       <Button size="xs" variant="subtle" radius="xl" onClick={onClick}>
-        <Icon size="1.8rem" stroke="1.3" />
+        <Icon size={29} stroke="1.3" />
       </Button>
     </Link>
   );
@@ -68,7 +68,7 @@ export function SignOutButton() {
       onClick={handleSignOut}
       style={buttonStyling}
     >
-      <IconLogout size="1.8rem" stroke="1.3" />
+      <IconLogout size={29} stroke="1.3" />
     </Button>
   );
 }
