@@ -32,6 +32,19 @@ Content-Type: application/json
 GET http://localhost:3000/api/orders
 
 
+### Get order by ID
+GET http://localhost:3000/api/orders/646f2212584277fa3ceeab5f
 
 
+### Logout
+POST http://localhost:3000/api/users/logout
 
+
+### Login
+POST http://localhost:3000/api/users/login
+Content-Type: application/json
+
+{
+  "email": "calle@lysmask.se",
+  "password": "calle12345"
+}
