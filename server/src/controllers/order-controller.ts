@@ -107,9 +107,11 @@ export async function createOrder(req: Request, res: Response) {
   });
 }
 
-export async function getOrderById(req: Request, res: Response) {}
-
-export async function getOrdersByUserId(req: Request, res: Response) {}
+export async function getOrdersByUserId(req: Request, res: Response) {
+  const userId = req.params.id;
+  console.log(req.params.id);
+  console.log(req.session);
+}
 
 export async function getAllOrders(req: Request, res: Response) {
   try {
@@ -128,6 +130,40 @@ export async function getAllOrders(req: Request, res: Response) {
   } catch (error) {
     res.status(500).send({
       message: 'Something went wrong with getting orders.',
+    });
+  }
+}
+
+export async function getOrderById(req: Request, res: Response) {
+  const incomingOrderId = req.params.id;
+  const session = req.session;
+
+  if (!session || !session.user || !session.user._id) {
+    console.log('not logged in');
+    return res.status(401).send({
+      message: 'You are not logged in.',
+    });
+  }
+
+  try {
+    const fetchedOrder = await OrderModel.findById(incomingOrderId);
+
+    if (!fetchedOrder) {
+      return res.status(404).send({
+        message: 'Order not found.',
+      });
+    } else if (
+      session.user.isAdmin ||
+      session.user._id === fetchedOrder.userId
+    ) {
+      return res.status(200).send({
+        message: 'Order fetched successfully.',
+        fetchedOrder,
+      });
+    }
+  } catch (error) {
+    return res.status(500).send({
+      message: 'Something went wrong with getting order.',
     });
   }
 }

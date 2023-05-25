@@ -1,4 +1,4 @@
-import { InferSchemaType, Schema, model } from 'mongoose';
+import { InferSchemaType, Schema, SchemaTypes, model } from 'mongoose';
 
 const addressSchema = new Schema(
   {
@@ -28,6 +28,7 @@ const orderSchema = new Schema(
     orderItems: { type: [orderItemSchema], required: true },
     isShipped: { type: Boolean, required: true },
     totalPrice: { type: Number, required: true },
+    _id: { type: SchemaTypes.ObjectId },
   },
   {
     versionKey: false,
