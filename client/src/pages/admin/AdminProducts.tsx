@@ -1,12 +1,16 @@
 import { Button, Container, Group, SimpleGrid, Title } from '@mantine/core';
 import { IconShieldPlus } from '@tabler/icons-react';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import AdminProductCard from '../../components/AdminProductCard';
 import { ProductContext } from '../../contexts/ProductContext';
 
 function AdminProducts() {
-  const { products, deleteProduct } = useContext(ProductContext);
+  const { products, deleteProduct, fetchProducts } = useContext(ProductContext);
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
 
   return (
     <Container size="xl">
