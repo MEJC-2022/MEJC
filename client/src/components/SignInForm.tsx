@@ -1,11 +1,4 @@
-import {
-  Box,
-  Button,
-  Group,
-  Loader,
-  Text,
-  TextInput,
-} from '@mantine/core';
+import { Box, Button, Group, Loader, Text, TextInput } from '@mantine/core';
 import { useForm, yupResolver } from '@mantine/form';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
