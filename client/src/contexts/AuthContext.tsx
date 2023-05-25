@@ -6,13 +6,19 @@ interface AuthContextValue {
   setIsSignedIn: (isSignedIn: boolean) => void;
   //Ta bort setIsAdmin när vi får svar från servern.
   setIsAdmin: (isAdmin: boolean) => void;
-  handleSignInAsUser: () => void;
-  handleSignInAsAdmin: () => void;
+  handleSignInAsUser: (userId: string) => void;
+  handleSignInAsAdmin: (userId: string) => void;
+  sessionId: string | null;
+  setSessionId: (sessionId: string | null) => void;
 }
 
 const initialAuthValues: AuthContextValue = {
   isSignedIn: false,
   isAdmin: false,
+  sessionId: null,
+  setSessionId: () => {
+    throw new Error('setSessionId was called without being initialized');
+  },
   setIsSignedIn: () => {
     throw new Error('setIsSignedIn was called without being initialized');
   },
@@ -38,15 +44,18 @@ export const useAuth = () => useContext(AuthContext);
 export default function AuthProvider({ children }: Props) {
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [sessionId, setSessionId] = useState<string | null>(null);
 
-  const handleSignInAsUser = () => {
+  const handleSignInAsUser = (userId: string) => {
     setIsSignedIn(true);
     setIsAdmin(false);
+    setSessionId(userId);
   };
 
-  const handleSignInAsAdmin = () => {
+  const handleSignInAsAdmin = (userId: string) => {
     setIsSignedIn(true);
     setIsAdmin(true);
+    setSessionId(userId);
   };
 
   return (
@@ -58,6 +67,8 @@ export default function AuthProvider({ children }: Props) {
         setIsAdmin,
         handleSignInAsUser,
         handleSignInAsAdmin,
+        sessionId,
+        setSessionId,
       }}
     >
       {children}
