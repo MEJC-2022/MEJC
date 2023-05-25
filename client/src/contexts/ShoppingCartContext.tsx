@@ -14,6 +14,7 @@ interface ShoppingCartContext {
   cartQuantity: number;
   order: Order | null;
   addOrder: (cartProducts: CartItem[], formData: FormValues) => void;
+  setOrder: (order: Order | null) => void;
   loading: boolean;
 }
 
@@ -144,6 +145,7 @@ function ShoppingCartProvider({ children }: Props) {
         cartQuantity,
         order,
         addOrder,
+        setOrder,
         loading,
       }}
     >
