@@ -33,3 +33,31 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   console.error(err);
   res.status(500).json(err.message);
 });
+
+// // Global error-handling:
+// app.use((err: unknown, req: Request, res: Response, next: NextFunction) => {
+//   console.error(err);
+//   // logga felet till databasen
+//   // pinga slack / discord
+
+//   // Var försiktig med att skicka felmeddelanden till klienten i produktion
+//   if (process.env.NODE_ENV === 'production') {
+//     return res.status(500).json('Unknown error');
+//   }
+
+//   if (err instanceof mongoose.Error.ValidationError) {
+//     return res.status(400).json(err.message);
+//   } else if (err instanceof APIError) {
+//     return res.status(err.status).json(err.message);
+//   } else if (err instanceof Error) {
+//     res.status(500).json(err.message);
+//   } else {
+//     res.status(500).json('Unknown error');
+//   }
+// });
+
+// export class APIError extends Error {
+//   constructor(message: string, public status: number) {
+//     super(message);
+//   }
+// }
