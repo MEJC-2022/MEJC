@@ -45,7 +45,7 @@ function Home() {
   }
 
   return (
-    <Container size="xl">
+    <Container size="xl" py={"3rem"}>
       <HeroSlide />
       <Box
         sx={{
