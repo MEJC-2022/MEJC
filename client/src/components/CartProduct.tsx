@@ -53,7 +53,7 @@ function CartProduct({ cartItem }: Props) {
             onClick={() => decreaseCartQuantity(cartItem._id)}
             data-cy="decrease-quantity-button"
           >
-            <IconMinus size="1.2rem" stroke="0.1rem" />
+            <IconMinus size={19} stroke="0.1rem" />
           </Button>
           <Input
             data-cy="product-quantity"
@@ -74,7 +74,7 @@ function CartProduct({ cartItem }: Props) {
             onClick={() => increaseCartQuantity(cartItem._id)}
             data-cy="increase-quantity-button"
           >
-            <IconPlus size="1.2rem" stroke="0.1rem" />
+            <IconPlus size={19} stroke="0.1rem" />
           </Button>
         </Group>
         <Group position="center" mt="xs" mb="xs">

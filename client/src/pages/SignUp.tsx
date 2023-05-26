@@ -41,7 +41,7 @@ export default function SignIn() {
 
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const { handleSignInAsUser } = useAuth();
+  const { setUser } = useAuth();
 
   const form = useForm({
     validate: yupResolver(schema),
@@ -76,7 +76,7 @@ export default function SignIn() {
         });
         if (response.ok) {
           const { session: user } = await response.json();
-          handleSignInAsUser(user._id);
+          setUser(user);
           navigate('/');
         }
       } else {

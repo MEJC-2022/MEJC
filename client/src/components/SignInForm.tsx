@@ -26,7 +26,7 @@ export default function SignInForm() {
 
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const { handleSignInAsUser, handleSignInAsAdmin } = useAuth();
+  const { setUser } = useAuth();
 
   const form = useForm({
     validate: yupResolver(schema),
@@ -51,12 +51,11 @@ export default function SignInForm() {
 
       if (response.ok) {
         const { session: user } = await response.json();
-        if (user.isAdmin) {
-          handleSignInAsAdmin(user._id);
-        } else {
-          handleSignInAsUser(user._id);
+        setUser(user);
+        const currentPage = window.location.pathname;
+        if (currentPage === '/signin') {
+          navigate('/');
         }
-        navigate('/');
       } else {
         const errorMessage = await response.json();
         if (response.status === 404) {
