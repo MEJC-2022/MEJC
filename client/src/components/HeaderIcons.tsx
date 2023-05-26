@@ -3,7 +3,7 @@ import {
   IconLogin,
   IconLogout,
   IconPackage,
-  IconUserShield
+  IconUserShield,
 } from '@tabler/icons-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
