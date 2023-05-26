@@ -24,9 +24,10 @@ POST http://localhost:3000/api/products
 Content-Type: application/json
 
 {
-    "image": "646c714d4eb83ae87d47321f",
-    "title": "TravelBook Mini",
-    "description": "The TravelBook Mini is the perfect laptop for those who are always on-the-go. With its compact size and long-lasting battery, you can take it with you wherever you go. The 11-inch display delivers crisp visuals, while the lightweight design ensures you can carry it with ease.",
-    "price": 5499,
-    "stock": 42
+    "categories": ["646df95e71bd5c21bc6338d3", "646f1ad90cdb050fa55030da"],
+    "image": "646c6c2a4eb83ae87d473201",
+    "title": "PowerBook 13",
+    "description": "The PowerBook 13 is the perfect laptop for students and creative professionals. With its compact size and powerful performance, you can take your work wherever you go. The 13-inch Retina display delivers crisp and clear visuals, while the powerful processor ensures speedy performance.",
+    "price": 3919,
+    "stock": 0
 }

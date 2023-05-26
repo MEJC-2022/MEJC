@@ -2,11 +2,19 @@ import { Card, Container, Divider, List, Text, Title } from '@mantine/core';
 // import { useContext } from 'react';
 import { FormValues } from '../components/CheckoutForm';
 // import { ProductContext } from '../contexts/ProductContext';
+import { useEffect } from 'react';
 import useBackgroundAnimation from '../components/ConfirmationPageAnimation';
 import { useShoppingCart } from '../contexts/ShoppingCartContext';
 
 function Confirmation() {
-  const { order, loading } = useShoppingCart();
+  const { order, loading, setOrder } = useShoppingCart();
+  useEffect(() => {
+    setOrder(null);
+
+    return () => {
+      setOrder(null);
+    };
+  }, [setOrder]);
 
   const formData = order?.address as FormValues;
 

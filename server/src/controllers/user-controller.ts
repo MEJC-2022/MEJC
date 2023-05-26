@@ -12,6 +12,21 @@ export async function getUserList(req: Request, res: Response) {
   }
 }
 
+export function getLoggedInUser(req: Request, res: Response) {
+  // Checks if user is logged in
+  try {
+    if (!req.session || !req.session.user) {
+      return res.status(204).end();
+    }
+    res.status(200).json(req.session?.user);
+  } catch (err) {
+    console.error('User authentication could not be verified:\n', err);
+    res
+      .status(500)
+      .json({ error: 'User authentication could not be verified' });
+  }
+}
+
 export async function registerUser(req: Request, res: Response) {
   try {
     const user = await UserModel.create(req.body);
