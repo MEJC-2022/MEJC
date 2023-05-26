@@ -7,6 +7,12 @@ main {
   min-height: calc(100vh - 4.375rem - 10rem);
 }
 
+@media screen and (max-width: 767px) {
+  main {
+    min-height: calc(100vh - 4.375rem - 19.5rem);
+  }
+}
+
 .swiper-pagination-bullet {
   background-color: #ffff !important;
   width: 1rem !important;
