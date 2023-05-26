@@ -49,7 +49,6 @@ export function SignOutButton() {
       if (response.ok) {
         setUser(null);
         navigate('/');
-        location.reload();
       }
       if (response.status === 401) {
         console.error('You are already logged out');
