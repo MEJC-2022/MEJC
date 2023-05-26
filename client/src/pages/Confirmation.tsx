@@ -49,7 +49,14 @@ function Confirmation() {
       ) : (
         <>
           {!order ? (
-            <Card shadow="md" sx={{ border: theme.colorScheme === 'light' ? '1px #EEEEEE solid' : 'none', textAlign: 'center' }}>
+            <Card
+              shadow="md"
+              sx={{
+                border:
+                  theme.colorScheme === 'light' ? '1px #EEEEEE solid' : 'none',
+                textAlign: 'center',
+              }}
+            >
               <Title order={1}>Something went wrong with your order!</Title>
               <Text>
                 If the issue persists, try to remove items from your cart.
@@ -57,7 +64,14 @@ function Confirmation() {
             </Card>
           ) : null}
           {order && formData && (
-            <Card shadow="md" sx={{ border: theme.colorScheme === 'light' ? '1px #EEEEEE solid' : 'none', textAlign: 'center' }}>
+            <Card
+              shadow="md"
+              sx={{
+                border:
+                  theme.colorScheme === 'light' ? '1px #EEEEEE solid' : 'none',
+                textAlign: 'center',
+              }}
+            >
               <Title order={1}>Thank you for your order!</Title>
               <Divider mt="md" mb="sm" size="xs" />
               <Text>We have sent a confirmation to: {formData.email}</Text>
