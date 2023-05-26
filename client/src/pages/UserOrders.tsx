@@ -1,6 +1,6 @@
 import {
   Accordion,
-  Center,
+  Box,
   Title,
   createStyles,
   rem,
@@ -11,15 +11,19 @@ import { mockOrders } from './mockOrder';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
-    margin: '1rem 0',
+    display: 'flex',
     flexDirection: 'column',
+    alignItems: 'center',
     backgroundImage:
       theme.colorScheme === 'dark'
         ? `linear-gradient(-60deg, ${theme.colors.gray[8]} 0%, ${theme.colors.gray[9]} 100%)`
-        : `linear-gradient(-60deg, ${theme.colors.gray[1]} 0%, ${theme.colors.gray[3]} 100%)`,
+        : `linear-gradient(-60deg, ${theme.colors.gray[3]} 0%, ${theme.colors.gray[1]} 100%)`,
     padding: `calc(${theme.spacing.xl} * 5)`,
+    minHeight: 'calc(100vh - 4.375rem - 10rem)',
     [theme.fn.smallerThan('sm')]: {
       padding: `calc(${theme.spacing.xl})`,
+      paddingTop: '3rem',
+      minHeight: 'calc(100vh - 4.375rem - 19.8rem)',
     },
   },
   title: {
@@ -47,7 +51,7 @@ export default function UserOrders() {
   const orders = mockOrders;
 
   return (
-    <Center className={classes.wrapper}>
+    <Box className={classes.wrapper}>
       <Title
         className={`${classes.title} ${
           theme.colorScheme === 'dark' ? 'neonText' : ''
@@ -60,6 +64,6 @@ export default function UserOrders() {
           <UserOrderAccordion order={order} key={order._id} />
         ))}
       </Accordion>
-    </Center>
+    </Box>
   );
 }

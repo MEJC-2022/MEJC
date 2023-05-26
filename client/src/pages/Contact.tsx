@@ -2,6 +2,7 @@ import {
   ActionIcon,
   Box,
   Button,
+  Center,
   Container,
   createStyles,
   Group,
@@ -30,10 +31,11 @@ const useStyles = createStyles((theme) => ({
       theme.colorScheme === 'dark'
         ? `linear-gradient(-60deg, ${theme.colors.gray[8]} 0%, ${theme.colors.gray[9]} 100%)`
         : `linear-gradient(-60deg, ${theme.colors.blue[3]} 0%, ${theme.colors.blue[7]} 100%)`,
-    borderRadius: theme.radius.md,
     padding: `calc(${theme.spacing.xl} * 5)`,
+    minHeight: 'calc(100vh - 4.375rem - 10rem)',
 
     [theme.fn.smallerThan('sm')]: {
+      minHeight: 'calc(100vh - 4.375rem - 19.8rem)',
       padding: `calc(${theme.spacing.xl} * 3)`,
     },
   },
@@ -132,7 +134,7 @@ export function Contact() {
   const [opened, { open, close }] = useDisclosure(false);
 
   return (
-    <div className={classes.wrapper}>
+    <Center className={classes.wrapper}>
       <Container>
         <SimpleGrid
           cols={2}
@@ -191,6 +193,6 @@ export function Contact() {
           <IconCircleCheck size="3rem" stroke="0.05rem" />
         </Box>
       </Modal>
-    </div>
+    </Center>
   );
 }
