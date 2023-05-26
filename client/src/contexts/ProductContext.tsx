@@ -1,5 +1,11 @@
 import axios from 'axios';
-import { createContext, ReactNode, useEffect, useState } from 'react';
+import {
+  createContext,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 
 export interface Category {
   _id: string;
@@ -36,10 +42,10 @@ interface Props {
 export const ProductProvider: React.FC<Props> = ({ children }) => {
   const [products, setProducts] = useState<Product[]>([]);
 
-  async function fetchProducts() {
+  const fetchProducts = useCallback(async () => {
     const res = await axios.get('/api/products');
     setProducts(res.data);
-  }
+  }, []);
 
   useEffect(() => {
     fetchProducts();

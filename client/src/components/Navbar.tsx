@@ -16,7 +16,7 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import { IconShoppingCart } from '@tabler/icons-react';
 import { useEffect, useRef, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useShoppingCart } from '../contexts/ShoppingCartContext';
 import {
@@ -125,6 +125,10 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
   const theme = useMantineTheme();
   const { user, setUser } = useAuth();
   const navigate = useNavigate();
+  const currentLocation = useLocation();
+  const activeLink = links.find(
+    (link) => link.link === currentLocation.pathname,
+  );
 
   const handleSignOut = async () => {
     try {
@@ -167,7 +171,7 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
         key={link.label}
         to={link.link}
         className={cx(classes.link, {
-          [classes.linkActive]: active === link.link,
+          [classes.linkActive]: link === activeLink,
         })}
         onClick={() => {
           setActive(link.link);
