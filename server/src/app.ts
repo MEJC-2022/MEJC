@@ -1,6 +1,7 @@
 import cookieSession from 'cookie-session';
 import express, { NextFunction, Request, Response } from 'express';
 import categoryRouter from './routers/category-router';
+import 'express-async-errors';
 import fileRouter from './routers/file-router';
 import orderRouter from './routers/order-router';
 import productRouter from './routers/product-router';
