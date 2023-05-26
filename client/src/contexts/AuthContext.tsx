@@ -1,74 +1,72 @@
-import { ReactNode, createContext, useContext, useState } from 'react';
+import {
+  ReactNode,
+  createContext,
+  useCallback,
+  useContext,
+  useState,
+} from 'react';
 
+// Interfaces and initial values
 interface AuthContextValue {
-  isSignedIn: boolean;
-  isAdmin: boolean;
-  setIsSignedIn: (isSignedIn: boolean) => void;
-  //Ta bort setIsAdmin när vi får svar från servern.
-  setIsAdmin: (isAdmin: boolean) => void;
-  handleSignInAsUser: (userId: string) => void;
-  handleSignInAsAdmin: (userId: string) => void;
-  sessionId: string | null;
-  setSessionId: (sessionId: string | null) => void;
+  user: User | null;
+  setUser: (user: User | null) => void;
+  userAuthentication: () => void;
+  isLoading: boolean;
+  setLoading: (loading: boolean) => void;
 }
 
 const initialAuthValues: AuthContextValue = {
-  isSignedIn: false,
-  isAdmin: false,
-  sessionId: null,
-  setSessionId: () => {
-    throw new Error('setSessionId was called without being initialized');
-  },
-  setIsSignedIn: () => {
-    throw new Error('setIsSignedIn was called without being initialized');
-  },
-  setIsAdmin: () => {
-    throw new Error('setIsAdmin was called without being initialized');
-  },
-  handleSignInAsUser: () => {
-    throw new Error('handleSignInAsUser was called without being initialized');
-  },
-  handleSignInAsAdmin: () => {
-    throw new Error('handleSignInAsAdmin was called without being initialized');
-  },
+  user: null,
+  setUser: () => {},
+  userAuthentication: () => {},
+  isLoading: false,
+  setLoading: () => {},
 };
+interface User {
+  _id: string;
+  email: string;
+  isAdmin: boolean;
+}
 
 interface Props {
   children: ReactNode;
 }
 
-export const AuthContext = createContext<AuthContextValue>(initialAuthValues);
-
+// Context setup
+const AuthContext = createContext<AuthContextValue>(initialAuthValues);
 export const useAuth = () => useContext(AuthContext);
 
+// Provider
 export default function AuthProvider({ children }: Props) {
-  const [isSignedIn, setIsSignedIn] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [sessionId, setSessionId] = useState<string | null>(null);
+  const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setLoading] = useState(true);
 
-  const handleSignInAsUser = (userId: string) => {
-    setIsSignedIn(true);
-    setIsAdmin(false);
-    setSessionId(userId);
-  };
-
-  const handleSignInAsAdmin = (userId: string) => {
-    setIsSignedIn(true);
-    setIsAdmin(true);
-    setSessionId(userId);
-  };
+  const userAuthentication = useCallback(async () => {
+    setLoading(true);
+    try {
+      const response = await fetch('/api/users/authentication');
+      if (response.status === 200) {
+        const user = await response.json();
+        setUser(user);
+      }
+    } catch (err) {
+      console.error(
+        'An error has occurred while trying to verify user authentication:\n',
+        err,
+      );
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   return (
     <AuthContext.Provider
       value={{
-        isSignedIn,
-        isAdmin,
-        setIsSignedIn,
-        setIsAdmin,
-        handleSignInAsUser,
-        handleSignInAsAdmin,
-        sessionId,
-        setSessionId,
+        user,
+        setUser,
+        userAuthentication,
+        isLoading,
+        setLoading,
       }}
     >
       {children}

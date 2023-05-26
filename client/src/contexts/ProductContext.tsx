@@ -1,6 +1,10 @@
 import axios from 'axios';
 import { createContext, ReactNode, useEffect, useState } from 'react';
 
+export interface Category {
+  _id: string;
+  title: string;
+}
 export interface Product {
   _id: string;
   image: string;
@@ -8,6 +12,7 @@ export interface Product {
   description: string;
   price: number;
   stock: number;
+  categories: Category[];
 }
 
 export interface CartItem extends Product {
@@ -19,6 +24,7 @@ interface ContextValue {
   deleteProduct: (id: string) => void;
   addProduct: (product: Product) => void;
   updateProduct: (product: Product) => void;
+  fetchProducts: () => void;
 }
 
 export const ProductContext = createContext<ContextValue>(null as any);
@@ -30,12 +36,12 @@ interface Props {
 export const ProductProvider: React.FC<Props> = ({ children }) => {
   const [products, setProducts] = useState<Product[]>([]);
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      const res = await axios.get('/api/products');
-      setProducts(res.data);
-    };
+  async function fetchProducts() {
+    const res = await axios.get('/api/products');
+    setProducts(res.data);
+  }
 
+  useEffect(() => {
     fetchProducts();
   }, []);
 
@@ -46,10 +52,21 @@ export const ProductProvider: React.FC<Props> = ({ children }) => {
     });
   }
 
-  async function addProduct(product: Product) {
-    const res = await axios.post('/api/products', product);
-    setProducts((currentProducts) => [...currentProducts, res.data]);
-  }
+  const addProduct = async (product: Product) => {
+    try {
+      const response = await fetch('/api/products', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(product),
+      });
+      const newProduct = await response.json();
+      setProducts((prevProducts) => [...prevProducts, newProduct]);
+    } catch (error) {
+      console.error('Error creating product:', error);
+    }
+  };
 
   async function updateProduct(updatedProduct: Product) {
     const res = await axios.put(
@@ -66,7 +83,13 @@ export const ProductProvider: React.FC<Props> = ({ children }) => {
 
   return (
     <ProductContext.Provider
-      value={{ products, deleteProduct, addProduct, updateProduct }}
+      value={{
+        products,
+        deleteProduct,
+        addProduct,
+        updateProduct,
+        fetchProducts,
+      }}
     >
       {children}
     </ProductContext.Provider>

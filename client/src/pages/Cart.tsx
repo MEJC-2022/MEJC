@@ -19,7 +19,7 @@ import { useShoppingCart } from '../contexts/ShoppingCartContext';
 function Cart() {
   const { cartProducts, cartQuantity } = useShoppingCart();
   const { products } = useContext(ProductContext);
-  const { isSignedIn } = useAuth();
+  const { user } = useAuth();
 
   <Text weight={500} size={29}>
     total:{' '}
@@ -98,7 +98,7 @@ function Cart() {
               },
             }}
           >
-            {isSignedIn ? (
+            {user ? (
               <CheckoutForm />
             ) : (
               <Container

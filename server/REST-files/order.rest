@@ -28,7 +28,32 @@ Content-Type: application/json
   ]
 }
 
+### Get all orders
+GET http://localhost:3000/api/orders
+
+
+### Get order by ID
+GET http://localhost:3000/api/orders/646f2212584277fa3ceeab5f
+
+
+### Logout
+POST http://localhost:3000/api/users/logout
+
+
+### Login
+POST http://localhost:3000/api/users/login
+Content-Type: application/json
+
+{
+  "email": "calle@lysmask.se",
+  "password": "calle12345"
+}
+
+
+### Get all orders for a user
+GET http://localhost:3000/api/orders/user/646f17ae8ef387bfd808cf8c
 
 
 
-
+### Ship/Unship and order
+PATCH http://localhost:3000/api/orders/646f2212584277fa3ceeab5f

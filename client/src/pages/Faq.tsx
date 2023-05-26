@@ -67,7 +67,7 @@ export function Faq() {
           marginBottom: '1.2rem',
         }}
       >
-        <IconMessages size="5rem" stroke="0.04rem" />
+        <IconMessages size={80} stroke="0.04rem" />
       </Box>
       <Title className={classes.secondTitle}>Frequently Asked Questions</Title>
 

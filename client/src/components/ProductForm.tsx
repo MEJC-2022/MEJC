@@ -1,10 +1,26 @@
-import { Box, Button, Group, TextInput } from '@mantine/core';
+import {
+  Box,
+  Button,
+  FileInput,
+  Group,
+  MultiSelect,
+  TextInput,
+} from '@mantine/core';
 import { useForm, yupResolver } from '@mantine/form';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
-import { Product } from '../contexts/ProductContext';
-import generateID from '../utils/generateID';
+import { Category, Product } from '../contexts/ProductContext';
+
+interface FormValues {
+  _id?: string;
+  image: string;
+  title: string;
+  description: string;
+  price: number;
+  stock: number;
+  categories: string[];
+}
 
 interface ProductFormProps {
   onSubmit: (product: Product) => void;
@@ -14,7 +30,10 @@ interface ProductFormProps {
 }
 
 const schema = Yup.object().shape({
-  image: Yup.string(),
+  categories: Yup.array()
+    .of(Yup.string().required('Category is required'))
+    .required('At least one category is required'),
+  image: Yup.string().required('Image is required'),
   title: Yup.string()
     .min(2, 'Title should have at least 2 letters')
     .required('Title is required'),
@@ -25,6 +44,11 @@ const schema = Yup.object().shape({
     .min(1, 'Nothing is this cheap...')
     .required('Price is required')
     .strict(),
+  stock: Yup.number()
+    .min(0, 'Stock cannot be negative')
+    .required('Stock is required')
+    .typeError('Stock must be a number')
+    .integer('Stock must be an integer'),
 });
 
 function ProductForm({
@@ -33,33 +57,94 @@ function ProductForm({
   isEditing,
   product,
 }: ProductFormProps) {
+  const [categories, setCategories] = useState<Category[]>([]);
   const navigate = useNavigate();
-  const form = useForm<Product>({
+  const form = useForm<FormValues>({
     validate: yupResolver(schema),
-    initialValues: {
-      _id: '',
-      image: '',
-      title: '',
-      description: '',
-      price: '' as any,
-      stock: '' as any,
-    },
+    initialValues:
+      isEditing && product
+        ? {
+            ...product,
+            categories: product.categories.map((category) => category._id),
+          }
+        : {
+            categories: [],
+            image: '',
+            title: '',
+            description: '',
+            price: '' as any,
+            stock: '' as any,
+          },
   });
+
+  useEffect(() => {
+    fetch('/api/categories')
+      .then((response) => response.json())
+      .then((data) => setCategories(data));
+  }, []);
+
   useEffect(() => {
     if (isEditing && product) {
-      form.setValues(product);
+      form.setValues({
+        ...product,
+        categories: product.categories.map((category) => category._id),
+      });
     }
   }, [product, isEditing, form.setValues]);
 
-  const handleSubmit = (values: Product) => {
-    const editedProduct = { ...values, id: product?._id || '' };
+  const handleSubmit = (values: Partial<FormValues>) => {
+    let editedProduct;
+
     if (isEditing) {
-      onSubmit(editedProduct);
+      editedProduct = {
+        ...values,
+        categories: categories.filter((category) =>
+          (values.categories || []).includes(category._id),
+        ),
+      };
     } else {
-      addProduct({ ...editedProduct, _id: generateID() });
+      const { _id, ...restValues } = values;
+      editedProduct = {
+        ...restValues,
+        categories: categories.filter((category) =>
+          (values.categories || []).includes(category._id),
+        ),
+      };
+    }
+
+    if (isEditing) {
+      onSubmit(editedProduct as Product);
+    } else {
+      addProduct(editedProduct as Product);
     }
     form.reset();
     navigate('/admin');
+  };
+
+  const handleFileChange = async (file: File | null) => {
+    if (!file) {
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('image', file);
+
+    try {
+      const response = await fetch('/api/file', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error('File upload failed');
+      }
+
+      const result = await response.json();
+
+      form.setFieldValue('image', result);
+    } catch (error) {
+      console.error('Error uploading file:', error);
+    }
   };
 
   return (
@@ -77,13 +162,21 @@ function ProductForm({
           data-cy="product-title"
           errorProps={{ 'data-cy': 'product-title-error' }}
         />
-        <TextInput
+        <MultiSelect
+          data={categories.map((category) => ({
+            value: category._id,
+            label: category.title,
+          }))}
+          label="Categories"
+          placeholder="Select categories"
+          searchable={false}
+          {...form.getInputProps('categories')}
+        />
+        <FileInput
           withAsterisk
-          label="Image URL"
-          placeholder="https://www.image.com/image1.png"
-          {...form.getInputProps('image')}
-          data-cy="product-image"
-          errorProps={{ 'data-cy': 'product-image-error' }}
+          placeholder="Select an image"
+          label="Image"
+          onChange={handleFileChange}
         />
         <TextInput
           withAsterisk
@@ -102,6 +195,14 @@ function ProductForm({
           onChange={(e) => form.setFieldValue('price', Number(e.target.value))}
           data-cy="product-price"
           errorProps={{ 'data-cy': 'product-price-error' }}
+        />
+        <TextInput
+          withAsterisk
+          type="number"
+          label="Stock"
+          placeholder="10"
+          {...form.getInputProps('stock')}
+          onChange={(e) => form.setFieldValue('stock', Number(e.target.value))}
         />
         <Group mt="xl">
           <Button type="submit">
