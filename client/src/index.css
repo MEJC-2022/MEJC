@@ -3,6 +3,10 @@ body {
   font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
 }
 
+main {
+  min-height: calc(100vh - 4.375rem - 10rem);
+}
+
 .swiper-pagination-bullet {
   background-color: #ffff !important;
   width: 1rem !important;

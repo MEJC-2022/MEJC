@@ -34,7 +34,7 @@ function Confirmation() {
   useBackgroundAnimation(!!order && !!formData);
 
   return (
-    <Container size="md" mt="xl" mb="xl">
+    <Container size="md" pt="xl" pb="xl">
       {loading ? (
         <h1>Loading...</h1>
       ) : (

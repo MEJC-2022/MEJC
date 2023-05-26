@@ -38,8 +38,8 @@ function Cart() {
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          marginTop: '2rem',
-          marginBottom: '2rem',
+          paddingTop: '2rem',
+          paddingBottom: '2rem',
         }}
         size="xs"
       >
