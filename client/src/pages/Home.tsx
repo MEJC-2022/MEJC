@@ -84,6 +84,7 @@ function Home() {
             marginTop: '1rem',
             padding: '.3rem',
             boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+            border: theme.colorScheme === 'light' ? '1px #EEEEEE solid' : 'none'
           }}
         >
           <img src="/assets/recycable-parts.svg" alt="recycable parts icon" />
