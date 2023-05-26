@@ -2,7 +2,7 @@ import { Button } from '@mantine/core';
 import {
   IconLogin,
   IconLogout,
-  IconUser,
+  IconPackage,
   IconUserShield,
 } from '@tabler/icons-react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -33,7 +33,7 @@ export function SignInButton() {
 }
 
 export function UserButton() {
-  return <ButtonLink to="/orders" icon={IconUser} />;
+  return <ButtonLink to="/orders" icon={IconPackage} />;
 }
 
 export function SignOutButton() {
