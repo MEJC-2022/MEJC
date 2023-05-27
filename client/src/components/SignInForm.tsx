@@ -1,9 +1,10 @@
-import { Box, Button, Group, Loader, Text, TextInput } from '@mantine/core';
+import { Box, Button, Group, Loader, Text, TextInput, useMantineTheme } from '@mantine/core';
 import { useForm, yupResolver } from '@mantine/form';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { useAuth } from '../contexts/AuthContext';
+import '../css/ButtonGlow.css';
 import { formStyle } from '../css/formStyle';
 
 const schema = Yup.object().shape({
@@ -23,6 +24,7 @@ interface FormValues {
 
 export default function SignInForm() {
   const { classes } = formStyle();
+  const theme = useMantineTheme();
 
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
@@ -93,7 +95,9 @@ export default function SignInForm() {
           <Group position="right" mt="md">
             <Button
               type="submit"
-              className={classes.control}
+              className={`${classes.control} ${
+                theme.colorScheme === 'dark' ? 'buttonGlow' : ''
+              }`}
               disabled={isLoading}
             >
               {isLoading ? <Loader size="sm" color="black" /> : 'Sign in'}
