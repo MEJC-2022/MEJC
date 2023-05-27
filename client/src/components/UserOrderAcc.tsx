@@ -81,7 +81,7 @@ export function UserOrderAccordion({ order }: { order: Order }) {
         <Flex justify="space-between">
           <Flex sx={{ flex: 2, [theme.fn.smallerThan('sm')]: { flex: 3 } }}>
             <Text size="md" weight={700}>
-              #{order._id}
+              #{order._id.slice(0, 10)}
             </Text>
           </Flex>
 
