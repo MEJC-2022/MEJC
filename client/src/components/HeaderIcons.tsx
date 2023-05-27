@@ -32,7 +32,7 @@ export function SignInButton() {
   return <ButtonLink to="/signin" icon={IconLogin} />;
 }
 
-export function UserButton() {
+export function OrderButton() {
   return <ButtonLink to="/orders" icon={IconPackage} />;
 }
 

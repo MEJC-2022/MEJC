@@ -1,9 +1,11 @@
-import { Container } from '@mantine/core';
+import { Container, Title } from '@mantine/core';
 
 export default function AdminOrders() {
   return (
     <Container>
-      <h2>Orders</h2>
+      <Title mb="lg" ta="center">
+        Admin - Order Management
+      </Title>
     </Container>
   );
 }

@@ -21,9 +21,9 @@ import { useAuth } from '../contexts/AuthContext';
 import { useShoppingCart } from '../contexts/ShoppingCartContext';
 import {
   AdminButton,
+  OrderButton,
   SignInButton,
   SignOutButton,
-  UserButton,
 } from './HeaderIcons';
 import { ToggleColorButton } from './ToggleColorButton';
 
@@ -48,10 +48,6 @@ const useStyles = createStyles((theme) => ({
     borderTopLeftRadius: 0,
     borderTopWidth: 0,
     overflow: 'hidden',
-
-    [theme.fn.largerThan('sm')]: {
-      display: 'none',
-    },
   },
 
   header: {
@@ -62,16 +58,8 @@ const useStyles = createStyles((theme) => ({
     width: '100%',
   },
 
-  links: {
-    [theme.fn.smallerThan('sm')]: {
-      display: 'none',
-    },
-  },
-
-  burger: {
-    [theme.fn.largerThan('sm')]: {
-      display: 'none',
-    },
+  hide: {
+    display: 'none',
   },
 
   link: {
@@ -183,12 +171,16 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
 
   useEffect(() => {
     const handleResize = () => {
-      setIsBurgerVisible(window.innerWidth < 768);
+      if (user?.isAdmin) {
+        setIsBurgerVisible(window.innerWidth < 840);
+      } else {
+        setIsBurgerVisible(window.innerWidth < 768);
+      }
     };
     handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  }, [user]);
 
   const headerRef = useRef<HTMLDivElement>(null);
 
@@ -227,21 +219,21 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
             <Group spacing={1}>{logo}</Group>
           </Link>
         </MediaQuery>
-        <Group spacing={5} className={classes.links}>
+        <Group spacing={5} className={cx({ [classes.hide]: isBurgerVisible })}>
           {items}
         </Group>
         <Group spacing={1}>
           <ToggleColorButton onToggleColorScheme={handleToggleColorScheme} />
           {user ? (
-            user.isAdmin ? (
-              <AdminButton />
-            ) : (
-              <UserButton />
-            )
+            <>
+              {user.isAdmin && <AdminButton />}
+              {!isBurgerVisible && user.isAdmin && <OrderButton />}
+              {!user.isAdmin && <OrderButton />}
+              {!isBurgerVisible && <SignOutButton />}
+            </>
           ) : (
             <SignInButton />
           )}
-          {!isBurgerVisible && user && <SignOutButton />}
           <Link
             to="/checkout"
             style={{
@@ -285,27 +277,49 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
         <Burger
           opened={opened}
           onClick={toggle}
-          className={classes.burger}
+          className={cx({ [classes.hide]: !isBurgerVisible })}
           size="sm"
         />
         <Transition transition="pop-top-right" duration={200} mounted={opened}>
           {(styles) => (
-            <Paper className={classes.dropdown} withBorder style={styles}>
+            <Paper
+              className={cx(classes.dropdown, {
+                [classes.hide]: !isBurgerVisible,
+              })}
+              withBorder
+              style={styles}
+            >
               {items}
               {user ? (
-                <ul key="4">
-                  <Link
-                    key="signout"
-                    to="/"
-                    className={classes.link}
-                    onClick={() => {
-                      close();
-                      handleSignOut();
-                    }}
-                  >
-                    Sign out
-                  </Link>
-                </ul>
+                <>
+                  {user.isAdmin && (
+                    <ul key="4">
+                      <Link
+                        key="orders"
+                        to="/orders"
+                        className={classes.link}
+                        onClick={() => {
+                          close();
+                        }}
+                      >
+                        Orders
+                      </Link>
+                    </ul>
+                  )}
+                  <ul key="5">
+                    <Link
+                      key="signout"
+                      to="/"
+                      className={classes.link}
+                      onClick={() => {
+                        close();
+                        handleSignOut();
+                      }}
+                    >
+                      Sign out
+                    </Link>
+                  </ul>
+                </>
               ) : null}
             </Paper>
           )}
