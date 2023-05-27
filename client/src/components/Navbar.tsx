@@ -186,9 +186,13 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
 
   useEffect(() => {
     if (headerRef.current) {
-      headerRef.current.style.marginBottom = opened ? '200px' : '0';
+      if (isBurgerVisible) {
+        headerRef.current.style.marginBottom = opened ? '200px' : '0';
+      } else {
+        headerRef.current.style.marginBottom = '0';
+      }
     }
-  }, [opened]);
+  }, [opened, isBurgerVisible]);
 
   function handleLinkClick() {
     setActive(links[0].link);
