@@ -64,7 +64,7 @@ export interface Order {
   }[];
   isShipped: boolean;
   totalPrice: number;
-  createdAt: Date;
+  createdAt: string;
 }
 
 export function UserOrderAccordion({ order }: { order: Order }) {
@@ -92,7 +92,7 @@ export function UserOrderAccordion({ order }: { order: Order }) {
             }}
           >
             <Text size="md" weight={500}>
-              {order.createdAt.toISOString().substring(0, 10)}
+              {order.createdAt}
             </Text>
           </Flex>
 
