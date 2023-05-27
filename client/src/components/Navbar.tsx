@@ -16,7 +16,7 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import { IconShoppingCart } from '@tabler/icons-react';
 import { useEffect, useRef, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useShoppingCart } from '../contexts/ShoppingCartContext';
 import {
@@ -113,6 +113,8 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
   const theme = useMantineTheme();
   const { user, setUser } = useAuth();
   const navigate = useNavigate();
+  const currentLocation = useLocation();
+  const isAdminRoute = location.pathname.includes('/admin');
 
   const handleSignOut = async () => {
     try {
@@ -231,52 +233,56 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
           {user ? (
             <>
               {user.isAdmin && <AdminButton />}
-              {!isBurgerVisible && user.isAdmin && <OrderButton />}
+              {!isBurgerVisible && user.isAdmin && !isAdminRoute && (
+                <OrderButton />
+              )}
               {!user.isAdmin && <OrderButton />}
               {!isBurgerVisible && <SignOutButton />}
             </>
           ) : (
             <SignInButton />
           )}
-          <Link
-            to="/checkout"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <Button
-              onClick={handleLinkClick}
-              size="xs"
-              variant="subtle"
-              data-cy="cart-link"
-              radius="xl"
+          {!isAdminRoute && (
+            <Link
+              to="/checkout"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
             >
-              <IconShoppingCart size={29} stroke="1.2" />
-              {cartQuantity > 0 && (
-                <Box
-                  sx={{
-                    borderRadius: '10rem',
-                    background: theme.colors.blue[4],
-                    color: 'white',
-                    width: '1.1rem',
-                    height: '1.1rem',
-                    position: 'absolute',
-                    bottom: 0,
-                    right: 0,
-                    display: 'flex',
-                    transform: 'translate(-30%, -95%)',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}
-                  data-cy="cart-items-count-badge"
-                >
-                  {cartQuantity}
-                </Box>
-              )}
-            </Button>
-          </Link>
+              <Button
+                onClick={handleLinkClick}
+                size="xs"
+                variant="subtle"
+                data-cy="cart-link"
+                radius="xl"
+              >
+                <IconShoppingCart size={29} stroke="1.2" />
+                {cartQuantity > 0 && (
+                  <Box
+                    sx={{
+                      borderRadius: '10rem',
+                      background: theme.colors.blue[4],
+                      color: 'white',
+                      width: '1.1rem',
+                      height: '1.1rem',
+                      position: 'absolute',
+                      bottom: 0,
+                      right: 0,
+                      display: 'flex',
+                      transform: 'translate(-30%, -95%)',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}
+                    data-cy="cart-items-count-badge"
+                  >
+                    {cartQuantity}
+                  </Box>
+                )}
+              </Button>
+            </Link>
+          )}
         </Group>
         <Burger
           opened={opened}
@@ -296,7 +302,7 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
               {items}
               {user ? (
                 <>
-                  {user.isAdmin && (
+                  {user.isAdmin && !isAdminRoute && (
                     <ul key="4">
                       <Link
                         key="orders"
@@ -306,7 +312,7 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
                           close();
                         }}
                       >
-                        Orders
+                        My Orders
                       </Link>
                     </ul>
                   )}
