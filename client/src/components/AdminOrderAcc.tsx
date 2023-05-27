@@ -3,16 +3,14 @@ import {
   Card,
   Divider,
   Flex,
-  Loader,
-  Progress,
   Table,
   Text,
   createStyles,
   rem,
-  useMantineTheme,
+  useMantineTheme
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import { IconAt, IconCheck, IconPhone } from '@tabler/icons-react';
+import { IconAt, IconPhone } from '@tabler/icons-react';
 
 const useStyles = createStyles((theme) => ({
   item: {
@@ -94,33 +92,6 @@ export function AdminOrderAccordion({ order }: { order: Order }) {
             <Text size="md" weight={500}>
               {order.createdAt.toISOString().substring(0, 10)}
             </Text>
-          </Flex>
-
-          <Flex className={classes.statusBar}>
-            {isSmallScreen ? (
-              order.isShipped ? (
-                <IconCheck size={25} color={theme.colors.green[6]} />
-              ) : (
-                <Loader color="yellow" size="sm" />
-              )
-            ) : order.isShipped ? (
-              <Progress
-                value={100}
-                color={theme.colors.green[6]}
-                style={{ width: '100%' }}
-                label="Shipped"
-                size="xl"
-              />
-            ) : (
-              <Progress
-                value={70}
-                color={theme.colors.yellow[6]}
-                animate
-                style={{ width: '100%' }}
-                label="Processing.."
-                size="xl"
-              />
-            )}
           </Flex>
 
           <Flex
