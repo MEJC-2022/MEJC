@@ -114,7 +114,7 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
   const { user, setUser } = useAuth();
   const navigate = useNavigate();
   const currentLocation = useLocation();
-  const isAdminRoute = location.pathname.includes('/admin');
+  const isAdminRoute = currentLocation.pathname.includes('/admin');
 
   const handleSignOut = async () => {
     try {
