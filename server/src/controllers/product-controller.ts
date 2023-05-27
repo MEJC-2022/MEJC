@@ -8,7 +8,9 @@ const createProduct = async (req: Request, res: Response) => {
 };
 
 const getAllProducts = async (req: Request, res: Response) => {
-  const products = await ProductModel.find().populate('categories');
+  const products = await ProductModel.find({
+    isArchived: { $in: [false, null] },
+  }).populate('categories');
   res.json(products);
 };
 
@@ -24,15 +26,22 @@ const getProductById = async (req: Request, res: Response) => {
 const updateProduct = async (req: Request, res: Response) => {
   const product = await ProductModel.findById(req.params.id);
   if (product) {
-    product.title = req.body.title;
-    product.categories = req.body.categories;
-    product.image = req.body.image;
-    product.description = req.body.description;
-    product.price = req.body.price;
-    product.stock = req.body.stock;
+    product.isArchived = true;
+    await product.save();
 
-    const updatedProduct = await product.save();
-    res.json(updatedProduct);
+    const newProductDetails = {
+      title: req.body.title,
+      categories: req.body.categories,
+      image: req.body.image,
+      description: req.body.description,
+      price: req.body.price,
+      stock: req.body.stock,
+      isArchived: false,
+    };
+    const newProduct = new ProductModel(newProductDetails);
+    await newProduct.save();
+
+    res.json(newProduct);
   } else {
     res.status(404).send({ message: 'Product not found' });
   }
@@ -41,8 +50,9 @@ const updateProduct = async (req: Request, res: Response) => {
 const deleteProduct = async (req: Request, res: Response) => {
   const product = await ProductModel.findById(req.params.id);
   if (product) {
-    await product.deleteOne();
-    res.send({ message: 'Product deleted' });
+    product.isArchived = true;
+    await product.save();
+    res.send({ message: 'Product archived' });
   } else {
     res.status(404).send({ message: 'Product not found' });
   }
