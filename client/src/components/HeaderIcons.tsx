@@ -1,5 +1,6 @@
 import { Button } from '@mantine/core';
 import {
+  IconBuildingStore,
   IconLogin,
   IconLogout,
   IconPackage,
@@ -26,6 +27,10 @@ function ButtonLink({ to, icon: Icon, onClick }: ButtonLinkProps) {
 
 export function AdminButton() {
   return <ButtonLink to="/admin" icon={IconUserShield} />;
+}
+
+export function ShopButton() {
+  return <ButtonLink to="/" icon={IconBuildingStore} />;
 }
 
 export function SignInButton() {

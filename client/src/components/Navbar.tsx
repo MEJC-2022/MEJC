@@ -15,13 +15,14 @@ import {
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconShoppingCart } from '@tabler/icons-react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useShoppingCart } from '../contexts/ShoppingCartContext';
 import {
   AdminButton,
   OrderButton,
+  ShopButton,
   SignInButton,
   SignOutButton,
 } from './HeaderIcons';
@@ -151,23 +152,27 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
       <img src="/assets/T101-logo-darkmode.svg" alt="T101 logo" />
     );
 
-  const items = links.map((link, index) => (
-    <ul key={index}>
-      <Link
-        key={link.label}
-        to={link.link}
-        className={cx(classes.link, {
-          [classes.linkActive]: active === link.link,
-        })}
-        onClick={() => {
-          setActive(link.link);
-          close();
-        }}
-      >
-        {link.label}
-      </Link>
-    </ul>
-  ));
+  const items = useMemo(
+    () =>
+      links.map((link, index) => (
+        <ul key={index}>
+          <Link
+            key={link.label}
+            to={link.link}
+            className={cx(classes.link, {
+              [classes.linkActive]: active === link.link,
+            })}
+            onClick={() => {
+              setActive(link.link);
+              close();
+            }}
+          >
+            {link.label}
+          </Link>
+        </ul>
+      )),
+    [links, active, classes.link, classes.linkActive, close],
+  );
 
   const [isBurgerVisible, setIsBurgerVisible] = useState(false);
 
@@ -232,9 +237,13 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
           <ToggleColorButton onToggleColorScheme={handleToggleColorScheme} />
           {user ? (
             <>
-              {user.isAdmin && <AdminButton />}
               {!isBurgerVisible && user.isAdmin && !isAdminRoute && (
                 <OrderButton />
+                )}
+              {user.isAdmin && (
+                <>
+                  {!isAdminRoute ? <AdminButton /> : <ShopButton />}
+                </>
               )}
               {!user.isAdmin && <OrderButton />}
               {!isBurgerVisible && <SignOutButton />}
