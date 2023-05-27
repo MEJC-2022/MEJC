@@ -101,6 +101,7 @@ function ProductDetails() {
             </Title>
           </Group>
           <Button
+            disabled={product.stock === 0}
             fullWidth
             variant="light"
             mt="md"

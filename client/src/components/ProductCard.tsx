@@ -87,6 +87,7 @@ function ProductCard({ product }: Props) {
             </Button>
           </Link>
           <Button
+            disabled={product.stock === 0}
             variant="light"
             mt="md"
             radius="md"
