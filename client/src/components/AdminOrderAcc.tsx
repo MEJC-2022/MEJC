@@ -1,19 +1,27 @@
 import {
   Accordion,
+  Button,
   Card,
+  Container,
   Divider,
   Flex,
   Table,
   Text,
   createStyles,
   rem,
-  useMantineTheme
+  useMantineTheme,
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { IconAt, IconPhone } from '@tabler/icons-react';
 
 const useStyles = createStyles((theme) => ({
+  wrapper: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   item: {
+    flex: 1,
     borderRadius: theme.radius.md,
     marginBottom: theme.spacing.lg,
     backgroundColor:
@@ -34,14 +42,10 @@ const useStyles = createStyles((theme) => ({
       display: 'none',
     },
   },
-  statusBar: {
-    flex: 3,
-    [theme.fn.smallerThan('sm')]: {
-      flex: 1,
-      justifyContent: 'flex-end',
-    },
-    alignItems: 'center',
-  },
+  button: {
+    marginBottom: theme.spacing.lg,
+    marginLeft: 10,
+  }
 }));
 
 export interface Order {
@@ -71,96 +75,104 @@ export function AdminOrderAccordion({ order }: { order: Order }) {
   const isSmallScreen = useMediaQuery('(max-width: 767px)');
 
   return (
-    <Accordion.Item className={classes.item} key={order._id} value={order._id}>
-      <Accordion.Control>
-        <Flex justify="space-between">
-          <Flex sx={{ flex: 2, [theme.fn.smallerThan('sm')]: { flex: 3 } }}>
-            <Text size="md" weight={700}>
-              #{order._id}
-            </Text>
-          </Flex>
+    <Container className={classes.wrapper}>
+      <Accordion.Item
+        className={classes.item}
+        key={order._id}
+        value={order._id}
+      >
+        <Accordion.Control>
+          <Flex justify="space-between">
+            <Flex sx={{ flex: 2, [theme.fn.smallerThan('sm')]: { flex: 3 } }}>
+              <Text size="md" weight={700}>
+                #{order._id}
+              </Text>
+            </Flex>
 
-          <Flex
-            sx={{
-              flex: 2,
-              [theme.fn.smallerThan('sm')]: {
-                flex: 3,
-                justifyContent: 'center',
-              },
-            }}
-          >
-            <Text size="md" weight={500}>
-              {order.createdAt.toISOString().substring(0, 10)}
-            </Text>
-          </Flex>
-
-          <Flex
-            sx={{ flex: 1, justifyContent: 'flex-end' }}
-            className={classes.controlText}
-          >
-            <Text size="md" weight={500}>
-              Details
-            </Text>
-          </Flex>
-        </Flex>
-      </Accordion.Control>
-
-      <Accordion.Panel className={classes.panel}>
-        <Flex direction={{ base: 'column', md: 'row' }}>
-          <Flex direction="column" style={{ flex: 2, marginRight: '2rem' }}>
-            <Table verticalSpacing="xs">
-              <thead>
-                <tr>
-                  <th>Product</th>
-                  <th>Quantity</th>
-                  <th>Price</th>
-                </tr>
-              </thead>
-              <tbody>
-                {order.orderItems.map((item) => (
-                  <tr key={item._id}>
-                    <td>{item._id}</td>
-                    <td>{item.quantity}</td>
-                    <td>€10 </td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
             <Flex
-              justify="flex-end"
-              align="flex-end"
-              style={{ height: '100%' }}
+              sx={{
+                flex: 2,
+                [theme.fn.smallerThan('sm')]: {
+                  flex: 3,
+                  justifyContent: 'center',
+                },
+              }}
             >
-              <Text>Total price: €{order.totalPrice}</Text>
+              <Text size="md" weight={500}>
+                {order.createdAt.toISOString().slice(2, 10)}
+              </Text>
+            </Flex>
+
+            <Flex
+              sx={{ flex: 1, justifyContent: 'flex-end' }}
+              className={classes.controlText}
+            >
+              <Text size="md" weight={500}>
+                Details
+              </Text>
             </Flex>
           </Flex>
-          <Flex direction="column" style={{ flex: 1 }}>
-            <Card shadow="xs" padding="md">
+        </Accordion.Control>
+
+        <Accordion.Panel className={classes.panel}>
+          <Flex direction={{ base: 'column', md: 'row' }}>
+            <Flex direction="column" style={{ flex: 2, marginRight: '2rem' }}>
+              <Table verticalSpacing="xs">
+                <thead>
+                  <tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {order.orderItems.map((item) => (
+                    <tr key={item._id}>
+                      <td>{item._id}</td>
+                      <td>{item.quantity}</td>
+                      <td>€10 </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
               <Flex
-                direction="column"
-                align={{ base: 'center', md: 'flex-start' }}
+                justify="flex-end"
+                align="flex-end"
+                style={{ height: '100%' }}
               >
-                <Text>
-                  {order.deliveryAddress.firstName}{' '}
-                  {order.deliveryAddress.lastName}
-                </Text>
-                <Text>{order.deliveryAddress.street}</Text>
-                <Text>
-                  {order.deliveryAddress.zipCode}, {order.deliveryAddress.city}
-                </Text>
-                <Text>
-                  <Divider variant="dashed" my="md" />
-                  <IconAt size={18} /> {order.deliveryAddress.email}
-                </Text>
-                <Text>
-                  <IconPhone size={18} /> {order.deliveryAddress.phoneNumber}
-                </Text>
+                <Text>Total price: €{order.totalPrice}</Text>
               </Flex>
-              <Flex direction="column"></Flex>
-            </Card>
+            </Flex>
+            <Flex direction="column" style={{ flex: 1 }}>
+              <Card shadow="xs" padding="md">
+                <Flex
+                  direction="column"
+                  align={{ base: 'center', md: 'flex-start' }}
+                >
+                  <Text>
+                    {order.deliveryAddress.firstName}{' '}
+                    {order.deliveryAddress.lastName}
+                  </Text>
+                  <Text>{order.deliveryAddress.street}</Text>
+                  <Text>
+                    {order.deliveryAddress.zipCode},{' '}
+                    {order.deliveryAddress.city}
+                  </Text>
+                  <Text>
+                    <Divider variant="dashed" my="md" />
+                    <IconAt size={18} /> {order.deliveryAddress.email}
+                  </Text>
+                  <Text>
+                    <IconPhone size={18} /> {order.deliveryAddress.phoneNumber}
+                  </Text>
+                </Flex>
+                <Flex direction="column"></Flex>
+              </Card>
+            </Flex>
           </Flex>
-        </Flex>
-      </Accordion.Panel>
-    </Accordion.Item>
+        </Accordion.Panel>
+      </Accordion.Item>
+      <Button variant="outline" className={classes.button}>Shipped</Button>
+    </Container>
   );
 }
