@@ -10,7 +10,6 @@ import { useContext, useEffect, useState } from 'react';
 import { Order, UserOrderAccordion } from '../components/UserOrderAcc';
 import { useAuth } from '../contexts/AuthContext';
 import { ProductContext } from '../contexts/ProductContext';
-import { mockOrders } from './mockOrder';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -46,7 +45,7 @@ const useStyles = createStyles((theme) => ({
 export default function UserOrders() {
   const { classes } = useStyles();
   const theme = useMantineTheme();
-  const { products, fetchProducts } = useContext(ProductContext);
+  const { fetchProducts } = useContext(ProductContext);
   const { user } = useAuth();
   const [loading, setLoading] = useState(false);
 
@@ -84,8 +83,6 @@ export default function UserOrders() {
     fetchProducts();
     getUserOrders();
   }, []);
-
-  const orders = mockOrders;
 
   return (
     <Center className={classes.wrapper}>
