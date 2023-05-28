@@ -17,7 +17,7 @@ export const formStyle = createStyles((theme) => ({
   },
   form: {
     backgroundColor:
-      theme.colorScheme === 'dark' ? theme.colors.gray[7] : theme.white,
+      theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.white,
     padding: theme.spacing.xl,
     borderRadius: theme.radius.md,
     boxShadow: theme.shadows.lg,
@@ -38,7 +38,7 @@ export const formStyle = createStyles((theme) => ({
     color: theme.colorScheme === 'dark' ? theme.colors.gray[3] : theme.black,
   },
   control: {
-    backgroundColor: theme.colors[theme.primaryColor][7],
+    //backgroundColor: theme.colors[theme.primaryColor][7],
   },
   anchor: {
     color:

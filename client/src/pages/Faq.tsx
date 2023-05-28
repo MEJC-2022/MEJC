@@ -5,8 +5,10 @@ import {
   createStyles,
   rem,
   Title,
+  useMantineTheme,
 } from '@mantine/core';
 import { IconMessages } from '@tabler/icons-react';
+import '../css/GradientText.css';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -37,6 +39,10 @@ const useStyles = createStyles((theme) => ({
     [theme.fn.smallerThan('sm')]: {
       fontSize: rem(120),
     },
+  },
+
+  titleColor: {
+    color: theme.white,
   },
 
   secondTitle: {
@@ -73,10 +79,16 @@ const useStyles = createStyles((theme) => ({
 
 export function Faq() {
   const { classes } = useStyles();
+  const theme = useMantineTheme();
   return (
     <Box className={classes.wrapper}>
     <Container size="sm">
-      <Title align="center" className={classes.title}>
+    <Title
+        align="center"
+        className={`${classes.title} ${
+          theme.colorScheme === 'dark' ? 'gradientText' : classes.titleColor
+        }`}
+      >
         FAQ
       </Title>
       <Box
