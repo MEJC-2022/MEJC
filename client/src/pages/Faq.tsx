@@ -10,10 +10,20 @@ import { IconMessages } from '@tabler/icons-react';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
-    paddingTop: `calc(${theme.spacing.xl} * 2)`,
-    paddingBottom: `calc(${theme.spacing.xl} * 2)`,
-    minHeight: 650,
+    boxSizing: 'border-box',
+    backgroundImage:
+      theme.colorScheme === 'dark'
+        ? `linear-gradient(-60deg, ${theme.colors.gray[8]} 0%, ${theme.colors.gray[9]} 100%)`
+        : `linear-gradient(-60deg, ${theme.colors.blue[3]} 0%, ${theme.colors.blue[7]} 100%)`,
+    padding: `calc(${theme.spacing.xl} * 5)`,
+    minHeight: 'calc(100vh - 4.375rem - 10rem)',
+
+    [theme.fn.smallerThan('sm')]: {
+      minHeight: 'calc(100vh - 4.375rem - 19.8rem)',
+      padding: `calc(${theme.spacing.xl} * 3)`,
+    },
   },
+
 
   title: {
     marginBottom: `calc(${theme.spacing.xl} * 1.5)`,
@@ -22,8 +32,8 @@ const useStyles = createStyles((theme) => ({
     lineHeight: 1,
     color:
       theme.colorScheme === 'dark'
-        ? theme.colors.dark[4]
-        : theme.colors.gray[7],
+        ? theme.colors.blue[5]
+        : theme.white,
     [theme.fn.smallerThan('sm')]: {
       fontSize: rem(120),
     },
@@ -36,9 +46,17 @@ const useStyles = createStyles((theme) => ({
     marginBottom: rem(30),
     color:
       theme.colorScheme === 'dark'
-        ? theme.colors.dark[1]
-        : theme.colors.gray[9],
-
+        ? theme.white
+        : theme.white,
+    [theme.fn.smallerThan('sm')]: {
+      fontSize: rem(30),
+    },
+  },
+  icon: {
+    color:
+      theme.colorScheme === 'dark'
+        ? theme.white
+        : theme.white,
     [theme.fn.smallerThan('sm')]: {
       fontSize: rem(30),
     },
@@ -56,7 +74,8 @@ const useStyles = createStyles((theme) => ({
 export function Faq() {
   const { classes } = useStyles();
   return (
-    <Container size="sm" className={classes.wrapper}>
+    <Box className={classes.wrapper}>
+    <Container size="sm">
       <Title align="center" className={classes.title}>
         FAQ
       </Title>
@@ -67,12 +86,12 @@ export function Faq() {
           marginBottom: '1.2rem',
         }}
       >
-        <IconMessages size={80} stroke="0.04rem" />
+        <IconMessages className={classes.icon} size={80} stroke="0.04rem" />
       </Box>
       <Title className={classes.secondTitle}>Frequently Asked Questions</Title>
 
       <Accordion variant="separated">
-        <Accordion.Item className={classes.item} value="reset-password">
+        <Accordion.Item className={classes.item} value="best-laptop">
           <Accordion.Control>
             What is the best laptop for gaming?
           </Accordion.Control>
@@ -85,7 +104,7 @@ export function Faq() {
           </Accordion.Panel>
         </Accordion.Item>
 
-        <Accordion.Item className={classes.item} value="another-account">
+        <Accordion.Item className={classes.item} value="ssd-or-hdd">
           <Accordion.Control>
             What is the difference between an SSD and an HDD in a laptop?
           </Accordion.Control>
@@ -98,7 +117,7 @@ export function Faq() {
           </Accordion.Panel>
         </Accordion.Item>
 
-        <Accordion.Item className={classes.item} value="newsletter">
+        <Accordion.Item className={classes.item} value="ram">
           <Accordion.Control>
             How much RAM do I need in a laptop?
           </Accordion.Control>
@@ -110,7 +129,7 @@ export function Faq() {
           </Accordion.Panel>
         </Accordion.Item>
 
-        <Accordion.Item className={classes.item} value="credit-card">
+        <Accordion.Item className={classes.item} value="battery-life">
           <Accordion.Control>
             What is the battery life of a typical laptop?
           </Accordion.Control>
@@ -123,7 +142,7 @@ export function Faq() {
           </Accordion.Panel>
         </Accordion.Item>
 
-        <Accordion.Item className={classes.item} value="payment">
+        <Accordion.Item className={classes.item} value="warranty">
           <Accordion.Control>
             What is the warranty period for a laptop?
           </Accordion.Control>
@@ -137,5 +156,6 @@ export function Faq() {
         </Accordion.Item>
       </Accordion>
     </Container>
+    </Box>
   );
 }
