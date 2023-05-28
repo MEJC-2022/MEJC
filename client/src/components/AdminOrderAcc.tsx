@@ -18,7 +18,7 @@ const useStyles = createStyles((theme) => ({
   wrapper: {
     display: 'flex',
     flexDirection: 'row',
-    alignItems: 'center',
+    //alignItems: 'center',
   },
   item: {
     flex: 1,
@@ -43,9 +43,9 @@ const useStyles = createStyles((theme) => ({
     },
   },
   button: {
-    marginBottom: theme.spacing.lg,
+    marginTop: theme.spacing.sm,
     marginLeft: 10,
-  }
+  },
 }));
 
 export interface Order {
@@ -172,7 +172,9 @@ export function AdminOrderAccordion({ order }: { order: Order }) {
           </Flex>
         </Accordion.Panel>
       </Accordion.Item>
-      <Button variant="outline" className={classes.button}>Shipped</Button>
+      <Button variant="outline" className={classes.button}>
+        Shipped
+      </Button>
     </Container>
   );
 }

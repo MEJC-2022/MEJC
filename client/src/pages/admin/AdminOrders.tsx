@@ -1,4 +1,10 @@
-import { Accordion, Container, Title, createStyles, useMantineTheme } from '@mantine/core';
+import {
+  Accordion,
+  Container,
+  Title,
+  createStyles,
+  useMantineTheme,
+} from '@mantine/core';
 import { AdminOrderAccordion } from '../../components/AdminOrderAcc';
 import { Order } from '../../components/UserOrderAcc';
 import { mockOrders } from '../mockOrder';
@@ -15,7 +21,7 @@ export default function AdminOrders() {
   const theme = useMantineTheme();
 
   const orders = mockOrders;
-  
+
   return (
     <Container>
       <Title mb="lg" ta="center">

@@ -239,11 +239,9 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
             <>
               {!isBurgerVisible && user.isAdmin && !isAdminRoute && (
                 <OrderButton />
-                )}
+              )}
               {user.isAdmin && (
-                <>
-                  {!isAdminRoute ? <AdminButton /> : <ShopButton />}
-                </>
+                <>{!isAdminRoute ? <AdminButton /> : <ShopButton />}</>
               )}
               {!user.isAdmin && <OrderButton />}
               {!isBurgerVisible && <SignOutButton />}

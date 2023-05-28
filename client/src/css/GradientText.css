@@ -3,6 +3,7 @@
     background-image: linear-gradient(54deg, rgba(55,58,64,1) 21%, rgba(28,126,214,0.5242471988795518) 63%, rgb(55,58,64,1) 94%);
     -webkit-background-clip: text;
     background-clip: text;
+    --webkit-text-fill-color: transparent;
     color: transparent;
     animation: gradient 20s linear infinite;
 }
@@ -11,8 +12,11 @@
     0% {
         background-position: 0% 50%;
     }
-    50% {
+    30% {
         background-position: 100% 50%;
+    }
+    50% {
+        background-position: 80% 20%;
     }
     100% {
         background-position: 0% 50%;

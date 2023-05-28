@@ -1,4 +1,12 @@
-import { Box, Button, Group, Loader, Text, TextInput, useMantineTheme } from '@mantine/core';
+import {
+  Box,
+  Button,
+  Group,
+  Loader,
+  Text,
+  TextInput,
+  useMantineTheme,
+} from '@mantine/core';
 import { useForm, yupResolver } from '@mantine/form';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -95,9 +103,8 @@ export default function SignInForm() {
           <Group position="right" mt="md">
             <Button
               type="submit"
-              className={`${classes.control} ${
-                theme.colorScheme === 'dark' ? 'buttonGlow' : ''
-              }`}
+              variant="light"
+              className={theme.colorScheme === 'dark' ? 'buttonGlow' : ''}
               disabled={isLoading}
             >
               {isLoading ? <Loader size="sm" color="black" /> : 'Sign in'}
