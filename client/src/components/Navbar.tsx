@@ -15,15 +15,16 @@ import {
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconShoppingCart } from '@tabler/icons-react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useShoppingCart } from '../contexts/ShoppingCartContext';
 import {
   AdminButton,
+  OrderButton,
+  ShopButton,
   SignInButton,
   SignOutButton,
-  UserButton,
 } from './HeaderIcons';
 import { ToggleColorButton } from './ToggleColorButton';
 
@@ -48,10 +49,6 @@ const useStyles = createStyles((theme) => ({
     borderTopLeftRadius: 0,
     borderTopWidth: 0,
     overflow: 'hidden',
-
-    [theme.fn.largerThan('sm')]: {
-      display: 'none',
-    },
   },
 
   header: {
@@ -62,16 +59,8 @@ const useStyles = createStyles((theme) => ({
     width: '100%',
   },
 
-  links: {
-    [theme.fn.smallerThan('sm')]: {
-      display: 'none',
-    },
-  },
-
-  burger: {
-    [theme.fn.largerThan('sm')]: {
-      display: 'none',
-    },
+  hide: {
+    display: 'none',
   },
 
   link: {
@@ -126,6 +115,7 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
   const { user, setUser } = useAuth();
   const navigate = useNavigate();
   const currentLocation = useLocation();
+  const isAdminRoute = currentLocation.pathname.includes('/admin');
   const activeLink = links.find(
     (link) => link.link === currentLocation.pathname,
   );
@@ -165,42 +155,54 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
       <img src="/assets/T101-logo-darkmode.svg" alt="T101 logo" />
     );
 
-  const items = links.map((link, index) => (
-    <ul key={index}>
-      <Link
-        key={link.label}
-        to={link.link}
-        className={cx(classes.link, {
-          [classes.linkActive]: link === activeLink,
-        })}
-        onClick={() => {
-          setActive(link.link);
-          close();
-        }}
-      >
-        {link.label}
-      </Link>
-    </ul>
-  ));
+  const items = useMemo(
+    () =>
+      links.map((link, index) => (
+        <ul key={index}>
+          <Link
+            key={link.label}
+            to={link.link}
+            className={cx(classes.link, {
+              [classes.linkActive]: link === activeLink,
+            })}
+            onClick={() => {
+              setActive(link.link);
+              close();
+            }}
+          >
+            {link.label}
+          </Link>
+        </ul>
+      )),
+    [links, active, classes.link, classes.linkActive, close],
+  );
 
   const [isBurgerVisible, setIsBurgerVisible] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
-      setIsBurgerVisible(window.innerWidth < 768);
+      if (user?.isAdmin) {
+        setIsBurgerVisible(window.innerWidth < 840);
+      } else {
+        setIsBurgerVisible(window.innerWidth < 768);
+      }
     };
     handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  }, [user]);
 
   const headerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (headerRef.current) {
-      headerRef.current.style.marginBottom = opened ? '200px' : '0';
+      if (isBurgerVisible) {
+        headerRef.current.style.marginBottom = opened ? '200px' : '0';
+      } else {
+        headerRef.current.style.marginBottom = '0';
+      }
     }
-  }, [opened]);
+  }, [opened, isBurgerVisible]);
 
   function handleLinkClick() {
     setActive(links[0].link);
@@ -231,85 +233,113 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
             <Group spacing={1}>{logo}</Group>
           </Link>
         </MediaQuery>
-        <Group spacing={5} className={classes.links}>
+        <Group spacing={5} className={cx({ [classes.hide]: isBurgerVisible })}>
           {items}
         </Group>
         <Group spacing={1}>
           <ToggleColorButton onToggleColorScheme={handleToggleColorScheme} />
           {user ? (
-            user.isAdmin ? (
-              <AdminButton />
-            ) : (
-              <UserButton />
-            )
+            <>
+              {!isBurgerVisible && user.isAdmin && !isAdminRoute && (
+                <OrderButton />
+              )}
+              {user.isAdmin && (
+                <>{!isAdminRoute ? <AdminButton /> : <ShopButton />}</>
+              )}
+              {!user.isAdmin && <OrderButton />}
+              {!isBurgerVisible && <SignOutButton />}
+            </>
           ) : (
             <SignInButton />
           )}
-          {!isBurgerVisible && user && <SignOutButton />}
-          <Link
-            to="/checkout"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <Button
-              onClick={handleLinkClick}
-              size="xs"
-              variant="subtle"
-              data-cy="cart-link"
-              radius="xl"
+          {!isAdminRoute && (
+            <Link
+              to="/checkout"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
             >
-              <IconShoppingCart size={29} stroke="1.2" />
-              {cartQuantity > 0 && (
-                <Box
-                  sx={{
-                    borderRadius: '10rem',
-                    background: theme.colors.blue[4],
-                    color: 'white',
-                    width: '1.1rem',
-                    height: '1.1rem',
-                    position: 'absolute',
-                    bottom: 0,
-                    right: 0,
-                    display: 'flex',
-                    transform: 'translate(-30%, -95%)',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}
-                  data-cy="cart-items-count-badge"
-                >
-                  {cartQuantity}
-                </Box>
-              )}
-            </Button>
-          </Link>
+              <Button
+                onClick={handleLinkClick}
+                size="xs"
+                variant="subtle"
+                data-cy="cart-link"
+                radius="xl"
+              >
+                <IconShoppingCart size={29} stroke="1.2" />
+                {cartQuantity > 0 && (
+                  <Box
+                    sx={{
+                      borderRadius: '10rem',
+                      background: theme.colors.blue[4],
+                      color: 'white',
+                      width: '1.1rem',
+                      height: '1.1rem',
+                      position: 'absolute',
+                      bottom: 0,
+                      right: 0,
+                      display: 'flex',
+                      transform: 'translate(-30%, -95%)',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}
+                    data-cy="cart-items-count-badge"
+                  >
+                    {cartQuantity}
+                  </Box>
+                )}
+              </Button>
+            </Link>
+          )}
         </Group>
         <Burger
           opened={opened}
           onClick={toggle}
-          className={classes.burger}
+          className={cx({ [classes.hide]: !isBurgerVisible })}
           size="sm"
         />
         <Transition transition="pop-top-right" duration={200} mounted={opened}>
           {(styles) => (
-            <Paper className={classes.dropdown} withBorder style={styles}>
+            <Paper
+              className={cx(classes.dropdown, {
+                [classes.hide]: !isBurgerVisible,
+              })}
+              withBorder
+              style={styles}
+            >
               {items}
               {user ? (
-                <ul key="4">
-                  <Link
-                    key="signout"
-                    to="/"
-                    className={classes.link}
-                    onClick={() => {
-                      close();
-                      handleSignOut();
-                    }}
-                  >
-                    Sign out
-                  </Link>
-                </ul>
+                <>
+                  {user.isAdmin && !isAdminRoute && (
+                    <ul key="4">
+                      <Link
+                        key="orders"
+                        to="/orders"
+                        className={classes.link}
+                        onClick={() => {
+                          close();
+                        }}
+                      >
+                        My Orders
+                      </Link>
+                    </ul>
+                  )}
+                  <ul key="5">
+                    <Link
+                      key="signout"
+                      to="/"
+                      className={classes.link}
+                      onClick={() => {
+                        close();
+                        handleSignOut();
+                      }}
+                    >
+                      Sign out
+                    </Link>
+                  </ul>
+                </>
               ) : null}
             </Paper>
           )}
