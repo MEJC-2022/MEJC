@@ -75,6 +75,14 @@ export interface Order {
   createdAt: Date;
 }
 
+const handleShippedClick = () => {
+  console.log('Shipped button was clicked');
+};
+
+const handleNotShippedClick = () => {
+  console.log('Not Shipped button was clicked');
+};
+
 export function AdminOrderAccordion({ order }: { order: Order }) {
   const { classes } = useStyles();
   const theme = useMantineTheme();
@@ -114,7 +122,7 @@ export function AdminOrderAccordion({ order }: { order: Order }) {
               className={classes.controlText}
             >
               <Text size="md" weight={500}>
-                Details
+                {order.userId}
               </Text>
             </Flex>
           </Flex>
@@ -174,6 +182,9 @@ export function AdminOrderAccordion({ order }: { order: Order }) {
               </Card>
             </Flex>
           </Flex>
+          <Text mt={6} ml={3} display={{ base: 'block', sm: 'none' }}>
+            Ordered by: {order.userId}
+          </Text>
         </Accordion.Panel>
       </Accordion.Item>
       {isSmallScreen ? (
@@ -183,6 +194,7 @@ export function AdminOrderAccordion({ order }: { order: Order }) {
             variant="light"
             color="green"
             className={classes.circleButton}
+            onClick={handleShippedClick}
           >
             <IconCheck size={25} />
           </ActionIcon>
@@ -192,18 +204,29 @@ export function AdminOrderAccordion({ order }: { order: Order }) {
             variant="light"
             color="yellow"
             className={classes.circleButton}
+            onClick={handleNotShippedClick}
           >
             <Loader color="yellow" size="sm" />
           </ActionIcon>
         )
       ) : order.isShipped ? (
-        <Button variant="light" color="green" className={classes.button}>
+        <Button
+          variant="light"
+          color="green"
+          className={classes.button}
+          onClick={handleShippedClick}
+        >
           Shipped
         </Button>
       ) : (
-        <Button variant="outline" color="red" className={classes.button}>
-        Not Shipped
-      </Button>
+        <Button
+          variant="outline"
+          color="red"
+          className={classes.button}
+          onClick={handleNotShippedClick}
+        >
+          Not Shipped
+        </Button>
       )}
     </Container>
   );
