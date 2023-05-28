@@ -5,7 +5,6 @@ import {
   Title,
   createStyles,
   rem,
-  useMantineTheme,
 } from '@mantine/core';
 import { AdminOrderAccordion } from '../../components/AdminOrderAcc';
 import { Order } from '../../components/UserOrderAcc';
@@ -13,7 +12,6 @@ import { mockOrders } from '../mockOrder';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
-    // display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     backgroundImage:

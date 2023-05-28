@@ -1,4 +1,11 @@
-import { Button, Container, Group, SimpleGrid, Title } from '@mantine/core';
+import {
+  Button,
+  Container,
+  Group,
+  SimpleGrid,
+  Title,
+  useMantineTheme,
+} from '@mantine/core';
 import { IconShieldPlus } from '@tabler/icons-react';
 import { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
@@ -7,6 +14,7 @@ import { ProductContext } from '../../contexts/ProductContext';
 
 function AdminProducts() {
   const { products, deleteProduct, fetchProducts } = useContext(ProductContext);
+  const theme = useMantineTheme();
 
   useEffect(() => {
     fetchProducts();
@@ -14,7 +22,18 @@ function AdminProducts() {
 
   return (
     <Container size="xl">
-      <Title mb="lg" ta="center">
+      <Title
+        mb="xl"
+        ta="center"
+        sx={{
+          marginTop: '7.2rem',
+          fontSize: '3rem',
+          color:
+            theme.colorScheme === 'dark'
+              ? theme.colors.blue[5]
+              : theme.colors.gray[8],
+        }}
+      >
         Admin - Product Management
       </Title>
       <Group position="center" mb="xl">
@@ -26,6 +45,7 @@ function AdminProducts() {
         </Link>
       </Group>
       <SimpleGrid
+        sx={{ marginTop: '5rem', marginBottom: '3rem' }}
         cols={3}
         spacing="xl"
         verticalSpacing="xl"
