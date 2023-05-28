@@ -1,10 +1,12 @@
 import {
   Accordion,
+  ActionIcon,
   Button,
   Card,
   Container,
   Divider,
   Flex,
+  Loader,
   Table,
   Text,
   createStyles,
@@ -12,13 +14,12 @@ import {
   useMantineTheme,
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import { IconAt, IconPhone } from '@tabler/icons-react';
+import { IconAt, IconCheck, IconPhone } from '@tabler/icons-react';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
     display: 'flex',
     flexDirection: 'row',
-    //alignItems: 'center',
   },
   item: {
     flex: 1,
@@ -44,6 +45,11 @@ const useStyles = createStyles((theme) => ({
   },
   button: {
     marginTop: theme.spacing.sm,
+    marginLeft: 10,
+    width: 120,
+  },
+  circleButton: {
+    marginTop: theme.spacing.md,
     marginLeft: 10,
   },
 }));
@@ -122,7 +128,6 @@ export function AdminOrderAccordion({ order }: { order: Order }) {
                   <tr>
                     <th>Product</th>
                     <th>Quantity</th>
-                    <th>Price</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -130,7 +135,6 @@ export function AdminOrderAccordion({ order }: { order: Order }) {
                     <tr key={item._id}>
                       <td>{item._id}</td>
                       <td>{item.quantity}</td>
-                      <td>€10 </td>
                     </tr>
                   ))}
                 </tbody>
@@ -172,9 +176,35 @@ export function AdminOrderAccordion({ order }: { order: Order }) {
           </Flex>
         </Accordion.Panel>
       </Accordion.Item>
-      <Button variant="outline" className={classes.button}>
-        Shipped
+      {isSmallScreen ? (
+        order.isShipped ? (
+          <ActionIcon
+            radius="lg"
+            variant="light"
+            color="green"
+            className={classes.circleButton}
+          >
+            <IconCheck size={25} />
+          </ActionIcon>
+        ) : (
+          <ActionIcon
+            radius="lg"
+            variant="light"
+            color="yellow"
+            className={classes.circleButton}
+          >
+            <Loader color="yellow" size="sm" />
+          </ActionIcon>
+        )
+      ) : order.isShipped ? (
+        <Button variant="light" color="green" className={classes.button}>
+          Shipped
+        </Button>
+      ) : (
+        <Button variant="outline" color="red" className={classes.button}>
+        Not Shipped
       </Button>
+      )}
     </Container>
   );
 }
