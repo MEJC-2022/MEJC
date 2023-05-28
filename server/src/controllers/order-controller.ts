@@ -5,7 +5,7 @@ import {
   addressSchema,
   orderItemSchema,
   userIdSchema,
-} from '../validation/order-validation';
+} from '../validations/order-validation';
 
 export async function createOrder(req: Request, res: Response) {
   const { address, orderItems, userId } = req.body;
