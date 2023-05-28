@@ -32,37 +32,31 @@ const useStyles = createStyles((theme) => ({
     fontSize: rem(220),
     fontWeight: 900,
     lineHeight: 1,
-    color:
-      theme.colorScheme === 'dark'
-        ? theme.colors.blue[5]
-        : theme.white,
     [theme.fn.smallerThan('sm')]: {
-      fontSize: rem(120),
+      fontSize: rem(80),
     },
   },
-
   titleColor: {
-    color: theme.white,
+    color: theme.colors.gray[1],
   },
-
   secondTitle: {
     textAlign: 'center',
     fontWeight: 900,
     fontSize: rem(38),
     marginBottom: rem(30),
     color:
-      theme.colorScheme === 'dark'
-        ? theme.white
-        : theme.white,
+    theme.colorScheme === 'dark'
+      ? theme.colors.gray[5]
+      : theme.colors.gray[1],
     [theme.fn.smallerThan('sm')]: {
       fontSize: rem(30),
     },
   },
   icon: {
     color:
-      theme.colorScheme === 'dark'
-        ? theme.white
-        : theme.white,
+    theme.colorScheme === 'dark'
+      ? theme.colors.gray[5]
+      : theme.colors.gray[1],
     [theme.fn.smallerThan('sm')]: {
       fontSize: rem(30),
     },
