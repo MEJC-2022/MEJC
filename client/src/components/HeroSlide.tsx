@@ -1,10 +1,15 @@
 import { Box } from '@mantine/core';
+import { useContext } from 'react';
 import { Autoplay, Navigation, Pagination } from 'swiper';
-import { Swiper } from 'swiper/react';
+import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper-bundle.css';
 import 'swiper/swiper.min.css';
+import { ProductContext } from '../contexts/ProductContext';
+import HeroSlideItem from './HeroSlideItem';
 
 function HeroSlide() {
+  const { products } = useContext(ProductContext);
+
   return (
     <Box
       sx={{
@@ -23,12 +28,11 @@ function HeroSlide() {
         navigation
         pagination={{ clickable: true }}
       >
-        {/* DISABLED FOR NOW */}
-        {/* {Product.slice(0, 4).map((product) => (
-          <SwiperSlide style={{ height: '22rem' }} key={product.id}>
+        {products.slice(0, 4).map((product) => (
+          <SwiperSlide style={{ height: '22rem' }} key={product._id}>
             <HeroSlideItem imageSrc={product.image} />
           </SwiperSlide>
-        ))} */}
+        ))}
       </Swiper>
     </Box>
   );
