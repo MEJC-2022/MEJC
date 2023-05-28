@@ -58,16 +58,16 @@ const useStyles = createStyles((theme) => ({
   },
   secondTitle: {
     color:
-    theme.colorScheme === 'dark'
-      ? theme.colors.gray[5]
-      : theme.colors.gray[1]
+      theme.colorScheme === 'dark'
+        ? theme.colors.gray[5]
+        : theme.colors.gray[1],
   },
 
   titleColor: {
     color:
-    theme.colorScheme === 'dark'
-      ? theme.colors.gray[5]
-      : theme.colors.gray[1]
+      theme.colorScheme === 'dark'
+        ? theme.colors.gray[5]
+        : theme.colors.gray[1],
   },
 
   description: {

@@ -155,27 +155,23 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
       <img src="/assets/T101-logo-darkmode.svg" alt="T101 logo" />
     );
 
-  const items = useMemo(
-    () =>
-      links.map((link, index) => (
-        <ul key={index}>
-          <Link
-            key={link.label}
-            to={link.link}
-            className={cx(classes.link, {
-              [classes.linkActive]: link === activeLink,
-            })}
-            onClick={() => {
-              setActive(link.link);
-              close();
-            }}
-          >
-            {link.label}
-          </Link>
-        </ul>
-      )),
-    [links, active, classes.link, classes.linkActive, close],
-  );
+  const items = links.map((link, index) => (
+    <ul key={index}>
+      <Link
+        key={link.label}
+        to={link.link}
+        className={cx(classes.link, {
+          [classes.linkActive]: link === activeLink,
+        })}
+        onClick={() => {
+          setActive(link.link);
+          close();
+        }}
+      >
+        {link.label}
+      </Link>
+    </ul>
+  ));
 
   const [isBurgerVisible, setIsBurgerVisible] = useState(false);
 
