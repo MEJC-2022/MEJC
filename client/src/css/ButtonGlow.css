@@ -1,0 +1,24 @@
+:root {
+    --neon-middle: white;
+    --neon-blue: #74c0fc;
+  }
+
+  .buttonGlow {
+    transition: 0.1s;
+}
+  
+
+.buttonGlow:hover {
+    box-shadow: 0 0 10px var(--neon-blue);
+    transition: 0.5s;
+}
+ 
+
+  .buttonGlow:active {
+    box-shadow: 0 0 5px var(--neon-blue), 0 0 10px var(--neon-blue);
+    transition: 0.5s;
+}
+
+/* .buttonGlow::after {
+    box-shadow: none;
+} */

@@ -7,6 +7,7 @@ import {
   Image,
   Text,
   Title,
+  useMantineTheme,
 } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconShoppingCartPlus } from '@tabler/icons-react';
@@ -21,6 +22,7 @@ export interface Props {
 function ProductCard({ product }: Props) {
   const { increaseCartQuantity } = useShoppingCart();
   const link = '/product/' + product._id;
+  const theme = useMantineTheme();
 
   return (
     <>
@@ -94,6 +96,7 @@ function ProductCard({ product }: Props) {
             variant="light"
             mt="md"
             radius="md"
+            className={theme.colorScheme === 'dark' ? 'buttonGlow' : ''}
             onClick={() => {
               increaseCartQuantity(product._id);
               notifications.show({

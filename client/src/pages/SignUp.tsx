@@ -99,7 +99,7 @@ export default function SignIn() {
         Sign up
       </Title>
       <Box maw={600} className={classes.form}>
-        <form onSubmit={form.onSubmit(handleSubmit)}>
+        <form onSubmit={form.onSubmit(handleSubmit)} autoComplete="off">
           <TextInput
             label="Email"
             placeholder="your@email.com"
@@ -125,7 +125,8 @@ export default function SignIn() {
           <Group position="right" mt="md">
             <Button
               type="submit"
-              className={classes.control}
+              variant="light"
+              className={theme.colorScheme === 'dark' ? 'buttonGlow' : ''}
               disabled={isLoading}
             >
               {isLoading ? (
