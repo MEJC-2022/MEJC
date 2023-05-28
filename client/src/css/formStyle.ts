@@ -1,4 +1,4 @@
-import { createStyles, rem } from '@mantine/core';
+import { createStyles, rem, useMantineTheme } from '@mantine/core';
 
 export const formStyle = createStyles((theme) => ({
   wrapper: {
@@ -21,6 +21,7 @@ export const formStyle = createStyles((theme) => ({
     boxShadow: theme.shadows.lg,
     width: '100%',
     minWidth: '290px',
+    border: theme.colorScheme === 'light' ? '1px #EEEEEE solid' : 'none',
   },
   input: {
     backgroundColor:

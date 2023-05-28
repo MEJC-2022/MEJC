@@ -6,6 +6,7 @@ import {
   Divider,
   Flex,
   Text,
+  useMantineTheme,
 } from '@mantine/core';
 import { Fragment, useContext } from 'react';
 import { Link } from 'react-router-dom';
@@ -20,6 +21,9 @@ function Cart() {
   const { cartProducts, cartQuantity } = useShoppingCart();
   const { products } = useContext(ProductContext);
   const { user } = useAuth();
+  const theme = useMantineTheme();
+  const isLightColorScheme = theme.colorScheme === 'light';
+  const borderStyle = isLightColorScheme ? '1px #EEEEEE solid' : 'none';
 
   <Text weight={500} size={29}>
     total:{' '}
@@ -38,8 +42,8 @@ function Cart() {
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          marginTop: '2rem',
-          marginBottom: '2rem',
+          paddingTop: '2rem',
+          paddingBottom: '2rem',
         }}
         size="xs"
       >
@@ -131,6 +135,7 @@ function Cart() {
                   alignItems: 'center',
                   marginTop: '0.7rem',
                   marginBottom: '1rem',
+                  border: borderStyle,
                   '@media(max-width:721px)': {
                     width: '20rem',
                   },

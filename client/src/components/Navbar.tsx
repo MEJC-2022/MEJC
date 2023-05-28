@@ -116,6 +116,9 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
   const navigate = useNavigate();
   const currentLocation = useLocation();
   const isAdminRoute = currentLocation.pathname.includes('/admin');
+  const activeLink = links.find(
+    (link) => link.link === currentLocation.pathname,
+  );
 
   const handleSignOut = async () => {
     try {
@@ -160,7 +163,7 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
             key={link.label}
             to={link.link}
             className={cx(classes.link, {
-              [classes.linkActive]: active === link.link,
+              [classes.linkActive]: link === activeLink,
             })}
             onClick={() => {
               setActive(link.link);
