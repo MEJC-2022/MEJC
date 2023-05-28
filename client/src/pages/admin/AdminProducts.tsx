@@ -4,6 +4,7 @@ import {
   Group,
   SimpleGrid,
   Title,
+  rem,
   useMantineTheme,
 } from '@mantine/core';
 import { IconShieldPlus } from '@tabler/icons-react';
@@ -28,6 +29,10 @@ function AdminProducts() {
         sx={{
           marginTop: '7.2rem',
           fontSize: '3rem',
+          [theme.fn.smallerThan('sm')]: {
+            fontSize: rem(40),
+            marginTop: '3rem',
+          },
           color:
             theme.colorScheme === 'dark'
               ? theme.colors.blue[5]
