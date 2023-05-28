@@ -19,6 +19,7 @@ export interface Product {
   price: number;
   stock: number;
   categories: Category[];
+  createdAt: Date;
 }
 
 export interface CartItem extends Product {

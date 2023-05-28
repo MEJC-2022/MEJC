@@ -80,7 +80,7 @@ function HeroSlideItem({ imageSrc }: HeroSlideItemProps) {
           <Box sx={{ width: '50%', height: '100%' }}>
             <img
               style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-              src={imageSrc}
+              src={'/api/file/' + imageSrc}
               alt="product-image"
             />
           </Box>
