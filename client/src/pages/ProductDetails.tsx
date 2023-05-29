@@ -83,15 +83,15 @@ function ProductDetails() {
               variant="gradient"
               gradient={{ from: 'orange', to: 'red' }}
               pos="absolute"
-              top="30%"
-              right="5%"
+              top="33%"
+              right="8%"
             >
               {product.stock === 0
                 ? 'Out of stock'
                 : `${product.stock} in stock`}
             </Badge>
           ) : (
-            <Badge variant="gradient" pos="absolute" top="30%" right="5%">
+            <Badge variant="gradient" pos="absolute" top="33%" right="8%">
               {product.stock} in stock
             </Badge>
           )}
