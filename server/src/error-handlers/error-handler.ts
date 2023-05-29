@@ -8,10 +8,10 @@ export function errorHandler(
   res: Response,
   next: NextFunction,
 ) {
-  // Global error handling
+  // Logs every error to the console
   console.error(err);
 
-  // Error handling for specific errors
+  // Sends error messages to client based on error type
   if (
     err instanceof mongoose.Error.ValidationError ||
     err instanceof mongoose.Error.ValidatorError
