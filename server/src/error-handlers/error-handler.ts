@@ -11,24 +11,23 @@ export function errorHandler(
   // Global error handling
   console.error(err);
 
-  // should not send error messages to the client in production
-  //   if (process.env.NODE_ENV === 'production') {
-  //     return res.status(500).json('Unknown error');
-  //   }
-
   // Error handling for specific errors
   if (
     err instanceof mongoose.Error.ValidationError ||
-    err instanceof mongoose.Error.ValidatorError ||
-    err instanceof mongoose.Error.CastError
+    err instanceof mongoose.Error.ValidatorError
   ) {
     return res.status(400).json(err.message);
   } else if (err instanceof mongoose.Error.DocumentNotFoundError) {
-    return res.status(404).json(err.message);
+    return res.status(404).json({ error: 'Resource not found' });
   } else if (err instanceof ServerError) {
     return res.status(err.status).json(err.message);
   } else if (err instanceof Error) {
-    res.status(500).json(err.message);
+    // should not send error details to client in production
+    if (process.env.NODE_ENV === 'production') {
+      return res.status(500).json('Unknown error');
+    } else {
+      return res.status(500).json(err.message);
+    }
   } else {
     res.status(500).json('Unknown error');
   }
