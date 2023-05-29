@@ -9,7 +9,7 @@ import {
 import { useContext, useEffect, useState } from 'react';
 import { Order, UserOrderAccordion } from '../components/UserOrderAcc';
 import { useAuth } from '../contexts/AuthContext';
-import { Product, ProductContext } from '../contexts/ProductContext';
+import { ProductContext } from '../contexts/ProductContext';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -52,7 +52,6 @@ export default function UserOrders() {
   const { user } = useAuth();
 
   const [loading, setLoading] = useState(false);
-  const [products, setProducts] = useState<Product[]>([]);
   const [userOrders, setUserOrders] = useState<Order[]>([]);
   const { fetchAllCreatedProducts } = useContext(ProductContext);
 

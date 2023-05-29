@@ -6,10 +6,11 @@ import {
   createStyles,
   rem,
 } from '@mantine/core';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { AdminOrderAccordion } from '../../components/AdminOrderAcc';
 import { Order } from '../../components/UserOrderAcc';
 import { useAuth } from '../../contexts/AuthContext';
-import { Product } from '../../contexts/ProductContext';
+import { ProductContext } from '../../contexts/ProductContext';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -50,41 +51,14 @@ export default function AdminOrders() {
   const { user } = useAuth();
 
   const [loading, setLoading] = useState(false);
-  const [products, setProducts] = useState<Product[]>([]);
   const [allOrders, setAllOrders] = useState<Order[]>([]);
+  const { fetchAllCreatedProducts } = useContext(ProductContext);
 
-  async function getAllCreatedProducts() {
-    setLoading(true);
-    if (!user) return;
-
-    try {
-      const response = await fetch('api/products/created', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (response.ok) {
-        const products = await response.json();
-        setProducts(products);
-      } else {
-        const message = await response.text();
-        setProducts([]);
-        throw new Error(message);
-      }
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  async function getUserOrders() {
+  async function getAllOrders() {
     setLoading(true);
 
     try {
-      const response = await fetch('api/orders', {
+      const response = await fetch('/api/orders', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -107,8 +81,8 @@ export default function AdminOrders() {
   }
 
   useEffect(() => {
-    getAllCreatedProducts();
-    // getUserOrders();
+    fetchAllCreatedProducts();
+    getAllOrders();
   }, []);
 
   return (
@@ -118,13 +92,9 @@ export default function AdminOrders() {
           Admin - Order Management
         </Title>
         <Accordion transitionDuration={600} className={classes.accordion}>
-          {/* {[...allOrders].reverse().map((order: Order) => (
-            <AdminOrderAccordion
-              order={order}
-              products={products}
-              key={order._id}
-            />
-          ))} */}
+          {[...allOrders].reverse().map((order: Order) => (
+            <AdminOrderAccordion order={order} key={order._id} />
+          ))}
         </Accordion>
       </Container>
     </Box>

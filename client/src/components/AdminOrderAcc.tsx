@@ -15,7 +15,8 @@ import {
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { IconAt, IconCheck, IconPhone } from '@tabler/icons-react';
-import { Product } from '../contexts/ProductContext';
+import { useContext } from 'react';
+import { ProductContext } from '../contexts/ProductContext';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -84,16 +85,11 @@ const handleNotShippedClick = () => {
   console.log('Not Shipped button was clicked');
 };
 
-export function AdminOrderAccordion({
-  order,
-  products,
-}: {
-  order: Order;
-  products: Product[];
-}) {
+export function AdminOrderAccordion({ order }: { order: Order }) {
   const { classes } = useStyles();
   const theme = useMantineTheme();
   const isSmallScreen = useMediaQuery('(max-width: 767px)');
+  const { allCreatedProducts } = useContext(ProductContext);
 
   return (
     <Container className={classes.wrapper}>
@@ -146,12 +142,23 @@ export function AdminOrderAccordion({
                   </tr>
                 </thead>
                 <tbody>
-                  {order.orderItems.map((item) => (
-                    <tr key={item._id}>
-                      <td>{item._id}</td>
-                      <td>{item.quantity}</td>
-                    </tr>
-                  ))}
+                  {order.orderItems.map((item) => {
+                    const product = allCreatedProducts.find(
+                      (product) => product._id === item._id,
+                    );
+
+                    return (
+                      <tr key={item._id}>
+                        <td>{product ? product.title : 'Product not found'}</td>
+                        <td>{item.quantity}</td>
+                        <td>
+                          {product
+                            ? `€${product.price}`
+                            : 'Price not available'}
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </Table>
               <Flex
