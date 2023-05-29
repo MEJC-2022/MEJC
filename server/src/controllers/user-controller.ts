@@ -6,7 +6,7 @@ import { UserModel } from '../models/user-model';
 
 export async function getUserList(req: Request, res: Response) {
   const userList = await UserModel.find({});
-  res.status(200).json(userList);
+  res.json(userList);
 }
 
 export function getLoggedInUser(req: Request, res: Response) {
@@ -15,7 +15,7 @@ export function getLoggedInUser(req: Request, res: Response) {
     // TODO: create different middlewares for just "checking" and for actually verifying and throwing errors
     return res.status(204).end();
   }
-  res.status(200).json(req.session?.user);
+  res.json(req.session?.user);
 }
 
 export async function registerUser(req: Request, res: Response) {
@@ -60,7 +60,7 @@ export async function loginUser(req: Request, res: Response) {
       email: user.email,
       isAdmin: user.isAdmin,
     };
-    res.status(200).json({
+    res.json({
       message: 'A new session has been set',
       session: req.session.user,
     });
@@ -89,7 +89,5 @@ export async function updateUserRole(req: Request, res: Response) {
   if (!user) {
     throw new APIError(401, 'User was not found');
   }
-  res
-    .status(200)
-    .json({ message: 'The role for user has been changed', user: user });
+  res.json({ message: 'The role for user has been changed', user: user });
 }
