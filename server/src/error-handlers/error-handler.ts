@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import mongoose from 'mongoose';
+import { APIError } from './error-classes/api-error';
 import { SessionError } from './error-classes/session-error';
-import { UserError } from './error-classes/user-error';
 
 export function errorHandler(
   err: unknown,
@@ -33,7 +33,7 @@ export function errorHandler(
     return res
       .status(err.status)
       .json({ error: err.message, currentSession: err.session ?? undefined });
-  } else if (err instanceof UserError) {
+  } else if (err instanceof APIError) {
     return res.status(err.status).json({ error: err.message });
 
     // Other errors

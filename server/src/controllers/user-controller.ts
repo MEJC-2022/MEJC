@@ -1,7 +1,7 @@
 import argon2 from 'argon2';
 import { Request, Response } from 'express';
+import { APIError } from '../error-handlers/error-classes/api-error';
 import { SessionError } from '../error-handlers/error-classes/session-error';
-import { UserError } from '../error-handlers/error-classes/user-error';
 import { UserModel } from '../models/user-model';
 
 export async function getUserList(req: Request, res: Response) {
@@ -87,7 +87,7 @@ export async function updateUserRole(req: Request, res: Response) {
     { new: true },
   );
   if (!user) {
-    throw new UserError(401, 'User was not found');
+    throw new APIError(401, 'User was not found');
   }
   res
     .status(200)
