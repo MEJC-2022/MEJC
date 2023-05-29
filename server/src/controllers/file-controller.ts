@@ -2,6 +2,7 @@ import busboy from 'busboy';
 import { Request, Response } from 'express';
 import mongoose from 'mongoose';
 import sharp from 'sharp';
+import { APIError } from '../error-handlers/error-classes/api-error';
 import { fileBucket } from '../models/file-model';
 
 export async function getFileById(req: Request, res: Response) {
@@ -9,7 +10,7 @@ export async function getFileById(req: Request, res: Response) {
 
   const file = await fileBucket.find({ _id }).next();
   if (!file?.contentType) {
-    return res.status(404).json('File not found');
+    throw new APIError(401, 'File was not found');
   }
 
   res.setHeader('Content-Type', file.contentType);
@@ -42,7 +43,7 @@ export async function deleteFileById(req: Request, res: Response) {
 
   const file = await fileBucket.find({ _id }).next();
   if (!file) {
-    return res.status(404).json('File not found');
+    throw new APIError(401, 'File was not found');
   }
 
   await fileBucket.delete(_id);
