@@ -6,8 +6,6 @@ import {
   createStyles,
   rem,
 } from '@mantine/core';
-import { AdminOrderAccordion } from '../../components/AdminOrderAcc';
-import { Order } from '../../components/UserOrderAcc';
 import { mockOrders } from '../mockOrder';
 
 const useStyles = createStyles((theme) => ({
@@ -56,9 +54,9 @@ export default function AdminOrders() {
           Admin - Order Management
         </Title>
         <Accordion transitionDuration={600} className={classes.accordion}>
-          {orders.map((order: Order) => (
+          {/* {orders.map((order: Order) => (
             <AdminOrderAccordion order={order} key={order._id} />
-          ))}
+          ))} */}
         </Accordion>
       </Container>
     </Box>

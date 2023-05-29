@@ -13,6 +13,7 @@ import {
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { IconAt, IconCheck, IconPhone } from '@tabler/icons-react';
+import { Product } from '../contexts/ProductContext';
 
 const useStyles = createStyles((theme) => ({
   item: {
@@ -64,10 +65,16 @@ export interface Order {
   }[];
   isShipped: boolean;
   totalPrice: number;
-  createdAt: Date;
+  createdAt: string;
 }
 
-export function UserOrderAccordion({ order }: { order: Order }) {
+export function UserOrderAccordion({
+  order,
+  products,
+}: {
+  order: Order;
+  products: Product[];
+}) {
   const { classes } = useStyles();
   const theme = useMantineTheme();
   const isSmallScreen = useMediaQuery('(max-width: 767px)');
@@ -78,7 +85,7 @@ export function UserOrderAccordion({ order }: { order: Order }) {
         <Flex justify="space-between">
           <Flex sx={{ flex: 2, [theme.fn.smallerThan('sm')]: { flex: 3 } }}>
             <Text size="md" weight={700}>
-              #{order._id}
+              #{order._id.slice(0, 6)}
             </Text>
           </Flex>
 
@@ -92,7 +99,7 @@ export function UserOrderAccordion({ order }: { order: Order }) {
             }}
           >
             <Text size="md" weight={500}>
-              {order.createdAt.toISOString().substring(0, 10)}
+              {new Date(order.createdAt).toISOString().split('T')[0]}
             </Text>
           </Flex>
 
@@ -146,13 +153,21 @@ export function UserOrderAccordion({ order }: { order: Order }) {
                 </tr>
               </thead>
               <tbody>
-                {order.orderItems.map((item) => (
-                  <tr key={item._id}>
-                    <td>{item._id}</td>
-                    <td>{item.quantity}</td>
-                    <td>€10 </td>
-                  </tr>
-                ))}
+                {order.orderItems.map((item) => {
+                  const product = products.find(
+                    (product) => product._id === item._id,
+                  );
+
+                  return (
+                    <tr key={item._id}>
+                      <td>{product ? product.title : 'Product not found'}</td>
+                      <td>{item.quantity}</td>
+                      <td>
+                        {product ? `€${product.price}` : 'Price not available'}
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </Table>
             <Flex

@@ -32,7 +32,7 @@ som en kravspecifikation. Förutom det har ni fria händer att ta fram en grym i
 ### VG
 
 - [x] Ett CI-flöde ska sättas upp (i början av projektet) som kontrollerar prettier, eslint, typescript & tester i varje PR, tester kan lånas ifrån tidigare uppgifter (VG)
-- [ ] När man är inloggad som kund ska man kunna se sina gjorda beställningar och om de är skickade eller inte (VG)
+- [x] När man är inloggad som kund ska man kunna se sina gjorda beställningar och om de är skickade eller inte (VG)
 - [x] Administratörer ska kunna redigera en produkt inklusive vilka kategorier den tillhör (VG)
 - [x] Administratörer ska kunna lägga till och ta bort produkter (VG)
 - [ ] Backendapplikationen ska ha en fungerande global felhantering (VG)
