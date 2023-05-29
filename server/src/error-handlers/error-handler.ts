@@ -8,21 +8,30 @@ export function errorHandler(
   res: Response,
   next: NextFunction,
 ) {
-  // Logs every error to the console
+  // Logs every error
   console.error(err);
 
-  // Sends error messages to client based on error type
-  if (
-    err instanceof mongoose.Error.ValidationError ||
-    err instanceof mongoose.Error.ValidatorError
-  ) {
+  // Mongoose/MongoDB errors
+  if (err instanceof mongoose.Error.ValidationError) {
+    const validationErrors = err.errors;
+    const errorMessages = Object.values(validationErrors).map(
+      (error) => error.message,
+    );
+    return res
+      .status(400)
+      .json({ error: 'Validation error', messages: errorMessages });
+  } else if (err instanceof mongoose.Error.ValidatorError) {
     return res.status(400).json(err.message);
   } else if (err instanceof mongoose.Error.DocumentNotFoundError) {
     return res.status(404).json({ error: 'Resource not found' });
   } else if (err instanceof mongoose.Error.CastError) {
     return res.status(400).json({ error: 'Invalid ID' });
+
+    // Custom errors
   } else if (err instanceof ServerError) {
     return res.status(err.status).json(err.message);
+
+    // Other errors
   } else if (err instanceof Error) {
     // should not send error details to client in production
     if (process.env.NODE_ENV === 'production') {

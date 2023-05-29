@@ -2,14 +2,6 @@ import argon2 from 'argon2';
 import { Request, Response } from 'express';
 import { UserModel } from '../models/user-model';
 
-// export function getLoggedInUser(req: Request, res: Response) {
-//   console.log(req.session);
-//   if (!req.session || !req.session.user) {
-//     throw new APIError('You must login', 401);
-//   }
-//   res.status(200).json(req.session?.user);
-// }
-
 export async function getUserList(req: Request, res: Response) {
   const userList = await UserModel.find({});
   res.status(200).json(userList);
@@ -19,6 +11,7 @@ export function getLoggedInUser(req: Request, res: Response) {
   // Checks if user is logged in
   if (!req.session || !req.session.user) {
     // ? use a SessionError?
+    // throw new APIError('You must login', 401);
     return res.status(204).end();
   }
   res.status(200).json(req.session?.user);
