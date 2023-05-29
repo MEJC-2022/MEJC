@@ -15,6 +15,7 @@ import {
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { IconAt, IconCheck, IconPhone } from '@tabler/icons-react';
+import { Product } from '../contexts/ProductContext';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -72,7 +73,7 @@ export interface Order {
   }[];
   isShipped: boolean;
   totalPrice: number;
-  createdAt: Date;
+  createdAt: string;
 }
 
 const handleShippedClick = () => {
@@ -83,7 +84,13 @@ const handleNotShippedClick = () => {
   console.log('Not Shipped button was clicked');
 };
 
-export function AdminOrderAccordion({ order }: { order: Order }) {
+export function AdminOrderAccordion({
+  order,
+  products,
+}: {
+  order: Order;
+  products: Product[];
+}) {
   const { classes } = useStyles();
   const theme = useMantineTheme();
   const isSmallScreen = useMediaQuery('(max-width: 767px)');
@@ -113,7 +120,7 @@ export function AdminOrderAccordion({ order }: { order: Order }) {
               }}
             >
               <Text size="md" weight={500}>
-                {order.createdAt.toISOString().slice(2, 10)}
+                {new Date(order.createdAt).toISOString().split('T')[0]}
               </Text>
             </Flex>
 

@@ -6,10 +6,10 @@ import {
   rem,
   useMantineTheme,
 } from '@mantine/core';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Order, UserOrderAccordion } from '../components/UserOrderAcc';
 import { useAuth } from '../contexts/AuthContext';
-import { Product } from '../contexts/ProductContext';
+import { Product, ProductContext } from '../contexts/ProductContext';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -50,36 +50,11 @@ export default function UserOrders() {
   const theme = useMantineTheme();
   const { classes } = useStyles();
   const { user } = useAuth();
+
   const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState<Product[]>([]);
   const [userOrders, setUserOrders] = useState<Order[]>([]);
-
-  async function getAllCreatedOrders() {
-    setLoading(true);
-    if (!user) return;
-
-    try {
-      const response = await fetch('api/products/created', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (response.ok) {
-        const products = await response.json();
-        setProducts(products);
-      } else {
-        const message = await response.text();
-        setProducts([]);
-        throw new Error(message);
-      }
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setLoading(false);
-    }
-  }
+  const { fetchAllCreatedProducts } = useContext(ProductContext);
 
   async function getUserOrders() {
     setLoading(true);
@@ -109,7 +84,7 @@ export default function UserOrders() {
   }
 
   useEffect(() => {
-    getAllCreatedOrders();
+    fetchAllCreatedProducts();
     getUserOrders();
   }, []);
 
@@ -127,11 +102,7 @@ export default function UserOrders() {
       ) : (
         <Accordion transitionDuration={600} className={classes.accordion}>
           {[...userOrders].reverse().map((order: Order) => (
-            <UserOrderAccordion
-              order={order}
-              products={products}
-              key={order._id}
-            />
+            <UserOrderAccordion order={order} key={order._id} />
           ))}
         </Accordion>
       )}
