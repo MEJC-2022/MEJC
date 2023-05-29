@@ -2,15 +2,11 @@ import { Request, Response } from 'express';
 import { APIError } from '../error-handlers/error-classes/api-error';
 import { IncomingOrderItem, OrderModel } from '../models/order-model';
 import { ProductModel } from '../models/product-model';
-import {
-  addressSchema,
-  orderItemSchema,
-  userIdSchema,
-} from '../validations/order-validation';
 
 export async function createOrder(req: Request, res: Response) {
   const { address, orderItems, userId } = req.body;
 
+  // Initializations
   let haveArchivedProduct = false;
   let productOutOfStock = false;
   let totalPrice = 0;
@@ -61,36 +57,6 @@ export async function createOrder(req: Request, res: Response) {
   orderItems.forEach((product: IncomingOrderItem) => {
     totalPrice += product.price * product.quantity;
   });
-
-  // Address validation
-  try {
-    await addressSchema.validate(address);
-  } catch (error) {
-    res.set('content-type', 'application/json');
-    return res
-      .status(400)
-      .json(JSON.stringify('Your address is not in the correct format.'));
-  }
-
-  // OrderItem validation
-  try {
-    await orderItemSchema.validate(orderItems);
-  } catch (error) {
-    res.set('content-type', 'application/json');
-    return res
-      .status(400)
-      .json(JSON.stringify('Something wrong with the products in your order.'));
-  }
-
-  // UserId validation
-  try {
-    await userIdSchema.validate(userId);
-  } catch (error) {
-    res.set('content-type', 'application/json');
-    return res
-      .status(400)
-      .json(JSON.stringify('Something wrong with your user id.'));
-  }
 
   const completOrder = {
     userId: userId,

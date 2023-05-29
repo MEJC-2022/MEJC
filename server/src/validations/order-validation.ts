@@ -1,3 +1,4 @@
+import { NextFunction, Request, Response } from 'express';
 import * as Yup from 'yup';
 
 export const addressSchema = Yup.object().shape({
@@ -38,3 +39,15 @@ export const orderItemSchema = Yup.array().of(
 );
 
 export const userIdSchema = Yup.string().required('This field is required');
+
+export async function validateOrder(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
+  const { address, orderItems, userId } = req.body;
+  await addressSchema.validate(address);
+  await orderItemSchema.validate(orderItems);
+  await userIdSchema.validate(userId);
+  next();
+}

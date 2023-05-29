@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
-import * as yup from 'yup';
 import mongoose from 'mongoose';
+import * as yup from 'yup';
 import { APIError } from './error-classes/api-error';
 import { SessionError } from './error-classes/session-error';
 
