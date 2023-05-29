@@ -22,7 +22,7 @@ const initialAuthValues: AuthContextValue = {
   isLoading: false,
   setLoading: () => {},
 };
-interface User {
+export interface User {
   _id: string;
   email: string;
   isAdmin: boolean;

@@ -66,6 +66,7 @@ const router = createBrowserRouter(
           <Route path="users" element={<AdminUsers />} />
         </Route>
       </Route>
+      <Route path="*" element={<Navigate to="/" />} />
     </Route>,
   ),
 );
