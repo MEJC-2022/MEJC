@@ -19,6 +19,8 @@ export function errorHandler(
     return res.status(400).json(err.message);
   } else if (err instanceof mongoose.Error.DocumentNotFoundError) {
     return res.status(404).json({ error: 'Resource not found' });
+  } else if (err instanceof mongoose.Error.CastError) {
+    return res.status(400).json({ error: 'Invalid ID' });
   } else if (err instanceof ServerError) {
     return res.status(err.status).json(err.message);
   } else if (err instanceof Error) {
