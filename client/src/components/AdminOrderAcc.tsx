@@ -85,7 +85,6 @@ export function AdminOrderAccordion({ order }: { order: Order }) {
   const [isShipped, setIsShipped] = useState(order.isShipped);
 
   const shippedClick = (orderId: string) => {
-    console.log(isShipped);
     changeShippedStatus(orderId);
   };
 
