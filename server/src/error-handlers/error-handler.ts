@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import mongoose from 'mongoose';
-import { SessionError } from './error-classes/server-error';
+import { SessionError } from './error-classes/session-error';
+import { UserError } from './error-classes/user-error';
 
 export function errorHandler(
   err: unknown,
@@ -21,7 +22,7 @@ export function errorHandler(
       .status(400)
       .json({ error: 'Validation error', messages: errorMessages });
   } else if (err instanceof mongoose.Error.ValidatorError) {
-    return res.status(400).json(err.message);
+    return res.status(400).json({ error: err.message });
   } else if (err instanceof mongoose.Error.DocumentNotFoundError) {
     return res.status(404).json({ error: 'Resource not found' });
   } else if (err instanceof mongoose.Error.CastError) {
@@ -31,17 +32,19 @@ export function errorHandler(
   } else if (err instanceof SessionError) {
     return res
       .status(err.status)
-      .json({ error: err.message, session: err.session ?? undefined });
+      .json({ error: err.message, currentSession: err.session ?? undefined });
+  } else if (err instanceof UserError) {
+    return res.status(err.status).json({ error: err.message });
 
     // Other errors
   } else if (err instanceof Error) {
     // should not send error details to client in production
     if (process.env.NODE_ENV === 'production') {
-      return res.status(500).json('Unknown error');
+      return res.status(500).json({ error: 'Unknown error' });
     } else {
-      return res.status(500).json(err.message);
+      return res.status(500).json({ error: err.message });
     }
   } else {
-    res.status(500).json('Unknown error');
+    res.status(500).json({ error: 'Unknown error' });
   }
 }

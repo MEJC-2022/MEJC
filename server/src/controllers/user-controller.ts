@@ -1,6 +1,7 @@
 import argon2 from 'argon2';
 import { Request, Response } from 'express';
-import { SessionError } from '../error-handlers/error-classes/server-error';
+import { SessionError } from '../error-handlers/error-classes/session-error';
+import { UserError } from '../error-handlers/error-classes/user-error';
 import { UserModel } from '../models/user-model';
 
 export async function getUserList(req: Request, res: Response) {
@@ -32,26 +33,20 @@ export async function loginUser(req: Request, res: Response) {
 
   // Finds user by email
   const user = await UserModel.findOne({ email }).select('+password');
-
   if (!user) {
-    res
-      .status(404)
-      .json(
-        `No registered account with this email exists. Please make sure you spelled your email correctly`,
-      );
-    return;
+    throw new UserError(
+      404,
+      'No registered account with this email exists. Please make sure you spelled your email correctly',
+    );
   }
 
   // Verifies password
   const isPasswordValid = await argon2.verify(user.password, password);
-
   if (!isPasswordValid) {
-    res
-      .status(401)
-      .json(
-        'The password is incorrect. Make sure you spelled your password correctly',
-      );
-    return;
+    throw new UserError(
+      401,
+      'The password is incorrect. Make sure you spelled your password correctly',
+    );
   }
 
   // Creates cookie session for logged in user
@@ -87,6 +82,9 @@ export async function updateUserRole(req: Request, res: Response) {
     { isAdmin },
     { new: true },
   );
+  if (!user) {
+    throw new UserError(401, 'User was not found');
+  }
   res
     .status(200)
     .json({ message: 'The role for user has been changed', user: user });
