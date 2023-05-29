@@ -153,7 +153,7 @@ export async function getOrdersByUserId(req: Request, res: Response) {
     throw new APIError(401, 'User is not logged in.');
   }
 
-  if (!session.user.isAdmin || session.user._id !== incomingUserId) {
+  if (session.user._id !== incomingUserId) {
     throw new APIError(401, 'User is not authorized to see this order.');
   }
 
