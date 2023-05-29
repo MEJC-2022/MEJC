@@ -1,4 +1,12 @@
-import { Container, Select, Table, createStyles, rem } from '@mantine/core';
+import {
+  Box,
+  Container,
+  Select,
+  Table,
+  Title,
+  createStyles,
+  rem,
+} from '@mantine/core';
 import { IconChevronDown } from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
 import { User } from '../../contexts/AuthContext';
@@ -103,16 +111,27 @@ export default function AdminUsers() {
   const { classes } = useStyles();
 
   return (
-    <Container sx={{ display: 'flex', justifyContent: 'center' }}>
-      <Table highlightOnHover verticalSpacing="md">
-        <thead>
-          <tr>
-            <th>Email</th>
-            <th>Role</th>
-          </tr>
-        </thead>
-        <tbody>{rows}</tbody>
-      </Table>
-    </Container>
+    <Box className={classes.wrapper}>
+      <Container
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+        }}
+      >
+        <Title ta="center" className={classes.title}>
+          Admin - User Management
+        </Title>
+        <Table highlightOnHover verticalSpacing="md">
+          <thead>
+            <tr>
+              <th>Email</th>
+              <th>Role</th>
+            </tr>
+          </thead>
+          <tbody>{rows}</tbody>
+        </Table>
+      </Container>
+    </Box>
   );
 }
