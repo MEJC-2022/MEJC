@@ -83,7 +83,18 @@ function AdminProductCard({ product, onDelete }: Props) {
                     .join(' | ')}
                 </Badge>
               )}
-              <Badge variant="gradient">{product.stock} in stock</Badge>
+              {product.stock === 0 ? (
+                <Badge
+                  variant="gradient"
+                  gradient={{ from: 'orange', to: 'red' }}
+                >
+                  {product.stock === 0
+                    ? 'Out of stock'
+                    : `${product.stock} in stock`}
+                </Badge>
+              ) : (
+                <Badge variant="gradient">{product.stock} in stock</Badge>
+              )}
             </Group>
           </Box>
         </Card.Section>
