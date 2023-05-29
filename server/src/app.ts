@@ -1,5 +1,7 @@
 import cookieSession from 'cookie-session';
-import express, { NextFunction, Request, Response } from 'express';
+import express from 'express';
+import 'express-async-errors';
+import { errorHandler } from './error-handlers/error-handler';
 import categoryRouter from './routers/category-router';
 import fileRouter from './routers/file-router';
 import orderRouter from './routers/order-router';
@@ -20,15 +22,12 @@ app.use(
   }),
 );
 
-// Routers:
+// Routers
 app.use(productRouter);
 app.use(fileRouter);
 app.use(userRouter);
 app.use(categoryRouter);
 app.use(orderRouter);
 
-// Global error-handling:
-app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-  console.error(err);
-  res.status(500).json(err.message);
-});
+// Global error handling
+app.use(errorHandler);

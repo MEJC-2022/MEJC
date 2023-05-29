@@ -26,15 +26,15 @@ som en kravspecifikation. Förutom det har ni fria händer att ta fram en grym i
 - [x] Sidans produkter ska delas upp i kategorier, en produkt ska tillhöra minst en kategori, men kan tillhöra flera (G)
 - [x] Från hemsidan ska man kunna se en lista över alla produkter, och man ska kunna lista bara dom produkter som tillhör en kategori (G)
 - [x] Besökare ska kunna lägga produkterna i en kundkorg, som är sparad i localStorage på klienten (G)
-- [ ] En besökare som gör en beställning ska få möjligheten att registrera sig samt logga in och måste vara inloggad som kund innan beställningen skapas (G)
+- [x] En besökare som gör en beställning ska få möjligheten att registrera sig samt logga in och måste vara inloggad som kund innan beställningen skapas (G)
 - [x] Checkoutflödet i frontendapplikationen ska ha validering på samtliga fält (G)
 
 ### VG
 
 - [x] Ett CI-flöde ska sättas upp (i början av projektet) som kontrollerar prettier, eslint, typescript & tester i varje PR, tester kan lånas ifrån tidigare uppgifter (VG)
-- [ ] När man är inloggad som kund ska man kunna se sina gjorda beställningar och om de är skickade eller inte (VG)
+- [x] När man är inloggad som kund ska man kunna se sina gjorda beställningar och om de är skickade eller inte (VG)
 - [x] Administratörer ska kunna redigera en produkt inklusive vilka kategorier den tillhör (VG)
 - [x] Administratörer ska kunna lägga till och ta bort produkter (VG)
-- [ ] Backendapplikationen ska ha en fungerande global felhantering (VG)
+- [x] Backendapplikationen ska ha en fungerande global felhantering (VG)
 - [ ] En administratör ska kunna uppgradera en användare till administratör (VG)
 - [ ] Administratörer ska kunna markera beställningar som skickade (VG)

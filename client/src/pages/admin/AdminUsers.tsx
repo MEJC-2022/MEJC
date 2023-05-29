@@ -1,7 +1,37 @@
-import { Container, Select, Table } from '@mantine/core';
+import { Container, Select, Table, createStyles, rem } from '@mantine/core';
 import { IconChevronDown } from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
 import { User } from '../../contexts/AuthContext';
+
+const useStyles = createStyles((theme) => ({
+  wrapper: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    backgroundImage:
+      theme.colorScheme === 'dark'
+        ? `linear-gradient(-60deg, ${theme.colors.gray[8]} 0%, ${theme.colors.gray[9]} 100%)`
+        : `linear-gradient(-60deg, ${theme.colors.gray[3]} 0%, ${theme.colors.gray[1]} 100%)`,
+    padding: `calc(${theme.spacing.xl} * 5)`,
+    minHeight: 'calc(100vh - 4.375rem)',
+    [theme.fn.smallerThan('md')]: {
+      padding: `calc(${theme.spacing.xl})`,
+      paddingTop: '3rem',
+      minHeight: 'calc(100vh - 4.375rem)',
+    },
+  },
+  title: {
+    fontSize: rem(50),
+    [theme.fn.smallerThan('sm')]: {
+      fontSize: rem(40),
+    },
+    color:
+      theme.colorScheme === 'dark'
+        ? theme.colors.blue[5]
+        : theme.colors.gray[8],
+    lineHeight: 1,
+    marginBottom: '3rem',
+  },
+}));
 
 export default function AdminUsers() {
   const [users, setUsers] = useState<User[]>([]);
@@ -69,6 +99,8 @@ export default function AdminUsers() {
       </td>
     </tr>
   ));
+
+  const { classes } = useStyles();
 
   return (
     <Container sx={{ display: 'flex', justifyContent: 'center' }}>

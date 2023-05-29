@@ -1,10 +1,16 @@
 import { Request, Response } from 'express';
+import { APIError } from '../error-handlers/error-classes/api-error';
 import { ProductModel } from '../models/product-model';
 
 const createProduct = async (req: Request, res: Response) => {
   const product = new ProductModel(req.body);
   const savedProduct = await product.save();
   res.json(savedProduct);
+};
+
+const getAllCreatedProducts = async (req: Request, res: Response) => {
+  const products = await ProductModel.find();
+  res.json(products);
 };
 
 const getAllProducts = async (req: Request, res: Response) => {
@@ -19,7 +25,7 @@ const getProductById = async (req: Request, res: Response) => {
   if (product) {
     res.json(product);
   } else {
-    res.status(404).send({ message: 'Product not found' });
+    throw new APIError(404, 'Product not found');
   }
 };
 
@@ -43,7 +49,7 @@ const updateProduct = async (req: Request, res: Response) => {
 
     res.json(newProduct);
   } else {
-    res.status(404).send({ message: 'Product not found' });
+    throw new APIError(404, 'Product not found');
   }
 };
 
@@ -54,7 +60,7 @@ const deleteProduct = async (req: Request, res: Response) => {
     await product.save();
     res.send({ message: 'Product archived' });
   } else {
-    res.status(404).send({ message: 'Product not found' });
+    throw new APIError(404, 'Product not found');
   }
 };
 
@@ -64,4 +70,5 @@ export {
   getProductById,
   updateProduct,
   deleteProduct,
+  getAllCreatedProducts,
 };
