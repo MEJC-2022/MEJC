@@ -2,6 +2,20 @@ import argon2 from 'argon2';
 import { Request, Response } from 'express';
 import { UserModel } from '../models/user-model';
 
+// export async function getUserList(req: Request, res: Response) {
+//   const userList = await UserModel.find({});
+//   res.status(200).json(userList);
+// }
+
+// export function getLoggedInUser(req: Request, res: Response) {
+//   // Checks if user is logged in
+//   console.log(req.session);
+//   if (!req.session || !req.session.user) {
+//     throw new APIError('You must login', 401);
+//   }
+//   res.status(200).json(req.session?.user);
+// }
+
 export async function getUserList(req: Request, res: Response) {
   try {
     const userList = await UserModel.find({});

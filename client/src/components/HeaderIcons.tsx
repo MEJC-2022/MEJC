@@ -1,4 +1,4 @@
-import { Button } from '@mantine/core';
+import { Box, Button, createStyles } from '@mantine/core';
 import {
   IconBuildingStore,
   IconLogin,
@@ -6,7 +6,7 @@ import {
   IconPackage,
   IconUserShield,
 } from '@tabler/icons-react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
 interface ButtonLinkProps {
@@ -38,7 +38,18 @@ export function SignInButton() {
 }
 
 export function OrderButton() {
-  return <ButtonLink to="/orders" icon={IconPackage} />;
+  const { classes, cx } = useStyles();
+  const currentLocation = useLocation();
+  return (
+    <Box
+      className={cx({
+        [classes.iconLinkActive]: currentLocation.pathname === '/orders',
+        [classes.iconLinkInactive]: currentLocation.pathname !== '/orders',
+      })}
+    >
+      <ButtonLink to="/orders" icon={IconPackage} />
+    </Box>
+  );
 }
 
 export function SignOutButton() {
@@ -81,3 +92,23 @@ const buttonStyling = {
   alignItems: 'center',
   justifyContent: 'center',
 };
+
+const useStyles = createStyles((theme) => ({
+  iconLinkActive: {
+    '&, &:hover': {
+      backgroundColor: theme.fn.variant({
+        variant: 'light',
+        color: theme.primaryColor,
+      }).background,
+      color: theme.fn.variant({ variant: 'light', color: theme.primaryColor })
+        .color,
+    },
+    borderRadius: theme.radius.lg,
+    paddingTop: '0.2rem',
+    marginTop: '0.1rem',
+  },
+  iconLinkInactive: {
+    marginTop: '0.3rem',
+    padding: '0rem',
+  },
+}));
