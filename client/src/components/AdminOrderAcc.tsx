@@ -15,6 +15,8 @@ import {
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { IconAt, IconCheck, IconPhone } from '@tabler/icons-react';
+import { useContext, useState } from 'react';
+import { ProductContext } from '../contexts/ProductContext';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -72,21 +74,39 @@ export interface Order {
   }[];
   isShipped: boolean;
   totalPrice: number;
-  createdAt: Date;
+  createdAt: string;
 }
-
-const handleShippedClick = () => {
-  console.log('Shipped button was clicked');
-};
-
-const handleNotShippedClick = () => {
-  console.log('Not Shipped button was clicked');
-};
 
 export function AdminOrderAccordion({ order }: { order: Order }) {
   const { classes } = useStyles();
   const theme = useMantineTheme();
   const isSmallScreen = useMediaQuery('(max-width: 767px)');
+  const { allCreatedProducts } = useContext(ProductContext);
+  const [isShipped, setIsShipped] = useState(order.isShipped);
+
+  const shippedClick = (orderId: string) => {
+    changeShippedStatus(orderId);
+  };
+
+  const changeShippedStatus = async (orderId: string) => {
+    try {
+      const response = await fetch(`/api/orders/${orderId}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to change shipped status');
+      }
+
+      const message = await response.json();
+      setIsShipped(message.status);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <Container className={classes.wrapper}>
@@ -113,7 +133,7 @@ export function AdminOrderAccordion({ order }: { order: Order }) {
               }}
             >
               <Text size="md" weight={500}>
-                {order.createdAt.toISOString().slice(2, 10)}
+                {new Date(order.createdAt).toISOString().split('T')[0]}
               </Text>
             </Flex>
 
@@ -139,12 +159,23 @@ export function AdminOrderAccordion({ order }: { order: Order }) {
                   </tr>
                 </thead>
                 <tbody>
-                  {order.orderItems.map((item) => (
-                    <tr key={item._id}>
-                      <td>{item._id}</td>
-                      <td>{item.quantity}</td>
-                    </tr>
-                  ))}
+                  {order.orderItems.map((item) => {
+                    const product = allCreatedProducts.find(
+                      (product) => product._id === item._id,
+                    );
+
+                    return (
+                      <tr key={item._id}>
+                        <td>{product ? product.title : 'Product not found'}</td>
+                        <td>{item.quantity}</td>
+                        <td>
+                          {product
+                            ? `€${product.price}`
+                            : 'Price not available'}
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </Table>
               <Flex
@@ -188,13 +219,13 @@ export function AdminOrderAccordion({ order }: { order: Order }) {
         </Accordion.Panel>
       </Accordion.Item>
       {isSmallScreen ? (
-        order.isShipped ? (
+        isShipped ? (
           <ActionIcon
             radius="lg"
             variant="light"
             color="green"
             className={classes.circleButton}
-            onClick={handleShippedClick}
+            onClick={() => shippedClick(order._id)}
           >
             <IconCheck size={25} />
           </ActionIcon>
@@ -204,17 +235,17 @@ export function AdminOrderAccordion({ order }: { order: Order }) {
             variant="light"
             color="yellow"
             className={classes.circleButton}
-            onClick={handleNotShippedClick}
+            onClick={() => shippedClick(order._id)}
           >
             <Loader color="yellow" size="sm" />
           </ActionIcon>
         )
-      ) : order.isShipped ? (
+      ) : isShipped ? (
         <Button
           variant="light"
           color="green"
           className={classes.button}
-          onClick={handleShippedClick}
+          onClick={() => shippedClick(order._id)}
         >
           Shipped
         </Button>
@@ -223,7 +254,7 @@ export function AdminOrderAccordion({ order }: { order: Order }) {
           variant="outline"
           color="red"
           className={classes.button}
-          onClick={handleNotShippedClick}
+          onClick={() => shippedClick(order._id)}
         >
           Not Shipped
         </Button>

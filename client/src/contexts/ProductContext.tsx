@@ -32,6 +32,8 @@ interface ContextValue {
   addProduct: (product: Product) => void;
   updateProduct: (product: Product) => void;
   fetchProducts: () => void;
+  fetchAllCreatedProducts: () => void;
+  allCreatedProducts: Product[];
 }
 
 export const ProductContext = createContext<ContextValue>(null as any);
@@ -42,10 +44,16 @@ interface Props {
 
 export const ProductProvider: React.FC<Props> = ({ children }) => {
   const [products, setProducts] = useState<Product[]>([]);
+  const [allCreatedProducts, setAllCreatedProducts] = useState<Product[]>([]);
 
   const fetchProducts = useCallback(async () => {
     const res = await axios.get('/api/products');
     setProducts(res.data);
+  }, []);
+
+  const fetchAllCreatedProducts = useCallback(async () => {
+    const res = await axios.get('/api/products/created');
+    setAllCreatedProducts(res.data);
   }, []);
 
   useEffect(() => {
@@ -96,6 +104,8 @@ export const ProductProvider: React.FC<Props> = ({ children }) => {
         addProduct,
         updateProduct,
         fetchProducts,
+        fetchAllCreatedProducts,
+        allCreatedProducts,
       }}
     >
       {children}
