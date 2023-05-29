@@ -6,7 +6,6 @@ import { ProductModel } from '../models/product-model';
 export async function createOrder(req: Request, res: Response) {
   const { address, orderItems, userId } = req.body;
 
-  // Initializations
   let haveArchivedProduct = false;
   let productOutOfStock = false;
   let totalPrice = 0;
@@ -58,7 +57,7 @@ export async function createOrder(req: Request, res: Response) {
     totalPrice += product.price * product.quantity;
   });
 
-  const completOrder = {
+  const completeOrder = {
     userId: userId,
     deliveryAddress: address,
     orderItems: orderItems,
@@ -66,7 +65,7 @@ export async function createOrder(req: Request, res: Response) {
     totalPrice: totalPrice,
   };
 
-  const result = await OrderModel.create(completOrder);
+  const result = await OrderModel.create(completeOrder);
 
   res.status(200).send({
     message: 'Order created successfully.',
@@ -89,39 +88,31 @@ export async function getAllOrders(req: Request, res: Response) {
   });
 }
 
-export async function getOrderById(req: Request, res: Response) {
-  const incomingOrderId = req.params.id;
-  const session = req.session;
+// export async function getOrderById(req: Request, res: Response) {
+//   const incomingOrderId = req.params.id;
+//   const session = req.session;
 
-  if (!session || !session.user || !session.user._id) {
-    return res.status(401).send({
-      message: 'You are not logged in.',
-    });
-  }
+//   if (!session || !session.user || !session.user._id) {
+//     return res.status(401).send({
+//       message: 'You are not logged in.',
+//     });
+//   }
 
-  const fetchedOrder = await OrderModel.findById(incomingOrderId);
+//   const fetchedOrder = await OrderModel.findById(incomingOrderId);
 
-  if (!fetchedOrder) {
-    throw new APIError(404, 'Order not found.');
-  } else if (session.user.isAdmin || session.user._id === fetchedOrder.userId) {
-    return res.status(200).send({
-      message: 'Order fetched successfully.',
-      fetchedOrder,
-    });
-  }
-}
+//   if (!fetchedOrder) {
+//     throw new APIError(404, 'Order not found.');
+//   } else if (session.user.isAdmin || session.user._id === fetchedOrder.userId) {
+//     return res.status(200).send({
+//       message: 'Order fetched successfully.',
+//       fetchedOrder,
+//     });
+//   }
+// }
 
 export async function getOrdersByUserId(req: Request, res: Response) {
-  const session = req.session;
+  // const session = req.session;
   const incomingUserId = req.params.id;
-
-  if (!session || !session.user || !session.user._id) {
-    throw new APIError(401, 'User is not logged in.');
-  }
-
-  if (session.user._id !== incomingUserId) {
-    throw new APIError(401, 'User is not authorized to see this order.');
-  }
 
   const fetchedListOfOrders = await OrderModel.find({
     userId: incomingUserId,
@@ -131,12 +122,13 @@ export async function getOrdersByUserId(req: Request, res: Response) {
     return res.status(404).send({
       message: 'No orders found.',
     });
-  } else if (session.user.isAdmin || session.user._id === incomingUserId) {
-    return res.status(200).send({
-      message: 'All orders fetched successfully.',
-      fetchedListOfOrders,
-    });
   }
+  // else if (session?.user.isAdmin || session?.user._id === incomingUserId) {
+  return res.status(200).send({
+    message: 'All orders fetched successfully.',
+    fetchedListOfOrders,
+  });
+  // }
 }
 
 export async function shipOrder(req: Request, res: Response) {

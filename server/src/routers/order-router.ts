@@ -2,10 +2,10 @@ import express from 'express';
 import {
   createOrder,
   getAllOrders,
-  getOrderById,
   getOrdersByUserId,
   shipOrder,
 } from '../controllers/order-controller';
+import { isAdmin, isLoggedIn } from '../middlewares/auth-checks';
 import {
   validateOrder,
   validateOrderId,
@@ -13,11 +13,10 @@ import {
 
 const orderRouter = express.Router();
 
-// TODO: add authentication middlewares for routes
-orderRouter.post('/api/orders', validateOrder, createOrder);
-orderRouter.get('/api/orders', getAllOrders);
-orderRouter.get('/api/orders/:id', getOrderById);
-orderRouter.get('/api/orders/user/:id', getOrdersByUserId);
-orderRouter.patch('/api/orders/:id', validateOrderId, shipOrder);
+orderRouter.post('/api/orders', isLoggedIn, validateOrder, createOrder);
+orderRouter.get('/api/orders', isAdmin, getAllOrders);
+// orderRouter.get('/api/orders/:id', isLoggedIn, getOrderById);
+orderRouter.get('/api/orders/user/:id', isLoggedIn, getOrdersByUserId);
+orderRouter.patch('/api/orders/:id', isAdmin, validateOrderId, shipOrder);
 
 export default orderRouter;
