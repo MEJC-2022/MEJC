@@ -13,8 +13,7 @@ import {
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { IconAt, IconCheck, IconPhone } from '@tabler/icons-react';
-import { useContext } from 'react';
-import { ProductContext } from '../contexts/ProductContext';
+import { Product } from '../contexts/ProductContext';
 
 const useStyles = createStyles((theme) => ({
   item: {
@@ -69,11 +68,16 @@ export interface Order {
   createdAt: string;
 }
 
-export function UserOrderAccordion({ order }: { order: Order }) {
+export function UserOrderAccordion({
+  order,
+  products,
+}: {
+  order: Order;
+  products: Product[];
+}) {
   const { classes } = useStyles();
   const theme = useMantineTheme();
   const isSmallScreen = useMediaQuery('(max-width: 767px)');
-  const { products } = useContext(ProductContext);
 
   return (
     <Accordion.Item className={classes.item} key={order._id} value={order._id}>
@@ -81,7 +85,7 @@ export function UserOrderAccordion({ order }: { order: Order }) {
         <Flex justify="space-between">
           <Flex sx={{ flex: 2, [theme.fn.smallerThan('sm')]: { flex: 3 } }}>
             <Text size="md" weight={700}>
-              #{order._id.slice(0, 10)}
+              #{order._id.slice(0, 6)}
             </Text>
           </Flex>
 

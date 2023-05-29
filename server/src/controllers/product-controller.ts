@@ -7,6 +7,12 @@ const createProduct = async (req: Request, res: Response) => {
   res.json(savedProduct);
 };
 
+const getAllCreatedProducts = async (req: Request, res: Response) => {
+  console.log('it runs');
+  const products = await ProductModel.find();
+  res.json(products);
+};
+
 const getAllProducts = async (req: Request, res: Response) => {
   const products = await ProductModel.find({
     isArchived: { $in: [false, null] },
@@ -64,4 +70,5 @@ export {
   getProductById,
   updateProduct,
   deleteProduct,
+  getAllCreatedProducts,
 };

@@ -6,10 +6,10 @@ import {
   rem,
   useMantineTheme,
 } from '@mantine/core';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Order, UserOrderAccordion } from '../components/UserOrderAcc';
 import { useAuth } from '../contexts/AuthContext';
-import { ProductContext } from '../contexts/ProductContext';
+import { Product } from '../contexts/ProductContext';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -43,13 +43,39 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export default function UserOrders() {
-  const { classes } = useStyles();
   const theme = useMantineTheme();
-  const { fetchProducts } = useContext(ProductContext);
+  const { classes } = useStyles();
   const { user } = useAuth();
   const [loading, setLoading] = useState(false);
-
+  const [products, setProducts] = useState<Product[]>([]);
   const [userOrders, setUserOrders] = useState<Order[]>([]);
+
+  async function getAllCreatedOrders() {
+    setLoading(true);
+    if (!user) return;
+
+    try {
+      const response = await fetch('api/products/created', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        const products = await response.json();
+        setProducts(products);
+      } else {
+        const message = await response.text();
+        setProducts([]);
+        throw new Error(message);
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   async function getUserOrders() {
     setLoading(true);
@@ -80,8 +106,9 @@ export default function UserOrders() {
   }
 
   useEffect(() => {
-    fetchProducts();
+    getAllCreatedOrders();
     getUserOrders();
+    console.log(products);
   }, []);
 
   return (
@@ -97,8 +124,12 @@ export default function UserOrders() {
         <div>Loading...</div>
       ) : (
         <Accordion transitionDuration={600} className={classes.accordion}>
-          {userOrders.map((order: Order) => (
-            <UserOrderAccordion order={order} key={order._id} />
+          {[...userOrders].reverse().map((order: Order) => (
+            <UserOrderAccordion
+              order={order}
+              products={products}
+              key={order._id}
+            />
           ))}
         </Accordion>
       )}

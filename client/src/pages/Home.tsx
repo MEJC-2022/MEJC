@@ -29,8 +29,6 @@ function Home() {
 
   useEffect(() => {
     setFilteredProducts(products);
-    console.log('this is products:', products);
-    console.log(filteredProducts);
   }, [products]);
 
   function filterByCategory(categoryName: string) {
