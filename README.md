@@ -36,5 +36,5 @@ som en kravspecifikation. Förutom det har ni fria händer att ta fram en grym i
 - [x] Administratörer ska kunna redigera en produkt inklusive vilka kategorier den tillhör (VG)
 - [x] Administratörer ska kunna lägga till och ta bort produkter (VG)
 - [x] Backendapplikationen ska ha en fungerande global felhantering (VG)
-- [ ] En administratör ska kunna uppgradera en användare till administratör (VG)
+- [x] En administratör ska kunna uppgradera en användare till administratör (VG)
 - [x] Administratörer ska kunna markera beställningar som skickade (VG)
