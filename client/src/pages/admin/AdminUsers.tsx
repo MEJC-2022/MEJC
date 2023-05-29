@@ -9,7 +9,8 @@ import {
 } from '@mantine/core';
 import { IconChevronDown } from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
-import { User } from '../../contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
+import { User, useAuth } from '../../contexts/AuthContext';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -43,6 +44,9 @@ const useStyles = createStyles((theme) => ({
 
 export default function AdminUsers() {
   const [users, setUsers] = useState<User[]>([]);
+  const { setUser, user } = useAuth();
+  const navigate = useNavigate();
+  const session = user as User;
 
   useEffect(() => {
     fetch('/api/users')
@@ -79,6 +83,12 @@ export default function AdminUsers() {
           currentUser._id === user._id ? data.user : currentUser,
         ),
       );
+
+      // Sends user back to home if they update their own role to User
+      if (session._id === user._id) {
+        setUser(data.user);
+        navigate('/');
+      }
     } catch (error) {
       console.error('Failed to update user role:', error);
     }

@@ -81,13 +81,20 @@ export async function logoutUser(req: Request, res: Response) {
 export async function updateUserRole(req: Request, res: Response) {
   const { id } = req.params;
   const { isAdmin } = req.body;
+
   const user = await UserModel.findByIdAndUpdate(
     id,
     { isAdmin },
     { new: true },
   );
+
+  if (req.session && req.session.user._id === id) {
+    req.session.user.isAdmin = false;
+  }
+
   if (!user) {
     throw new APIError(401, 'User was not found');
   }
-  res.json({ message: 'The role for user has been changed', user: user });
+
+  res.json({ message: 'The role for the user has been changed', user });
 }
