@@ -6,7 +6,10 @@ import {
   getOrdersByUserId,
   shipOrder,
 } from '../controllers/order-controller';
-import { validateOrder } from '../validations/order-validation';
+import {
+  validateOrder,
+  validateOrderId,
+} from '../validations/order-validation';
 
 const orderRouter = express.Router();
 
@@ -15,6 +18,6 @@ orderRouter.post('/api/orders', validateOrder, createOrder);
 orderRouter.get('/api/orders', getAllOrders);
 orderRouter.get('/api/orders/:id', getOrderById);
 orderRouter.get('/api/orders/user/:id', getOrdersByUserId);
-orderRouter.patch('/api/orders/:id', shipOrder);
+orderRouter.patch('/api/orders/:id', validateOrderId, shipOrder);
 
 export default orderRouter;

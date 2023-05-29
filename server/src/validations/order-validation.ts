@@ -38,7 +38,8 @@ export const orderItemSchema = Yup.array().of(
   }),
 );
 
-export const userIdSchema = Yup.string().required('This field is required');
+export const userIdSchema = Yup.string().required();
+export const orderIdSchema = Yup.string().required();
 
 export async function validateOrder(
   req: Request,
@@ -49,5 +50,14 @@ export async function validateOrder(
   await addressSchema.validate(address);
   await orderItemSchema.validate(orderItems);
   await userIdSchema.validate(userId);
+  next();
+}
+
+export async function validateOrderId(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
+  await addressSchema.validate(req.params.id);
   next();
 }
