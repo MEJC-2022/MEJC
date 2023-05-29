@@ -1,4 +1,5 @@
 import {
+  Badge,
   Box,
   Button,
   Card,
@@ -77,6 +78,9 @@ function ProductDetails() {
             alt={product.title}
             fit="contain"
           />
+          <Badge variant="gradient" pos="absolute" top="30%" right="5%">
+            {product.stock} in stock
+          </Badge>
         </Card>
         <Card sx={{ flex: 1 }}>
           <Box
@@ -101,6 +105,7 @@ function ProductDetails() {
             </Title>
           </Group>
           <Button
+            disabled={product.stock === 0}
             fullWidth
             variant="light"
             mt="md"

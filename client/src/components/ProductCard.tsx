@@ -7,6 +7,7 @@ import {
   Image,
   Text,
   Title,
+  useMantineTheme,
 } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconShoppingCartPlus } from '@tabler/icons-react';
@@ -21,6 +22,7 @@ export interface Props {
 function ProductCard({ product }: Props) {
   const { increaseCartQuantity } = useShoppingCart();
   const link = '/product/' + product._id;
+  const theme = useMantineTheme();
 
   return (
     <>
@@ -51,9 +53,12 @@ function ProductCard({ product }: Props) {
                 <Title order={2} data-cy="product-title">
                   {product.title}
                 </Title>
-                <Badge color="blue" variant="light" size="lg">
-                  New!
-                </Badge>
+                {new Date().getTime() - new Date(product.createdAt).getTime() <
+                  48 * 60 * 60 * 1000 && (
+                  <Badge color="blue" variant="light" size="lg">
+                    New!
+                  </Badge>
+                )}
               </Group>
               <Text size="md" align="left">
                 {product.description}
@@ -87,9 +92,11 @@ function ProductCard({ product }: Props) {
             </Button>
           </Link>
           <Button
+            disabled={product.stock === 0}
             variant="light"
             mt="md"
             radius="md"
+            className={theme.colorScheme === 'dark' ? 'buttonGlow' : ''}
             onClick={() => {
               increaseCartQuantity(product._id);
               notifications.show({
