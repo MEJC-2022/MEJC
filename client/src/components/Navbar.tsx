@@ -15,7 +15,7 @@ import {
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconShoppingCart } from '@tabler/icons-react';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useShoppingCart } from '../contexts/ShoppingCartContext';
@@ -99,6 +99,20 @@ const useStyles = createStyles((theme) => ({
         .color,
     },
   },
+
+  iconLinkActive: {
+    '&, &:hover': {
+      backgroundColor: theme.fn.variant({
+        variant: 'light',
+        color: theme.primaryColor,
+      }).background,
+      color: theme.fn.variant({ variant: 'light', color: theme.primaryColor })
+        .color,
+    },
+    borderRadius: theme.radius.lg,
+    paddingTop: '0.2rem',
+    paddingBottom: '0.2rem',
+  },
 }));
 export interface HeaderResponsiveProps {
   links: { link: string; label: string }[];
@@ -155,27 +169,23 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
       <img src="/assets/T101-logo-darkmode.svg" alt="T101 logo" />
     );
 
-  const items = useMemo(
-    () =>
-      links.map((link, index) => (
-        <ul key={index}>
-          <Link
-            key={link.label}
-            to={link.link}
-            className={cx(classes.link, {
-              [classes.linkActive]: link === activeLink,
-            })}
-            onClick={() => {
-              setActive(link.link);
-              close();
-            }}
-          >
-            {link.label}
-          </Link>
-        </ul>
-      )),
-    [links, active, classes.link, classes.linkActive, close],
-  );
+  const items = links.map((link, index) => (
+    <ul key={index}>
+      <Link
+        key={link.label}
+        to={link.link}
+        className={cx(classes.link, {
+          [classes.linkActive]: link === activeLink,
+        })}
+        onClick={() => {
+          setActive(link.link);
+          close();
+        }}
+      >
+        {link.label}
+      </Link>
+    </ul>
+  ));
 
   const [isBurgerVisible, setIsBurgerVisible] = useState(false);
 
@@ -260,6 +270,10 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
                 alignItems: 'center',
                 justifyContent: 'center',
               }}
+              className={cx({
+                [classes.iconLinkActive]:
+                  currentLocation.pathname === '/checkout',
+              })}
             >
               <Button
                 onClick={handleLinkClick}
@@ -317,7 +331,10 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
                       <Link
                         key="orders"
                         to="/orders"
-                        className={classes.link}
+                        className={cx(classes.link, {
+                          [classes.iconLinkActive]:
+                            currentLocation.pathname === '/orders',
+                        })}
                         onClick={() => {
                           close();
                         }}
