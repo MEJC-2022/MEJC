@@ -174,7 +174,6 @@ export async function getOrdersByUserId(req: Request, res: Response) {
 }
 
 export async function shipOrder(req: Request, res: Response) {
-  // TODO: Add admin auth on the route
   const incomingOrderId = req.params.id;
 
   const fetchedOrder = await OrderModel.findById(incomingOrderId);
@@ -189,6 +188,7 @@ export async function shipOrder(req: Request, res: Response) {
     });
     res.status(200).send({
       message: 'Order has been unshipped.',
+      status: false,
     });
   } else if (!fetchedOrder.isShipped) {
     await OrderModel.findByIdAndUpdate(incomingOrderId, {
@@ -196,6 +196,7 @@ export async function shipOrder(req: Request, res: Response) {
     });
     res.status(200).send({
       message: 'Order shipped successfully.',
+      status: true,
     });
   }
 }

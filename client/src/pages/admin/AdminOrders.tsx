@@ -6,7 +6,11 @@ import {
   createStyles,
   rem,
 } from '@mantine/core';
-import { mockOrders } from '../mockOrder';
+import { useContext, useEffect, useState } from 'react';
+import { AdminOrderAccordion } from '../../components/AdminOrderAcc';
+import { Order } from '../../components/UserOrderAcc';
+import { useAuth } from '../../contexts/AuthContext';
+import { ProductContext } from '../../contexts/ProductContext';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -44,8 +48,42 @@ const useStyles = createStyles((theme) => ({
 
 export default function AdminOrders() {
   const { classes } = useStyles();
+  const { user } = useAuth();
 
-  const orders = mockOrders;
+  const [loading, setLoading] = useState(false);
+  const [allOrders, setAllOrders] = useState<Order[]>([]);
+  const { fetchAllCreatedProducts } = useContext(ProductContext);
+
+  async function getAllOrders() {
+    setLoading(true);
+
+    try {
+      const response = await fetch('/api/orders', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        const allOrders = await response.json();
+        setAllOrders(allOrders.orders);
+      } else {
+        const message = await response.text();
+        setAllOrders([]);
+        throw new Error(message);
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    fetchAllCreatedProducts();
+    getAllOrders();
+  }, []);
 
   return (
     <Box className={classes.wrapper}>
@@ -54,9 +92,9 @@ export default function AdminOrders() {
           Admin - Order Management
         </Title>
         <Accordion transitionDuration={600} className={classes.accordion}>
-          {/* {orders.map((order: Order) => (
+          {[...allOrders].reverse().map((order: Order) => (
             <AdminOrderAccordion order={order} key={order._id} />
-          ))} */}
+          ))}
         </Accordion>
       </Container>
     </Box>
