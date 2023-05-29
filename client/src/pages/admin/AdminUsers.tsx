@@ -112,13 +112,7 @@ export default function AdminUsers() {
 
   return (
     <Box className={classes.wrapper}>
-      <Container
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-        }}
-      >
+      <Container p={0}>
         <Title ta="center" className={classes.title}>
           Admin - User Management
         </Title>
