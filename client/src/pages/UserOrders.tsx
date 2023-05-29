@@ -92,7 +92,6 @@ export default function UserOrders() {
       if (response.ok) {
         const allUserOrders = await response.json();
         setUserOrders(allUserOrders.fetchedListOfOrders);
-        console.log(allUserOrders.fetchedListOfOrders);
       } else {
         const message = await response.text();
         setUserOrders([]);
@@ -108,7 +107,6 @@ export default function UserOrders() {
   useEffect(() => {
     getAllCreatedOrders();
     getUserOrders();
-    console.log(products);
   }, []);
 
   return (
