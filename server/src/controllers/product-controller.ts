@@ -8,7 +8,6 @@ const createProduct = async (req: Request, res: Response) => {
 };
 
 const getAllCreatedProducts = async (req: Request, res: Response) => {
-  console.log('it runs');
   const products = await ProductModel.find();
   res.json(products);
 };
