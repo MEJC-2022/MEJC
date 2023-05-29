@@ -1,7 +1,8 @@
 import cookieSession from 'cookie-session';
-import express, { NextFunction, Request, Response } from 'express';
-import categoryRouter from './routers/category-router';
+import express from 'express';
 import 'express-async-errors';
+import { errorHandler } from './error-handlers/error-handler';
+import categoryRouter from './routers/category-router';
 import fileRouter from './routers/file-router';
 import orderRouter from './routers/order-router';
 import productRouter from './routers/product-router';
@@ -21,43 +22,12 @@ app.use(
   }),
 );
 
-// Routers:
+// Routers
 app.use(productRouter);
 app.use(fileRouter);
 app.use(userRouter);
 app.use(categoryRouter);
 app.use(orderRouter);
 
-// Global error-handling:
-app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-  console.error(err);
-  res.status(500).json(err.message);
-});
-
-// // Global error-handling:
-// app.use((err: unknown, req: Request, res: Response, next: NextFunction) => {
-//   console.error(err);
-//   // logga felet till databasen
-//   // pinga slack / discord
-
-//   // Var försiktig med att skicka felmeddelanden till klienten i produktion
-//   if (process.env.NODE_ENV === 'production') {
-//     return res.status(500).json('Unknown error');
-//   }
-
-//   if (err instanceof mongoose.Error.ValidationError) {
-//     return res.status(400).json(err.message);
-//   } else if (err instanceof APIError) {
-//     return res.status(err.status).json(err.message);
-//   } else if (err instanceof Error) {
-//     res.status(500).json(err.message);
-//   } else {
-//     res.status(500).json('Unknown error');
-//   }
-// });
-
-// export class APIError extends Error {
-//   constructor(message: string, public status: number) {
-//     super(message);
-//   }
-// }
+// Global error handling
+app.use(errorHandler);
