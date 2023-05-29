@@ -1,5 +1,6 @@
 import argon2 from 'argon2';
 import { Request, Response } from 'express';
+import { SessionError } from '../error-handlers/error-classes/server-error';
 import { UserModel } from '../models/user-model';
 
 export async function getUserList(req: Request, res: Response) {
@@ -10,8 +11,7 @@ export async function getUserList(req: Request, res: Response) {
 export function getLoggedInUser(req: Request, res: Response) {
   // Checks if user is logged in
   if (!req.session || !req.session.user) {
-    // ? use a SessionError?
-    // throw new APIError('You must login', 401);
+    // TODO: create different middlewares for just "checking" and for actually verifying and throwing errors
     return res.status(204).end();
   }
   res.status(200).json(req.session?.user);
@@ -27,12 +27,7 @@ export async function loginUser(req: Request, res: Response) {
 
   // Checks if user is already logged in
   if (req.session && req.session.user) {
-    // ? use a SessionError?
-    res.status(409).json({
-      error: 'User is already logged in',
-      currentSession: req.session.user,
-    });
-    return;
+    throw new SessionError(409, 'User is already logged in', req.session.user);
   }
 
   // Finds user by email
@@ -70,6 +65,8 @@ export async function loginUser(req: Request, res: Response) {
       message: 'A new session has been set',
       session: req.session.user,
     });
+  } else {
+    throw new SessionError(500, 'A new session could not be set');
   }
 }
 
@@ -78,7 +75,7 @@ export async function logoutUser(req: Request, res: Response) {
     req.session = null;
     res.status(204).send('You have successfully logged out');
   } else {
-    res.status(401).send({ error: 'You are already logged out' });
+    throw new SessionError(401, 'You are already logged out');
   }
 }
 

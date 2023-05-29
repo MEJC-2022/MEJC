@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import mongoose from 'mongoose';
-import { ServerError } from './error-classes/server-error';
+import { SessionError } from './error-classes/server-error';
 
 export function errorHandler(
   err: unknown,
@@ -28,8 +28,10 @@ export function errorHandler(
     return res.status(400).json({ error: 'Invalid ID' });
 
     // Custom errors
-  } else if (err instanceof ServerError) {
-    return res.status(err.status).json(err.message);
+  } else if (err instanceof SessionError) {
+    return res
+      .status(err.status)
+      .json({ error: err.message, session: err.session ?? undefined });
 
     // Other errors
   } else if (err instanceof Error) {
