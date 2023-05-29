@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { APIError } from '../error-handlers/error-classes/api-error';
 import { CategoryModel } from '../models/category-model';
 
 async function createCategory(req: Request, res: Response) {
@@ -25,7 +26,7 @@ const getCategoryById = async (req: Request, res: Response) => {
   if (category) {
     res.json(category);
   } else {
-    res.status(404).send({ message: 'Category not found' });
+    throw new APIError(404, 'Category not found');
   }
 };
 
@@ -36,7 +37,7 @@ const updateCategory = async (req: Request, res: Response) => {
     const updatedCategory = await category.save();
     res.json(updatedCategory);
   } else {
-    res.status(404).send({ message: 'Category not found' });
+    throw new APIError(404, 'Category not found');
   }
 };
 
@@ -46,7 +47,7 @@ const deleteCategory = async (req: Request, res: Response) => {
     await category.deleteOne();
     res.send({ message: 'Category deleted' });
   } else {
-    res.status(404).send({ message: 'Category not found' });
+    throw new APIError(404, 'Category not found');
   }
 };
 
@@ -57,4 +58,3 @@ export {
   updateCategory,
   deleteCategory,
 };
-
