@@ -34,19 +34,23 @@ export async function loginUser(req: Request, res: Response) {
   // Finds user by email
   const user = await UserModel.findOne({ email }).select('+password');
   if (!user) {
-    throw new UserError(
-      404,
-      'No registered account with this email exists. Please make sure you spelled your email correctly',
-    );
+    res
+      .status(404)
+      .json(
+        `No registered account with this email exists. Please make sure you spelled your email correctly`,
+      );
+    return;
   }
 
   // Verifies password
   const isPasswordValid = await argon2.verify(user.password, password);
   if (!isPasswordValid) {
-    throw new UserError(
-      401,
-      'The password is incorrect. Make sure you spelled your password correctly',
-    );
+    res
+      .status(401)
+      .json(
+        'The password is incorrect. Make sure you spelled your password correctly',
+      );
+    return;
   }
 
   // Creates cookie session for logged in user
