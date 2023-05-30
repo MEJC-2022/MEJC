@@ -99,6 +99,14 @@ export default function AdminUsers() {
         navigate('/');
       }
     } catch (error) {
+      notifications.show({
+        icon: <IconCheck />,
+        title: 'Error',
+        message: 'Failed to update user role',
+        color: 'green',
+        autoClose: 3000,
+        withCloseButton: false,
+      });
       console.error('Failed to update user role:', error);
     }
   };
