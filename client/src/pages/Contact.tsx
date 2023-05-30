@@ -79,8 +79,7 @@ const useStyles = createStyles((theme) => ({
   },
 
   form: {
-    backgroundColor:
-      theme.colorScheme === 'dark' ? "#25262b" : theme.white,
+    backgroundColor: theme.colorScheme === 'dark' ? '#25262b' : theme.white,
     padding: theme.spacing.xl,
     borderRadius: theme.radius.md,
     boxShadow: theme.shadows.lg,
