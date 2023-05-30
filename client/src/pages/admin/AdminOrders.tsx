@@ -100,11 +100,15 @@ export default function AdminOrders() {
         <Title ta="center" className={classes.title}>
           Admin - Order Management
         </Title>
-        <Accordion transitionDuration={600} className={classes.accordion}>
-          {[...allOrders].reverse().map((order: Order) => (
-            <AdminOrderAccordion order={order} key={order._id} />
-          ))}
-        </Accordion>
+        {loading ? (
+          <div>Loading...</div>
+        ) : (
+          <Accordion transitionDuration={600} className={classes.accordion}>
+            {[...allOrders].reverse().map((order: Order) => (
+              <AdminOrderAccordion order={order} key={order._id} />
+            ))}
+          </Accordion>
+        )}
       </Container>
     </Box>
   );

@@ -48,12 +48,14 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export default function AdminUsers() {
+  const [loading, setLoading] = useState(false);
   const [users, setUsers] = useState<User[]>([]);
   const { setUser, user } = useAuth();
   const navigate = useNavigate();
   const session = user as User;
 
   useEffect(() => {
+    setLoading(true);
     fetch('/api/users')
       .then((response) => {
         if (!response.ok) {
@@ -72,6 +74,9 @@ export default function AdminUsers() {
           withCloseButton: false,
         });
         console.error('Failed to fetch user data:', error);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, []);
 
@@ -163,15 +168,19 @@ export default function AdminUsers() {
         <Title ta="center" className={classes.title}>
           Admin - User Management
         </Title>
-        <Table highlightOnHover verticalSpacing="md">
-          <thead>
-            <tr>
-              <th>Email</th>
-              <th>Role</th>
-            </tr>
-          </thead>
-          <tbody>{rows}</tbody>
-        </Table>
+        {loading ? (
+          <div>Loading...</div>
+        ) : (
+          <Table highlightOnHover verticalSpacing="md">
+            <thead>
+              <tr>
+                <th>Email</th>
+                <th>Role</th>
+              </tr>
+            </thead>
+            <tbody>{rows}</tbody>
+          </Table>
+        )}
       </Container>
     </Box>
   );
