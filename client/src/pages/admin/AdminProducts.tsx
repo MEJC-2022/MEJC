@@ -56,7 +56,7 @@ function AdminProducts() {
         verticalSpacing="xl"
         breakpoints={[
           { maxWidth: '85rem', cols: 2, spacing: 'md' },
-          { maxWidth: '36rem', cols: 1, spacing: 'sm' },
+          { maxWidth: '54rem', cols: 1, spacing: 'sm' },
         ]}
       >
         {products.map((product) => (
