@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import mongoose from 'mongoose';
+import * as yup from 'yup';
 import { APIError } from './error-classes/api-error';
 import { SessionError } from './error-classes/session-error';
 
@@ -27,6 +28,10 @@ export function errorHandler(
     return res.status(404).json({ error: 'Resource not found' });
   } else if (err instanceof mongoose.Error.CastError) {
     return res.status(400).json({ error: 'Invalid ID' });
+
+    // Yup validation error
+  } else if (err instanceof yup.ValidationError) {
+    return res.status(400).json({ error: 'Validation error' });
 
     // Custom errors
   } else if (err instanceof SessionError) {

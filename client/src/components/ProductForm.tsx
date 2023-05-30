@@ -128,7 +128,6 @@ function ProductForm({
 
     const formData = new FormData();
     formData.append('image', file);
-
     try {
       const response = await fetch('/api/file', {
         method: 'POST',

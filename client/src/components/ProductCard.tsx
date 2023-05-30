@@ -46,7 +46,53 @@ function ProductCard({ product }: Props) {
             />
             <Box pl="md" pr="md">
               <Group
+                mt="lg"
+                pos="absolute"
+                top="0%"
+                right="3%"
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  placeItems: 'center',
+                  textAlign: 'center',
+                }}
+              >
+                {product.stock === 0 ? (
+                  <Badge
+                    variant="gradient"
+                    gradient={{ from: 'orange', to: 'red' }}
+                  >
+                    {product.stock === 0
+                      ? 'Out of stock'
+                      : `${product.stock} in stock`}
+                  </Badge>
+                ) : (
+                  <Badge variant="gradient">{product.stock} in stock</Badge>
+                )}
+              </Group>
+              <Group
                 mt="xl"
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  placeItems: 'center',
+                  textAlign: 'center',
+                }}
+              >
+                {product.categories.length > 0 ? (
+                  <Badge size="md">
+                    {product.categories
+                      .map((category) => category.title)
+                      .join(' | ')}
+                  </Badge>
+                ) : (
+                  <Badge size="md">Uncategorized</Badge>
+                )}
+              </Group>
+              <Group
+                mt="md"
                 mb="xl"
                 style={{ display: 'flex', justifyContent: 'space-between' }}
               >
@@ -63,25 +109,6 @@ function ProductCard({ product }: Props) {
               <Text size="md" align="left">
                 {product.description}
               </Text>
-              <Group
-                mt="lg"
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  placeItems: 'center',
-                  textAlign: 'center',
-                }}
-              >
-                {product.categories.length > 0 && (
-                  <Badge size="md">
-                    {product.categories
-                      .map((category) => category.title)
-                      .join(' | ')}
-                  </Badge>
-                )}
-                <Badge variant="gradient">{product.stock} in stock</Badge>
-              </Group>
             </Box>
           </Link>
         </Card.Section>

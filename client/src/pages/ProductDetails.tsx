@@ -78,9 +78,23 @@ function ProductDetails() {
             alt={product.title}
             fit="contain"
           />
-          <Badge variant="gradient" pos="absolute" top="30%" right="5%">
-            {product.stock} in stock
-          </Badge>
+          {product.stock === 0 ? (
+            <Badge
+              variant="gradient"
+              gradient={{ from: 'orange', to: 'red' }}
+              pos="absolute"
+              top="33%"
+              right="8%"
+            >
+              {product.stock === 0
+                ? 'Out of stock'
+                : `${product.stock} in stock`}
+            </Badge>
+          ) : (
+            <Badge variant="gradient" pos="absolute" top="33%" right="8%">
+              {product.stock} in stock
+            </Badge>
+          )}
         </Card>
         <Card sx={{ flex: 1 }}>
           <Box
