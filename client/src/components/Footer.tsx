@@ -9,11 +9,15 @@ import {
   TextInput,
   Title,
 } from '@mantine/core';
+import { useForm, yupResolver } from '@mantine/form';
+import { notifications } from '@mantine/notifications';
 import {
   IconBrandInstagram,
   IconBrandTwitter,
   IconBrandYoutube,
+  IconCheck,
 } from '@tabler/icons-react';
+import * as yup from 'yup';
 
 const useStyles = createStyles((theme) => ({
   footer: {
@@ -43,14 +47,14 @@ const useStyles = createStyles((theme) => ({
     alignItems: 'center',
     padding: `${theme.spacing.md} ${theme.spacing.md}`,
 
-    [theme.fn.smallerThan('sm')]: {
+    [theme.fn.smallerThan('md')]: {
       flexDirection: 'column',
     },
   },
 
   links: {
     justifyContent: 'center',
-    [theme.fn.smallerThan('sm')]: {
+    [theme.fn.smallerThan('md')]: {
       marginTop: theme.spacing.lg,
       marginBottom: theme.spacing.sm,
     },
@@ -58,8 +62,8 @@ const useStyles = createStyles((theme) => ({
 
   form: {
     display: 'flex',
-    alignItems: 'center',
-    [theme.fn.smallerThan('sm')]: {
+    alignItems: 'flexStart',
+    [theme.fn.smallerThan('md')]: {
       marginTop: theme.spacing.lg,
       flexDirection: 'column',
       alignItems: 'stretch',
@@ -68,12 +72,21 @@ const useStyles = createStyles((theme) => ({
 
   input: {
     marginRight: theme.spacing.md,
-    [theme.fn.smallerThan('sm')]: {
+    width: '20rem',
+    [theme.fn.smallerThan('md')]: {
       marginRight: 0,
       marginBottom: theme.spacing.md,
     },
   },
 }));
+
+const schema = yup.object().shape({
+  email: yup
+    .string()
+    .email('Invalid email')
+    .matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Invalid email')
+    .required('Email is required'),
+});
 
 interface FooterCenteredProps {
   links: { link: string; label: string }[];
@@ -94,6 +107,29 @@ export function FooterCentered({ links }: FooterCenteredProps) {
     </Anchor>
   ));
 
+  const form = useForm({
+    validate: yupResolver(schema),
+    initialValues: {
+      email: '',
+    },
+  });
+
+  interface FormValues {
+    email: string;
+  }
+
+  const handleSubmit = async (values: FormValues) => {
+    notifications.show({
+      icon: <IconCheck />,
+      title: 'Success',
+      message: `You have successfully subscribed to our newsletter!`,
+      color: 'green',
+      autoClose: 3000,
+      withCloseButton: false,
+    });
+    form.reset();
+  };
+
   return (
     <footer className={classes.footer}>
       <div className={classes.inner}>
@@ -102,14 +138,17 @@ export function FooterCentered({ links }: FooterCenteredProps) {
         </Group>
         <Box>
           <Title order={3} align="center" mb="md">
-            Sign up to our newsletter!
+            Subscribe to our newsletter!
           </Title>
-          <form className={classes.form}>
+          <form className={classes.form} onSubmit={form.onSubmit(handleSubmit)}>
             <TextInput
               className={classes.input}
               placeholder="Enter your email"
+              {...form.getInputProps('email')}
             />
-            <Button variant="outline">Sign up</Button>
+            <Button type="submit" variant="outline">
+              Subscribe
+            </Button>
           </form>
         </Box>
 
