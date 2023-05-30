@@ -206,7 +206,13 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
 
   useEffect(() => {
     if (headerRef.current) {
-      if (isBurgerVisible) {
+      if (isBurgerVisible && user && user.isAdmin && isAdminRoute) {
+        headerRef.current.style.marginBottom = opened ? '260px' : '0';
+      } else if (isBurgerVisible && user && user.isAdmin) {
+        headerRef.current.style.marginBottom = opened ? '325px' : '0';
+      } else if (isBurgerVisible && user) {
+        headerRef.current.style.marginBottom = opened ? '265px' : '0';
+      } else if (isBurgerVisible && !user) {
         headerRef.current.style.marginBottom = opened ? '200px' : '0';
       } else {
         headerRef.current.style.marginBottom = '0';
@@ -243,10 +249,14 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
             <Group spacing={1}>{logo}</Group>
           </Link>
         </MediaQuery>
-        <Group spacing={5} sx={{marginLeft: "auto"}} className={cx({ [classes.hide]: isBurgerVisible })}>
+        <Group
+          spacing={5}
+          sx={{ marginLeft: 'auto' }}
+          className={cx({ [classes.hide]: isBurgerVisible })}
+        >
           {items}
         </Group>
-        <Group spacing={1} sx={{marginLeft: "auto"}}>
+        <Group spacing={1} sx={{ marginLeft: 'auto' }}>
           <ToggleColorButton onToggleColorScheme={handleToggleColorScheme} />
           {user ? (
             <>
