@@ -49,7 +49,7 @@ function ProductCard({ product }: Props) {
                 mt="lg"
                 pos="absolute"
                 top="0%"
-                right="5%"
+                right="3%"
                 sx={{
                   display: 'flex',
                   justifyContent: 'space-between',
