@@ -1,12 +1,15 @@
 import {
   Box,
   Button,
-  FileInput,
+  Flex,
   Group,
   MultiSelect,
+  Text,
   TextInput,
 } from '@mantine/core';
+import { Dropzone } from '@mantine/dropzone';
 import { useForm, yupResolver } from '@mantine/form';
+import { IconPhoto } from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
@@ -146,6 +149,9 @@ function ProductForm({
       console.error('Error uploading file:', error);
     }
   };
+  const handleDrop = (acceptedFiles: File[]) => {
+    handleFileChange(acceptedFiles[0]);
+  };
 
   return (
     <Box maw={300} mx="auto">
@@ -172,12 +178,21 @@ function ProductForm({
           searchable={false}
           {...form.getInputProps('categories')}
         />
-        <FileInput
-          withAsterisk
-          placeholder="Select an image"
-          label="Image"
-          onChange={handleFileChange}
-        />
+        <Dropzone
+          mt="0.5rem"
+          onDrop={handleDrop}
+          multiple={false}
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <Flex gap={5}>
+            <IconPhoto stroke="1.3" />
+            <Text size="sm">Drag image here or click to select files</Text>
+          </Flex>
+        </Dropzone>
         <TextInput
           withAsterisk
           label="Description"
