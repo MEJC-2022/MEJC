@@ -7,7 +7,8 @@ import {
   createStyles,
   rem,
 } from '@mantine/core';
-import { IconChevronDown } from '@tabler/icons-react';
+import { notifications } from '@mantine/notifications';
+import { IconCheck, IconChevronDown } from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { User, useAuth } from '../../contexts/AuthContext';
@@ -83,6 +84,14 @@ export default function AdminUsers() {
           currentUser._id === user._id ? data.user : currentUser,
         ),
       );
+      notifications.show({
+        icon: <IconCheck />,
+        title: 'Success!',
+        message: 'The users role has been updated',
+        color: 'green',
+        autoClose: 3000,
+        withCloseButton: false,
+      });
 
       // Sends user back to home if they update their own role to User
       if (session._id === user._id) {

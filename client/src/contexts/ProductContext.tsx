@@ -1,3 +1,5 @@
+import { notifications } from '@mantine/notifications';
+import { IconCheck } from '@tabler/icons-react';
 import axios from 'axios';
 import {
   createContext,
@@ -62,6 +64,14 @@ export const ProductProvider: React.FC<Props> = ({ children }) => {
 
   async function deleteProduct(id: string) {
     await axios.delete(`/api/products/${id}`);
+    notifications.show({
+      icon: <IconCheck />,
+      title: 'Success!',
+      message: "The product has been deleted",
+      color: 'green',
+      autoClose: 3000,
+      withCloseButton: false,
+    });
     setProducts((currentProducts) => {
       return currentProducts.filter((product) => product._id !== id);
     });
@@ -78,6 +88,14 @@ export const ProductProvider: React.FC<Props> = ({ children }) => {
       });
       const newProduct = await response.json();
       setProducts((prevProducts) => [...prevProducts, newProduct]);
+      notifications.show({
+        icon: <IconCheck />,
+        title: 'Success!',
+        message: `You have created product "${product.title}"`,
+        color: 'green',
+        autoClose: 3000,
+        withCloseButton: false,
+      });
     } catch (error) {
       console.error('Error creating product:', error);
     }
@@ -94,6 +112,14 @@ export const ProductProvider: React.FC<Props> = ({ children }) => {
         product._id === updatedProduct._id ? res.data : product,
       ),
     );
+    notifications.show({
+      icon: <IconCheck />,
+      title: 'Success!',
+      message: `You have edited product "${updatedProduct.title}"`,
+      color: 'green',
+      autoClose: 3000,
+      withCloseButton: false,
+    });
   }
 
   return (
