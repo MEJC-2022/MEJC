@@ -88,8 +88,7 @@ function ProductCard({ product }: Props) {
                       .join(' | ')}
                   </Badge>
                 ) : (
-                  <Badge size="md">Uncategorized
-                  </Badge>
+                  <Badge size="md">Uncategorized</Badge>
                 )}
               </Group>
               <Group
@@ -128,9 +127,9 @@ function ProductCard({ product }: Props) {
             onClick={() => {
               increaseCartQuantity(product._id);
               notifications.show({
-                icon: <IconShoppingCartPlus />,
+                icon: <IconShoppingCartPlus size={18} />,
                 title: `${product.title}`,
-                message: 'has been added',
+                message: 'has been added to the cart',
               });
             }}
             data-cy="product-buy-button"
