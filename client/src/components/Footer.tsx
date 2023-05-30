@@ -179,7 +179,14 @@ export function FooterCentered({ links }: FooterCenteredProps) {
           {items}
         </Group>
         <Box>
-          <Title className={theme.colorScheme === 'dark' ? 'neonText' : ''} size={36} order={3} align="center" mt={14} mb={24}>
+          <Title
+            className={theme.colorScheme === 'dark' ? 'neonText' : ''}
+            size={36}
+            order={3}
+            align="center"
+            mt={14}
+            mb={24}
+          >
             Subscribe to our newsletter!
           </Title>
           <form className={classes.form} onSubmit={form.onSubmit(handleSubmit)}>

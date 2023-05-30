@@ -53,7 +53,14 @@ function Home() {
           flexDirection: 'column',
         }}
       >
-        <Title className={theme.colorScheme === 'dark' ? 'neonText' : ''} mt={40} mb={14} size={70}>Tech101</Title>
+        <Title
+          className={theme.colorScheme === 'dark' ? 'neonText' : ''}
+          mt={40}
+          mb={14}
+          size={70}
+        >
+          Tech101
+        </Title>
         <Text fz="xl" fw={500}>
           Providing up-to-date <br /> products and services
         </Text>
@@ -68,7 +75,12 @@ function Home() {
       >
         Browse our collection
       </Title>
-      <Text sx={{ marginBottom: '1rem', marginLeft: '0.6rem', fontSize: '0.8rem'}} fw={700} color="none" size="lg">
+      <Text
+        sx={{ marginBottom: '1rem', marginLeft: '0.6rem', fontSize: '0.8rem' }}
+        fw={700}
+        color="none"
+        size="lg"
+      >
         SORT BY CATEGORY:
       </Text>
       <Group spacing={5} mb="md">

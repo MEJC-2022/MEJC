@@ -123,36 +123,36 @@ function AdminProductCard({ product, onDelete }: Props) {
           >
             {product.price}€
           </Title>
-          <Box sx={{display: 'flex'}}>
-          {showConfirmDelete ? (
-            <Button
-              sx={{ color: 'red', borderColor: 'red' }}
-              variant="outline"
-              mt="md"
-              radius="md"
-              onClick={handleDelete}
-              data-cy="confirm-delete-button"
-            >
-              Are you sure?
-            </Button>
-          ) : (
-            <Button
-              sx={{ color: 'red', borderColor: 'red' }}
-              variant="outline"
-              mt="md"
-              radius="md"
-              onClick={handleDelete}
-              data-cy="admin-remove-product"
-            >
-              Delete Product
-            </Button>
-          )}
-          <Link to={edit} data-cy="admin-edit-product">
-            <Button variant="outline" mt="md" radius="md" ml={14} >
-              Edit product
-            </Button>
-          </Link>
-            </Box>
+          <Box sx={{ display: 'flex' }}>
+            {showConfirmDelete ? (
+              <Button
+                sx={{ color: 'red', borderColor: 'red' }}
+                variant="outline"
+                mt="md"
+                radius="md"
+                onClick={handleDelete}
+                data-cy="confirm-delete-button"
+              >
+                Are you sure?
+              </Button>
+            ) : (
+              <Button
+                sx={{ color: 'red', borderColor: 'red' }}
+                variant="outline"
+                mt="md"
+                radius="md"
+                onClick={handleDelete}
+                data-cy="admin-remove-product"
+              >
+                Delete Product
+              </Button>
+            )}
+            <Link to={edit} data-cy="admin-edit-product">
+              <Button variant="outline" mt="md" radius="md" ml={14}>
+                Edit product
+              </Button>
+            </Link>
+          </Box>
         </Group>
       </Card>
     </>

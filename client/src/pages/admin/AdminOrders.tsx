@@ -99,7 +99,7 @@ export default function AdminOrders() {
   return (
     <Box className={classes.wrapper}>
       <Container>
-      <Title
+        <Title
           ta="center"
           className={`${classes.title} ${
             theme.colorScheme === 'dark' ? 'neonText' : ''

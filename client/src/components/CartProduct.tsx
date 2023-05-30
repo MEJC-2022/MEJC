@@ -59,10 +59,7 @@ function CartProduct({ cartItem }: Props) {
           },
         }}
       >
-        <Group
-          sx={{ display: 'flex', minWidth: '14rem' }}
-          position="center"
-        >
+        <Group sx={{ display: 'flex', minWidth: '14rem' }} position="center">
           <Button
             variant="light"
             mt="sm"

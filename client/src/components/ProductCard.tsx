@@ -121,7 +121,7 @@ function ProductCard({ product }: Props) {
           >
             {product.price}€
           </Title>
-          <Box sx={{display: 'flex'}}>
+          <Box sx={{ display: 'flex' }}>
             <Link to={link}>
               <Button variant="outline" mt="md" radius="md">
                 Product Page
