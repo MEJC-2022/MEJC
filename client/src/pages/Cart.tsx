@@ -31,7 +31,7 @@ const useStyles = createStyles((theme) => ({
     color:
       theme.colorScheme === 'dark'
         ? theme.colors.blue[5]
-        : theme.colors.gray[1],
+        : theme.colors.gray[8],
     lineHeight: 1,
     marginBottom: `calc(${theme.spacing.xl} * 1.5)`,
   },
