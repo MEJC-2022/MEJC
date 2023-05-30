@@ -5,6 +5,7 @@ import {
   Container,
   Group,
   SimpleGrid,
+  Text,
   Title,
   useMantineTheme,
 } from '@mantine/core';
@@ -52,16 +53,16 @@ function Home() {
           flexDirection: 'column',
         }}
       >
-        {/* <Title>Tech101</Title>
+        <Title mt={40}>Tech101</Title>
         <Text fz="xl" fw={500}>
           Providing up-to-date <br /> products and services
         </Text>
         <Text fz="lg" fs="italic">
           We. Tech. You.
-        </Text> */}
+        </Text>
       </Box>
       <Title
-        sx={{ marginTop: '5rem', marginBottom: '3rem' }}
+        sx={{ marginTop: '4rem', marginBottom: '3rem' }}
         ta="center"
         className={theme.colorScheme === 'dark' ? 'neonText' : ''}
       >

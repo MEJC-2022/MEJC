@@ -222,10 +222,6 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
 
   function handleLinkClick() {
     setActive(links[0].link);
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
   }
 
   return (
