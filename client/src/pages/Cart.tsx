@@ -189,9 +189,8 @@ function Cart() {
                       (i) => i._id === cartproduct._id,
                     );
                     return (
-                      <div>
+                      <div key={cartproduct._id}>
                         <Box
-                          key={cartproduct._id}
                           sx={{
                             display: 'flex',
                             flexDirection: 'row',
