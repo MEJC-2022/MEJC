@@ -68,9 +68,9 @@ function Home() {
       >
         Browse our collection
       </Title>
-      <Badge sx={{ marginBottom: '1rem' }} size="lg" radius="sm">
-        Sort By Category:
-      </Badge>
+      <Text sx={{ marginBottom: '1rem', marginLeft: '0.6rem', fontSize: '0.8rem'}} fw={700} color="none" size="lg">
+        SORT BY CATEGORY:
+      </Text>
       <Group spacing={5} mb="md">
         <Button
           sx={{
