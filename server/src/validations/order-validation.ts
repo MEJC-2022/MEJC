@@ -58,6 +58,7 @@ export async function validateOrderId(
   res: Response,
   next: NextFunction,
 ) {
-  await addressSchema.validate(req.params.id);
+  console.log(req.params.id);
+  await orderIdSchema.validate(req.params.id);
   next();
 }
