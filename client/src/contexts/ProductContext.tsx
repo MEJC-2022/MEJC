@@ -49,13 +49,45 @@ export const ProductProvider: React.FC<Props> = ({ children }) => {
   const [allCreatedProducts, setAllCreatedProducts] = useState<Product[]>([]);
 
   const fetchProducts = useCallback(async () => {
-    const res = await axios.get('/api/products');
-    setProducts(res.data);
+    try {
+      const res = await axios.get('/api/products');
+
+      if (res.status < 200 && res.status >= 300) {
+        throw new Error('Fetching error');
+      }
+
+      setProducts(res.data);
+    } catch (error) {
+      notifications.show({
+        icon: <IconServerBolt size={20} />,
+        title: 'Error',
+        message: 'Failed to fetch products',
+        color: 'red',
+        autoClose: false,
+      });
+      console.error('Error fetching products:', error);
+    }
   }, []);
 
   const fetchAllCreatedProducts = useCallback(async () => {
-    const res = await axios.get('/api/products/created');
-    setAllCreatedProducts(res.data);
+    try {
+      const res = await axios.get('/api/products/created');
+
+      if (res.status < 200 && res.status >= 300) {
+        throw new Error('Fetching error');
+      }
+
+      setAllCreatedProducts(res.data);
+    } catch (error) {
+      notifications.show({
+        icon: <IconServerBolt size={20} />,
+        title: 'Error',
+        message: 'Failed to fetch products',
+        color: 'red',
+        autoClose: false,
+      });
+      console.error('Error fetching products:', error);
+    }
   }, []);
 
   useEffect(() => {

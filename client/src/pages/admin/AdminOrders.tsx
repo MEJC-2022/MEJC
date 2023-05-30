@@ -6,6 +6,8 @@ import {
   createStyles,
   rem,
 } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
+import { IconServerBolt } from '@tabler/icons-react';
 import { useContext, useEffect, useState } from 'react';
 import { AdminOrderAccordion } from '../../components/AdminOrderAcc';
 import { Order } from '../../components/UserOrderAcc';
@@ -73,8 +75,15 @@ export default function AdminOrders() {
         setAllOrders([]);
         throw new Error(message);
       }
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      notifications.show({
+        icon: <IconServerBolt size={20} />,
+        title: 'Error',
+        message: 'Failed to fetch orders',
+        color: 'red',
+        autoClose: false,
+      });
+      console.error('Error fetching orders:', error);
     } finally {
       setLoading(false);
     }

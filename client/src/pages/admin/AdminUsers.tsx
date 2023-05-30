@@ -8,7 +8,11 @@ import {
   rem,
 } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
-import { IconCheck, IconChevronDown } from '@tabler/icons-react';
+import {
+  IconCheck,
+  IconChevronDown,
+  IconServerBolt,
+} from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { User, useAuth } from '../../contexts/AuthContext';
@@ -51,8 +55,24 @@ export default function AdminUsers() {
 
   useEffect(() => {
     fetch('/api/users')
-      .then((response) => response.json())
-      .then((data) => setUsers(data));
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then((data) => setUsers(data))
+      .catch((error) => {
+        notifications.show({
+          icon: <IconServerBolt size={20} />,
+          title: 'Error',
+          message: 'Failed to fetch user data',
+          color: 'red',
+          autoClose: 3000,
+          withCloseButton: false,
+        });
+        console.error('Failed to fetch user data:', error);
+      });
   }, []);
 
   const updateUserRole = async (user: User, newRole: string) => {
