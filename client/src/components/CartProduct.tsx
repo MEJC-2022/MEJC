@@ -20,8 +20,10 @@ function CartProduct({ cartItem }: Props) {
       sx={{
         display: 'flex',
         justifyContent: 'space-between',
-        '@media(max-width:721px)': {
+        '@media(max-width:1000px)': {
           flexDirection: 'column',
+          justifyContent: '',
+          alignItems: 'center',
         },
       }}
       data-cy="cart-item"
@@ -31,21 +33,36 @@ function CartProduct({ cartItem }: Props) {
         height={150}
         width={220}
         fit="cover"
+        radius="md"
       />
 
-      <Group position="center" pl="xs" pr="xs" mt="sm" mb="sm">
+      <Group pl="xs" pr="xs" mt="sm" mb="sm">
         <Text
           weight={500}
           size={20}
           transform="uppercase"
           data-cy="product-title"
+          style={{
+            textAlign: 'center',
+            minWidth: '20rem',
+            maxWidth: '20rem',
+          }}
         >
           {cartItem.title}
         </Text>
       </Group>
-      <Group>
-        <Group sx={{ display: 'flex' }} position="center" mt="xs" mb="xs">
-          {' '}
+      <Group
+        sx={{
+          '@media(max-width:1000px)': {
+            flexDirection: 'column-reverse',
+            alignItems: 'center',
+          },
+        }}
+      >
+        <Group
+          sx={{ display: 'flex', minWidth: '14rem' }}
+          position="center"
+        >
           <Button
             variant="light"
             mt="sm"
@@ -78,8 +95,17 @@ function CartProduct({ cartItem }: Props) {
           </Button>
         </Group>
         <Group position="center" mt="xs" mb="xs">
-          <Text mt="sm" weight={500} size={15} data-cy="product-price">
-            x{cartItem.price * cartItem.quantity}€
+          <Text
+            mt="sm"
+            weight={700}
+            size={15}
+            data-cy="product-price"
+            sx={{
+              textAlign: 'center',
+              minWidth: '7rem',
+            }}
+          >
+            Price: €{cartItem.price * cartItem.quantity}
           </Text>
         </Group>
       </Group>

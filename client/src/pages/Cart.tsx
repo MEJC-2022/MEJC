@@ -35,6 +35,8 @@ const useStyles = createStyles((theme) => ({
     lineHeight: 1,
     marginBottom: `calc(${theme.spacing.xl} * 1.5)`,
   },
+  container: {
+  }
 }));
 
 function Cart() {
@@ -116,7 +118,7 @@ function Cart() {
           justify="center"
           align="center"
         >
-          <Box>
+          <Box className={classes.container}>
             {cartProducts.map((product) => (
               <Fragment key={product._id}>
                 <CartProduct cartItem={product} />
