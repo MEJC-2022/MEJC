@@ -54,52 +54,16 @@ function Home() {
           flexDirection: 'column',
         }}
       >
-        <Title>Tech101</Title>
+        {/* <Title>Tech101</Title>
         <Text fz="xl" fw={500}>
           Providing up-to-date <br /> products and services
         </Text>
         <Text fz="lg" fs="italic">
-          We. Tech. You
-        </Text>
+          We. Tech. You.
+        </Text> */}
       </Box>
-      <MediaQuery
-        query="(max-width: 650px)"
-        styles={{
-          img: {
-            width: '3.6rem',
-            height: '3.6rem',
-          },
-        }}
-      >
-        <Box
-          sx={{
-            width: '100%',
-            background:
-              theme.colorScheme === 'dark'
-                ? theme.colors.dark[0]
-                : theme.colors.blue[0],
-            display: 'flex',
-            justifyContent: 'space-around',
-            marginBottom: '1.5rem',
-            marginTop: '1rem',
-            padding: '.3rem',
-            boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
-            border:
-              theme.colorScheme === 'light' ? '1px #EEEEEE solid' : 'none',
-          }}
-        >
-          <img src="/assets/recycling.svg" alt="recycable parts icon" />
-          <img
-            src="./assets/sustainability.svg"
-            alt="sustainable transports icon"
-          />
-          <img src="/assets/eustars.svg" alt="free deliveries icon" />
-          <img src="/assets/wallet.svg" alt="price guarantee icon" />
-          <img src="/assets/return.svg" alt="free returns icon" />
-        </Box>
-      </MediaQuery>
       <Title
-        sx={{ marginBottom: '1rem' }}
+        sx={{ marginTop: '6rem', marginBottom: '1rem' }}
         ta="center"
         className={theme.colorScheme === 'dark' ? 'neonText' : ''}
       >
