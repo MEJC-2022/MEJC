@@ -4,9 +4,7 @@ import {
   Button,
   Container,
   Group,
-  MediaQuery,
   SimpleGrid,
-  Text,
   Title,
   useMantineTheme,
 } from '@mantine/core';
@@ -63,7 +61,7 @@ function Home() {
         </Text> */}
       </Box>
       <Title
-        sx={{ marginTop: '6rem', marginBottom: '1rem' }}
+        sx={{ marginTop: '5rem', marginBottom: '3rem' }}
         ta="center"
         className={theme.colorScheme === 'dark' ? 'neonText' : ''}
       >

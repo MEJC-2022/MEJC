@@ -6,7 +6,6 @@ import {
   Container,
   Group,
   Image,
-  MediaQuery,
   Text,
   TextInput,
   Title,
@@ -86,9 +85,7 @@ const useStyles = createStyles((theme) => ({
   responsiveImg: {
     margin: '10px 80px',
     filter:
-      theme.colorScheme === 'light'
-        ? 'brightness(0) saturate(100%) invert(52%) sepia(96%) saturate(5788%) hue-rotate(206deg) brightness(88%) contrast(98%)'
-        : 'brightness(0) saturate(100%) invert(52%) sepia(96%) saturate(5788%) hue-rotate(206deg) brightness(88%) contrast(98%)',
+      'brightness(0) saturate(100%) invert(52%) sepia(96%) saturate(5788%) hue-rotate(206deg) brightness(88%) contrast(98%)',
     [theme.fn.smallerThan('sm')]: {
       margin: '10px 40px',
     },
@@ -248,13 +245,13 @@ export function FooterCentered({ links }: FooterCenteredProps) {
               <Text size={14} align="center" fw={900}>
                 {textAbove}
               </Text>
-                <Image
-                  src={`assets/${fileName}.svg`}
-                  alt={`Image ${fileName}`}
-                  width="80px"
-                  height="80px"
-                  className={classes.responsiveImg}
-                />
+              <Image
+                src={`assets/${fileName}.svg`}
+                alt={`Image ${fileName}`}
+                width="80px"
+                height="80px"
+                className={classes.responsiveImg}
+              />
               <Text size={14} align="center" fw={900}>
                 {textBelow}
               </Text>
