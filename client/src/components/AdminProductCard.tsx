@@ -115,6 +115,15 @@ function AdminProductCard({ product, onDelete }: Props) {
           </Box>
         </Card.Section>
         <Group position="left" mt="md" mb="xs">
+          <Title
+            style={{ marginRight: 'auto', marginTop: '.6rem' }}
+            order={2}
+            align="left"
+            data-cy="product-price"
+          >
+            {product.price}€
+          </Title>
+          <Box sx={{display: 'flex'}}>
           {showConfirmDelete ? (
             <Button
               sx={{ color: 'red', borderColor: 'red' }}
@@ -139,18 +148,11 @@ function AdminProductCard({ product, onDelete }: Props) {
             </Button>
           )}
           <Link to={edit} data-cy="admin-edit-product">
-            <Button variant="outline" mt="md" radius="md">
+            <Button variant="outline" mt="md" radius="md" ml={14} >
               Edit product
             </Button>
           </Link>
-          <Title
-            order={2}
-            sx={{ marginLeft: 'auto', marginTop: '.5rem' }}
-            align="left"
-            data-cy="product-price"
-          >
-            {product.price}€
-          </Title>
+            </Box>
         </Group>
       </Card>
     </>
