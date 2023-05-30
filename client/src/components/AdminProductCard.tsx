@@ -47,53 +47,52 @@ function AdminProductCard({ product, onDelete }: Props) {
         <Card.Section>
           <Image src={'/api/file/' + product.image} height={230} fit="cover" />
           <Box pl="md" pr="md">
-              <Group
-                mt="lg"
-                pos="absolute"
-                top="0%"
-                right="5%"
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  placeItems: 'center',
-                  textAlign: 'center',
-                }}
-              >
-                {product.stock === 0 ? (
-                  <Badge
-                    variant="gradient"
-                    gradient={{ from: 'orange', to: 'red' }}
-                  >
-                    {product.stock === 0
-                      ? 'Out of stock'
-                      : `${product.stock} in stock`}
-                  </Badge>
-                ) : (
-                  <Badge variant="gradient">{product.stock} in stock</Badge>
-                )}
-              </Group>
-              <Group
-                mt="xl"
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  placeItems: 'center',
-                  textAlign: 'center',
-                }}
-              >
-                {product.categories.length > 0 ? (
-                  <Badge size="md">
-                    {product.categories
-                      .map((category) => category.title)
-                      .join(' | ')}
-                  </Badge>
-                ) : (
-                  <Badge size="md">Uncategorized
-                  </Badge>
-                )}
-              </Group>
+            <Group
+              mt="lg"
+              pos="absolute"
+              top="0%"
+              right="5%"
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                placeItems: 'center',
+                textAlign: 'center',
+              }}
+            >
+              {product.stock === 0 ? (
+                <Badge
+                  variant="gradient"
+                  gradient={{ from: 'orange', to: 'red' }}
+                >
+                  {product.stock === 0
+                    ? 'Out of stock'
+                    : `${product.stock} in stock`}
+                </Badge>
+              ) : (
+                <Badge variant="gradient">{product.stock} in stock</Badge>
+              )}
+            </Group>
+            <Group
+              mt="xl"
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                placeItems: 'center',
+                textAlign: 'center',
+              }}
+            >
+              {product.categories.length > 0 ? (
+                <Badge size="md">
+                  {product.categories
+                    .map((category) => category.title)
+                    .join(' | ')}
+                </Badge>
+              ) : (
+                <Badge size="md">Uncategorized</Badge>
+              )}
+            </Group>
             <Group position="left" mt="sm" mb="sm">
               <Text
                 weight={500}

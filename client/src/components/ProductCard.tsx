@@ -88,8 +88,7 @@ function ProductCard({ product }: Props) {
                       .join(' | ')}
                   </Badge>
                 ) : (
-                  <Badge size="md">Uncategorized
-                  </Badge>
+                  <Badge size="md">Uncategorized</Badge>
                 )}
               </Group>
               <Group
