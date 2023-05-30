@@ -80,7 +80,7 @@ const useStyles = createStyles((theme) => ({
 
   form: {
     backgroundColor:
-      theme.colorScheme === 'dark' ? theme.colors.gray[7] : theme.white,
+      theme.colorScheme === 'dark' ? "#25262b" : theme.white,
     padding: theme.spacing.xl,
     borderRadius: theme.radius.md,
     boxShadow: theme.shadows.lg,
@@ -98,8 +98,10 @@ const useStyles = createStyles((theme) => ({
     backgroundColor:
       theme.colorScheme === 'dark' ? theme.colors.gray[8] : theme.white,
     borderColor: theme.colors.gray[4],
-    color: theme.black,
-
+    color:
+      theme.colorScheme === 'light'
+        ? theme.colors.gray[8]
+        : theme.colors.gray[1],
     '&::placeholder': {
       color: theme.colors.gray[5],
     },
