@@ -96,7 +96,7 @@ function Cart() {
         size={'1680px'}
         sx={{
           marginTop: '0.5rem',
-          marginBottom: '2rem',
+          marginBottom: '4rem',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -131,6 +131,7 @@ function Cart() {
               justifyContent: 'space-between',
               flexWrap: 'wrap',
               gap: '3rem',
+              width: '90%',
               '@media(max-width:1000px)': {
                 justifyContent: 'flex-start',
                 flexDirection: 'column-reverse',
@@ -140,15 +141,19 @@ function Cart() {
             {user ? (
               <CheckoutForm />
             ) : (
-              <Container
+              <Box
                 sx={{
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
+                  width: '20.7rem',
                 }}
               >
+                <Title mb="lg" order={1} sx={{ alignSelf: 'flex-start' }}>
+                  Sign in to continue
+                </Title>
                 <SignInForm />
-              </Container>
+              </Box>
             )}
             <Box
               sx={{
@@ -161,11 +166,14 @@ function Cart() {
             >
               <Box
                 sx={{
-                  width: '22rem',
+                  width: '20.7rem',
                   display: 'flex',
                   flexDirection: 'column',
                   justifyItems: 'center',
                   alignItems: 'flex-start',
+                  padding: '2rem',
+                  borderRadius: '1rem',
+                  backgroundColor: theme.colorScheme === 'dark' ? '#333333' : '#e7f5ff',
                   '@media(max-width:721px)': {
                     width: '20rem',
                   },
@@ -174,7 +182,7 @@ function Cart() {
                 <Title mb="lg" order={1} sx={{ alignSelf: 'flex-start' }}>
                   Cart summary
                 </Title>
-                <Text weight={500} size={20} sx={{minWidth: '100%'}}>
+                <Text weight={500} size={20} sx={{ minWidth: '100%' }}>
                   {cartProducts.map((cartproduct) => {
                     const product = products.find(
                       (i) => i._id === cartproduct._id,
@@ -190,12 +198,23 @@ function Cart() {
                             justifyContent: 'space-between',
                           }}
                         >
-                          <Text sx={{minWidth: '12rem', maxWidth: '12rem'}}>{product?.title}</Text>
-                          <Text sx={{alignSelf: 'flex-end', marginLeft: 'auto'}} weight={700}>
+                          <Text
+                            sx={{
+                              minWidth: '8rem',
+                              maxWidth: '8rem',
+                              fontSize: '1rem',
+                            }}
+                          >
+                            {product?.title}
+                          </Text>
+                          <Text
+                            sx={{ alignSelf: 'flex-end', marginLeft: 'auto' }}
+                            weight={700}
+                          >
                             {cartproduct.quantity} x {product?.price}€
                           </Text>
                         </Box>
-                        <Divider mt="md" mb="sm" size="xs" />
+                        <Divider mt="md" mb="md" size="xs" />
                       </div>
                     );
                   })}
@@ -203,7 +222,7 @@ function Cart() {
                 <Text
                   data-cy="total-price"
                   weight={700}
-                  size={26}
+                  size={20}
                   sx={{ alignSelf: 'flex-end' }}
                 >
                   Total price:{' '}
