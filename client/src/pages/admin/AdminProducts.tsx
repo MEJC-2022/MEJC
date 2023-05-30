@@ -26,6 +26,7 @@ function AdminProducts() {
       <Title
         mb="xl"
         ta="center"
+        className={theme.colorScheme === 'dark' ? 'neonText' : ''}
         sx={{
           marginTop: '7.2rem',
           fontSize: '3rem',
