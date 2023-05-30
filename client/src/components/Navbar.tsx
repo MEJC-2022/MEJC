@@ -243,10 +243,10 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
             <Group spacing={1}>{logo}</Group>
           </Link>
         </MediaQuery>
-        <Group spacing={5} className={cx({ [classes.hide]: isBurgerVisible })}>
+        <Group spacing={5} sx={{marginLeft: "auto"}} className={cx({ [classes.hide]: isBurgerVisible })}>
           {items}
         </Group>
-        <Group spacing={1}>
+        <Group spacing={1} sx={{marginLeft: "auto"}}>
           <ToggleColorButton onToggleColorScheme={handleToggleColorScheme} />
           {user ? (
             <>
