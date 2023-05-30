@@ -88,14 +88,14 @@ function Home() {
               theme.colorScheme === 'light' ? '1px #EEEEEE solid' : 'none',
           }}
         >
-          <img src="/assets/recycable-parts.svg" alt="recycable parts icon" />
+          <img src="/assets/recycling.svg" alt="recycable parts icon" />
           <img
-            src="./assets/sustainable-transports.svg"
+            src="./assets/sustainability.svg"
             alt="sustainable transports icon"
           />
-          <img src="/assets/free-deliveries.svg" alt="free deliveries icon" />
-          <img src="/assets/price-guarantee.svg" alt="price guarantee icon" />
-          <img src="/assets/free-returns.svg" alt="free returns icon" />
+          <img src="/assets/eustars.svg" alt="free deliveries icon" />
+          <img src="/assets/wallet.svg" alt="price guarantee icon" />
+          <img src="/assets/return.svg" alt="free returns icon" />
         </Box>
       </MediaQuery>
       <Title
