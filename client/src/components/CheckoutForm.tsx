@@ -3,6 +3,7 @@ import { useForm, yupResolver } from '@mantine/form';
 import { useNavigate } from 'react-router';
 import * as Yup from 'yup';
 import { useShoppingCart } from '../contexts/ShoppingCartContext';
+import { formStyle } from '../css/formStyle';
 
 export interface FormValues {
   firstName: string;
@@ -44,6 +45,7 @@ const schema = Yup.object().shape({
 
 function CheckoutForm() {
   const navigate = useNavigate();
+  const { classes } = formStyle();
   const { addOrder, cartProducts } = useShoppingCart();
   const onSubmit = (data: FormValues) => {
     addOrder(cartProducts, data);
@@ -65,6 +67,7 @@ function CheckoutForm() {
 
   return (
     <Box
+      className={classes.form}
       sx={{
         width: '20.7rem',
         '@media(max-width:721px)': {

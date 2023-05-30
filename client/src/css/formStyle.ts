@@ -21,7 +21,7 @@ export const formStyle = createStyles((theme) => ({
       theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.white,
     padding: theme.spacing.xl,
     borderRadius: theme.radius.md,
-    boxShadow: theme.shadows.lg,
+    boxShadow: theme.shadows.sm,
     width: '100%',
     minWidth: '290px',
     border: theme.colorScheme === 'light' ? '1px #EEEEEE solid' : 'none',
@@ -30,7 +30,8 @@ export const formStyle = createStyles((theme) => ({
     backgroundColor:
       theme.colorScheme === 'dark' ? theme.colors.gray[8] : theme.white,
     borderColor: theme.colors.gray[4],
-    color: theme.black,
+    color:
+    theme.colorScheme === 'light' ? theme.colors.gray[8] : theme.colors.gray[1],
     '&::placeholder': {
       color: theme.colors.gray[5],
     },

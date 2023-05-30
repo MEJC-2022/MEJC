@@ -172,8 +172,9 @@ function Cart() {
                   justifyItems: 'center',
                   alignItems: 'flex-start',
                   padding: '2rem',
-                  borderRadius: '1rem',
-                  backgroundColor: theme.colorScheme === 'dark' ? '#333333' : '#e7f5ff',
+                  borderRadius: theme.radius.md,
+                  backgroundColor:
+                    theme.colorScheme === 'dark' ? '#25262b' : '#e7f5ff',
                   '@media(max-width:721px)': {
                     width: '20rem',
                   },
