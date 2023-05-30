@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  Card,
   Container,
   Divider,
   Flex,
@@ -35,8 +34,7 @@ const useStyles = createStyles((theme) => ({
     lineHeight: 1,
     marginBottom: `calc(${theme.spacing.xl} * 1.5)`,
   },
-  container: {
-  }
+  container: {},
 }));
 
 function Cart() {
@@ -129,12 +127,13 @@ function Cart() {
           <Box
             sx={{
               display: 'flex',
-              alignItems: 'center',
+              alignItems: 'flex-start',
               justifyContent: 'space-between',
               flexWrap: 'wrap',
               gap: '3rem',
-              '@media(max-width:801px)': {
-                justifyContent: 'center',
+              '@media(max-width:1000px)': {
+                justifyContent: 'flex-start',
+                flexDirection: 'column-reverse',
               },
             }}
           >
@@ -160,51 +159,54 @@ function Cart() {
                 gap: '2rem',
               }}
             >
-              <Card
-                shadow="md"
+              <Box
                 sx={{
                   width: '22rem',
                   display: 'flex',
-                  gap: '1rem',
                   flexDirection: 'column',
                   justifyItems: 'center',
-                  alignItems: 'center',
-                  marginTop: '0.7rem',
-                  marginBottom: '1rem',
-                  border: borderStyle,
+                  alignItems: 'flex-start',
                   '@media(max-width:721px)': {
                     width: '20rem',
                   },
                 }}
               >
-                <Text weight={600} size={25}>
-                  Summary:
-                </Text>
-                <Text weight={500} size={18}>
+                <Title mb="lg" order={1} sx={{ alignSelf: 'flex-start' }}>
+                  Cart summary
+                </Title>
+                <Text weight={500} size={20} sx={{minWidth: '100%'}}>
                   {cartProducts.map((cartproduct) => {
                     const product = products.find(
                       (i) => i._id === cartproduct._id,
                     );
                     return (
-                      <Box
-                        key={cartproduct._id}
-                        sx={{
-                          display: 'flex',
-                          flexDirection: 'row',
-                          gap: '1rem',
-                          justifyContent: 'space-between',
-                        }}
-                      >
-                        <Text>{product?.title}</Text>
-                        <Text weight={400}>
-                          {cartproduct.quantity}x {product?.price}€
-                        </Text>
-                      </Box>
+                      <div>
+                        <Box
+                          key={cartproduct._id}
+                          sx={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            gap: '1rem',
+                            justifyContent: 'space-between',
+                          }}
+                        >
+                          <Text sx={{minWidth: '12rem', maxWidth: '12rem'}}>{product?.title}</Text>
+                          <Text sx={{alignSelf: 'flex-end', marginLeft: 'auto'}} weight={700}>
+                            {cartproduct.quantity} x {product?.price}€
+                          </Text>
+                        </Box>
+                        <Divider mt="md" mb="sm" size="xs" />
+                      </div>
                     );
                   })}
                 </Text>
-                <Text data-cy="total-price" weight={500} size={29}>
-                  total:{' '}
+                <Text
+                  data-cy="total-price"
+                  weight={700}
+                  size={26}
+                  sx={{ alignSelf: 'flex-end' }}
+                >
+                  Total price:{' '}
                   {cartProducts.reduce((total, cartProduct) => {
                     const product = products.find(
                       (i) => i._id === cartProduct._id,
@@ -213,7 +215,7 @@ function Cart() {
                   }, 0)}
                   €
                 </Text>
-              </Card>
+              </Box>
             </Box>
           </Box>
         </Flex>
