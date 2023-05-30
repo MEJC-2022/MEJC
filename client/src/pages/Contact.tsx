@@ -6,7 +6,6 @@ import {
   Container,
   createStyles,
   Group,
-  Modal,
   rem,
   SimpleGrid,
   Text,
@@ -16,12 +15,12 @@ import {
   useMantineTheme,
 } from '@mantine/core';
 import { useForm, yupResolver } from '@mantine/form';
-import { useDisclosure } from '@mantine/hooks';
+import { notifications } from '@mantine/notifications';
 import {
   IconBrandInstagram,
   IconBrandTwitter,
   IconBrandYoutube,
-  IconCircleCheck,
+  IconCheck,
 } from '@tabler/icons-react';
 import * as Yup from 'yup';
 
@@ -153,11 +152,16 @@ export function Contact() {
   ));
 
   const handleSubmit = () => {
-    console.log('Contact');
-    open();
+    notifications.show({
+      icon: <IconCheck />,
+      title: 'Thank you for your message!',
+      message: `We'll get back to you within 48 hours`,
+      color: 'green',
+      autoClose: 3000,
+      withCloseButton: false,
+    });
+    form.reset();
   };
-
-  const [opened, { open, close }] = useDisclosure(false);
 
   return (
     <Box className={classes.wrapper}>
@@ -229,14 +233,6 @@ export function Contact() {
             </div>
           </SimpleGrid>
         </Container>
-        <Modal opened={opened} onClose={close} title="Message sent!" centered>
-          <Text>
-            Thank you for your message! We'll get back to you within 48 hours.
-          </Text>
-          <Box sx={{ textAlign: 'center' }}>
-            <IconCircleCheck size="3rem" stroke="0.05rem" />
-          </Box>
-        </Modal>
       </Center>
     </Box>
   );

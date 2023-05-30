@@ -1,6 +1,8 @@
 import { Box, Button, createStyles } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
 import {
   IconBuildingStore,
+  IconCheck,
   IconLogin,
   IconLogout,
   IconPackage,
@@ -64,6 +66,14 @@ export function SignOutButton() {
 
       if (response.ok) {
         setUser(null);
+        notifications.show({
+          icon: <IconCheck />,
+          title: `You have successfully logged out`,
+          message: 'Hope to see you again soon!',
+          color: 'green',
+          autoClose: 3000,
+          withCloseButton: false,
+        });
         navigate('/');
       }
       if (response.status === 401) {

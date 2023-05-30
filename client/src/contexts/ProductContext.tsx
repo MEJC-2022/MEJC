@@ -1,7 +1,9 @@
+import { notifications } from '@mantine/notifications';
+import { IconCheck, IconServerBolt } from '@tabler/icons-react';
 import axios from 'axios';
 import {
-  createContext,
   ReactNode,
+  createContext,
   useCallback,
   useEffect,
   useState,
@@ -47,13 +49,45 @@ export const ProductProvider: React.FC<Props> = ({ children }) => {
   const [allCreatedProducts, setAllCreatedProducts] = useState<Product[]>([]);
 
   const fetchProducts = useCallback(async () => {
-    const res = await axios.get('/api/products');
-    setProducts(res.data);
+    try {
+      const res = await axios.get('/api/products');
+
+      if (res.status < 200 && res.status >= 300) {
+        throw new Error('Fetching error');
+      }
+
+      setProducts(res.data);
+    } catch (error) {
+      notifications.show({
+        icon: <IconServerBolt size={20} />,
+        title: 'Error',
+        message: 'Failed to fetch products',
+        color: 'red',
+        autoClose: false,
+      });
+      console.error('Error fetching products:', error);
+    }
   }, []);
 
   const fetchAllCreatedProducts = useCallback(async () => {
-    const res = await axios.get('/api/products/created');
-    setAllCreatedProducts(res.data);
+    try {
+      const res = await axios.get('/api/products/created');
+
+      if (res.status < 200 && res.status >= 300) {
+        throw new Error('Fetching error');
+      }
+
+      setAllCreatedProducts(res.data);
+    } catch (error) {
+      notifications.show({
+        icon: <IconServerBolt size={20} />,
+        title: 'Error',
+        message: 'Failed to fetch products',
+        color: 'red',
+        autoClose: false,
+      });
+      console.error('Error fetching products:', error);
+    }
   }, []);
 
   useEffect(() => {
@@ -61,10 +95,34 @@ export const ProductProvider: React.FC<Props> = ({ children }) => {
   }, []);
 
   async function deleteProduct(id: string) {
-    await axios.delete(`/api/products/${id}`);
-    setProducts((currentProducts) => {
-      return currentProducts.filter((product) => product._id !== id);
-    });
+    try {
+      const response = await axios.delete(`/api/products/${id}`);
+      notifications.show({
+        icon: <IconCheck />,
+        title: 'Success!',
+        message: 'The product has been deleted',
+        color: 'green',
+        autoClose: 3000,
+        withCloseButton: false,
+      });
+
+      if (response.status < 200 && response.status >= 300) {
+        throw new Error('Validation error');
+      }
+
+      setProducts((currentProducts) => {
+        return currentProducts.filter((product) => product._id !== id);
+      });
+    } catch (error) {
+      notifications.show({
+        icon: <IconServerBolt size={20} />,
+        title: 'Error',
+        message: 'Failed to delete product',
+        color: 'red',
+        autoClose: false,
+      });
+      console.error('Error deleting product:', error);
+    }
   }
 
   const addProduct = async (product: Product) => {
@@ -76,24 +134,69 @@ export const ProductProvider: React.FC<Props> = ({ children }) => {
         },
         body: JSON.stringify(product),
       });
+
+      if (!response.ok) {
+        throw new Error('Validation error');
+      }
+
       const newProduct = await response.json();
+
       setProducts((prevProducts) => [...prevProducts, newProduct]);
+
+      notifications.show({
+        icon: <IconCheck />,
+        title: 'Success!',
+        message: `You have created product "${product.title}"`,
+        color: 'green',
+        autoClose: 3000,
+        withCloseButton: false,
+      });
     } catch (error) {
+      notifications.show({
+        icon: <IconServerBolt size={20} />,
+        title: 'Error',
+        message: 'Failed to create product',
+        color: 'red',
+        autoClose: false,
+      });
       console.error('Error creating product:', error);
     }
   };
 
   async function updateProduct(updatedProduct: Product) {
-    const res = await axios.put(
-      `/api/products/${updatedProduct._id}`,
-      updatedProduct,
-    );
+    try {
+      const response = await axios.put(
+        `/api/products/${updatedProduct._id}`,
+        updatedProduct,
+      );
 
-    setProducts((currentProducts) =>
-      currentProducts.map((product) =>
-        product._id === updatedProduct._id ? res.data : product,
-      ),
-    );
+      if (response.status < 200 && response.status >= 300) {
+        throw new Error('Validation error');
+      }
+
+      setProducts((currentProducts) =>
+        currentProducts.map((product) =>
+          product._id === updatedProduct._id ? response.data : product,
+        ),
+      );
+      notifications.show({
+        icon: <IconCheck />,
+        title: 'Success!',
+        message: `You have edited product "${updatedProduct.title}"`,
+        color: 'green',
+        autoClose: 3000,
+        withCloseButton: false,
+      });
+    } catch (error) {
+      notifications.show({
+        icon: <IconServerBolt size={20} />,
+        title: 'Error',
+        message: 'Failed to update product',
+        color: 'red',
+        autoClose: false,
+      });
+      console.error('Error updating product:', error);
+    }
   }
 
   return (
