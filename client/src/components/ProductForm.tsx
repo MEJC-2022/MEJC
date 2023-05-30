@@ -43,6 +43,7 @@ const schema = Yup.object().shape({
   price: Yup.number()
     .min(1, 'Nothing is this cheap...')
     .required('Price is required')
+    .typeError('Price is required and must be a number')
     .strict(),
   stock: Yup.number()
     .min(0, 'Stock cannot be negative')
@@ -194,6 +195,7 @@ function ProductForm({
           onChange={(e) => form.setFieldValue('price', Number(e.target.value))}
           data-cy="product-price"
           errorProps={{ 'data-cy': 'product-price-error' }}
+          error={form.errors.price}
         />
         <TextInput
           withAsterisk
