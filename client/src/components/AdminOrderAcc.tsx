@@ -15,7 +15,12 @@ import {
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
-import { IconAt, IconCheck, IconPhone, IconServerBolt } from '@tabler/icons-react';
+import {
+  IconAt,
+  IconCheck,
+  IconPhone,
+  IconServerBolt,
+} from '@tabler/icons-react';
 import { useContext, useState } from 'react';
 import { ProductContext } from '../contexts/ProductContext';
 
@@ -114,7 +119,7 @@ export function AdminOrderAccordion({ order }: { order: Order }) {
       });
     } catch (error) {
       notifications.show({
-        icon: <IconServerBolt size={20}/>,
+        icon: <IconServerBolt size={20} />,
         title: 'Error',
         message: 'Failed to update order shipping status',
         color: 'red',

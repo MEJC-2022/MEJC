@@ -123,9 +123,10 @@ export default function AdminUsers() {
       if (session._id === user._id) {
         setUser(data.user);
         notifications.show({
-          icon: <IconExclamationMark size={20}/>,
+          icon: <IconExclamationMark size={20} />,
           title: 'You have set your own role to User',
-          message: 'You have been kicked out of the admin panel. If this was a mistake, contact an admin.',
+          message:
+            'You have been kicked out of the admin panel. If this was a mistake, contact an admin.',
           color: 'yellow',
           autoClose: 3000,
           withCloseButton: false,
