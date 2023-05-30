@@ -6,6 +6,9 @@ import {
   Divider,
   Flex,
   Text,
+  Title,
+  createStyles,
+  rem,
   useMantineTheme,
 } from '@mantine/core';
 import { Fragment, useContext } from 'react';
@@ -17,6 +20,23 @@ import { useAuth } from '../contexts/AuthContext';
 import { ProductContext } from '../contexts/ProductContext';
 import { useShoppingCart } from '../contexts/ShoppingCartContext';
 
+const useStyles = createStyles((theme) => ({
+  title: {
+    marginTop: '7rem',
+    fontSize: rem(50),
+    [theme.fn.smallerThan('sm')]: {
+      fontSize: rem(40),
+      marginTop: '2.6rem',
+    },
+    color:
+      theme.colorScheme === 'dark'
+        ? theme.colors.blue[5]
+        : theme.colors.gray[1],
+    lineHeight: 1,
+    marginBottom: `calc(${theme.spacing.xl} * 1.5)`,
+  },
+}));
+
 function Cart() {
   const { cartProducts, cartQuantity } = useShoppingCart();
   const { products } = useContext(ProductContext);
@@ -24,6 +44,7 @@ function Cart() {
   const theme = useMantineTheme();
   const isLightColorScheme = theme.colorScheme === 'light';
   const borderStyle = isLightColorScheme ? '1px #EEEEEE solid' : 'none';
+  const { classes } = useStyles();
 
   <Text weight={500} size={29}>
     total:{' '}
@@ -73,8 +94,21 @@ function Cart() {
     return (
       <Container
         size={'1680px'}
-        sx={{ marginTop: '0.5rem', marginBottom: '2rem' }}
+        sx={{
+          marginTop: '0.5rem',
+          marginBottom: '2rem',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
       >
+        <Title
+          className={`${classes.title} ${
+            theme.colorScheme === 'dark' ? 'neonText' : ''
+          }`}
+        >
+          Your cart
+        </Title>
         <Flex
           gap="3rem"
           wrap="wrap"
