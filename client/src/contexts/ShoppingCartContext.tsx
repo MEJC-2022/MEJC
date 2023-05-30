@@ -1,3 +1,5 @@
+import { notifications } from '@mantine/notifications';
+import { IconServerBolt } from '@tabler/icons-react';
 import { createContext, ReactNode, useContext, useState } from 'react';
 import { FormValues } from '../components/CheckoutForm';
 import { CartItem } from '../contexts/ProductContext';
@@ -128,6 +130,13 @@ function ShoppingCartProvider({ children }: Props) {
       }
     } catch (error) {
       setOrder(null);
+      notifications.show({
+        icon: <IconServerBolt size={20} />,
+        title: 'Error',
+        message: 'Failed to create order. Try again.',
+        color: 'red',
+        autoClose: false,
+      });
       console.error('Error creating order:', error);
     } finally {
       setLoading(false);
