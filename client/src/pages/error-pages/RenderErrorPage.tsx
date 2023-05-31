@@ -1,4 +1,11 @@
-import { Box, Title, Text, createStyles, rem, useMantineTheme } from '@mantine/core';
+import {
+  Box,
+  Text,
+  Title,
+  createStyles,
+  rem,
+  useMantineTheme,
+} from '@mantine/core';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -43,6 +50,7 @@ interface Props {
 function RenderErrorPage({ error, resetErrorBoundary }: Props) {
   const theme = useMantineTheme();
   const { classes } = useStyles();
+
   return (
     <Box className={classes.wrapper}>
       <Title
@@ -52,7 +60,9 @@ function RenderErrorPage({ error, resetErrorBoundary }: Props) {
       >
         Oh no, something broke!
       </Title>
-      <Text color="white">Don't worry, we're on it.</Text>
+      <Text color="white">
+        This shouldn't happen, but don't worry – we're on it.
+      </Text>
     </Box>
   );
 }
