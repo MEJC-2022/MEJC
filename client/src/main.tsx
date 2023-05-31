@@ -36,6 +36,7 @@ import AdminProducts from './pages/admin/AdminProducts';
 import AdminUsers from './pages/admin/AdminUsers';
 import EditProduct from './pages/admin/EditProduct';
 import NewProduct from './pages/admin/NewProduct';
+import NotFoundPage from './pages/error-pages/NotFoundPage';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -54,9 +55,10 @@ const router = createBrowserRouter(
           <Route path="confirmation" element={<Confirmation />} />
           <Route path="orders" element={<UserOrders />} />
         </Route>
+        <Route path="*" element={<NotFoundPage wrapperKey={true} />} />
       </Route>
       <Route path="/" element={<AdminRoutes />}>
-        <Route path="admin/*" element={<Admin />}>
+        <Route path="admin/" element={<Admin />}>
           <Route index element={<Navigate to="products" />} />
           <Route path="products" element={<AdminProducts />} />
           <Route path="product/:id" element={<EditProduct />} />
@@ -64,10 +66,9 @@ const router = createBrowserRouter(
           <Route path="product/new" element={<NewProduct />} />
           <Route path="orders" element={<AdminOrders />} />
           <Route path="users" element={<AdminUsers />} />
-          <Route path="*" element={<Navigate to="/admin/products" />} />
+          <Route path="*" element={<NotFoundPage wrapperKey={false} />} />
         </Route>
       </Route>
-      <Route path="*" element={<Navigate to="/" />} />
     </Route>,
   ),
 );
