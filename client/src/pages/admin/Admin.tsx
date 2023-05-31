@@ -4,7 +4,8 @@ import {
   HeaderResponsive,
   HeaderResponsiveProps,
 } from '../../components/Navbar';
-import PageNotFound from '../error-pages/RenderErrorPage';
+import { sendErrorLog } from '../../utils/sendErrorLog';
+import RenderErrorPage from '../error-pages/RenderErrorPage';
 
 export default function Admin() {
   const headerLinks: HeaderResponsiveProps['links'] = [
@@ -16,7 +17,16 @@ export default function Admin() {
   return (
     <div>
       <HeaderResponsive links={headerLinks} />
-      <ErrorBoundary fallbackRender={PageNotFound} onReset={(details) => {}}>
+      <ErrorBoundary
+        fallbackRender={({ error, resetErrorBoundary }) => (
+          <RenderErrorPage
+            error={error}
+            resetErrorBoundary={resetErrorBoundary}
+          />
+        )}
+        onReset={(details) => {}}
+        onError={sendErrorLog}
+      >
         <main>
           <Outlet />
         </main>
