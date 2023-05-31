@@ -6,6 +6,8 @@ import {
   rem,
   useMantineTheme,
 } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
+import { IconServerBolt } from '@tabler/icons-react';
 import { useContext, useEffect, useState } from 'react';
 import { Order, UserOrderAccordion } from '../components/UserOrderAcc';
 import { useAuth } from '../contexts/AuthContext';
@@ -21,11 +23,11 @@ const useStyles = createStyles((theme) => ({
         ? `linear-gradient(-60deg, ${theme.colors.gray[8]} 0%, ${theme.colors.gray[9]} 100%)`
         : `linear-gradient(-60deg, ${theme.colors.blue[3]} 0%, ${theme.colors.blue[7]} 100%)`,
     padding: `calc(${theme.spacing.xl} * 5)`,
-    minHeight: 'calc(100vh - 4.375rem - 10rem)',
+    minHeight: 'calc(100vh - 4.375rem - 13rem)',
+
     [theme.fn.smallerThan('sm')]: {
-      padding: `calc(${theme.spacing.xl})`,
-      paddingTop: '3rem',
-      minHeight: 'calc(100vh - 4.375rem - 19.8rem)',
+      minHeight: 'calc(100vh - 4.375rem - 23.8rem)',
+      padding: `calc(${theme.spacing.xl} * 2)`,
     },
   },
   title: {
@@ -75,8 +77,15 @@ export default function UserOrders() {
         setUserOrders([]);
         throw new Error(message);
       }
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      notifications.show({
+        icon: <IconServerBolt size={20} />,
+        title: 'Error',
+        message: 'Failed to fetch orders',
+        color: 'red',
+        autoClose: false,
+      });
+      console.error('Error fetching orders:', error);
     } finally {
       setLoading(false);
     }

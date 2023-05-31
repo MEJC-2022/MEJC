@@ -1,11 +1,13 @@
 import {
   Box,
   Button,
-  Card,
   Container,
   Divider,
   Flex,
   Text,
+  Title,
+  createStyles,
+  rem,
   useMantineTheme,
 } from '@mantine/core';
 import { Fragment, useContext } from 'react';
@@ -17,6 +19,24 @@ import { useAuth } from '../contexts/AuthContext';
 import { ProductContext } from '../contexts/ProductContext';
 import { useShoppingCart } from '../contexts/ShoppingCartContext';
 
+const useStyles = createStyles((theme) => ({
+  title: {
+    marginTop: '7rem',
+    fontSize: rem(50),
+    [theme.fn.smallerThan('sm')]: {
+      fontSize: rem(40),
+      marginTop: '2.6rem',
+    },
+    color:
+      theme.colorScheme === 'dark'
+        ? theme.colors.blue[5]
+        : theme.colors.gray[8],
+    lineHeight: 1,
+    marginBottom: `calc(${theme.spacing.xl} * 1.5)`,
+  },
+  container: {},
+}));
+
 function Cart() {
   const { cartProducts, cartQuantity } = useShoppingCart();
   const { products } = useContext(ProductContext);
@@ -24,6 +44,7 @@ function Cart() {
   const theme = useMantineTheme();
   const isLightColorScheme = theme.colorScheme === 'light';
   const borderStyle = isLightColorScheme ? '1px #EEEEEE solid' : 'none';
+  const { classes } = useStyles();
 
   <Text weight={500} size={29}>
     total:{' '}
@@ -73,8 +94,21 @@ function Cart() {
     return (
       <Container
         size={'1680px'}
-        sx={{ marginTop: '0.5rem', marginBottom: '2rem' }}
+        sx={{
+          marginTop: '0.5rem',
+          marginBottom: '4rem',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
       >
+        <Title
+          className={`${classes.title} ${
+            theme.colorScheme === 'dark' ? 'neonText' : ''
+          }`}
+        >
+          Your cart
+        </Title>
         <Flex
           gap="3rem"
           wrap="wrap"
@@ -82,7 +116,7 @@ function Cart() {
           justify="center"
           align="center"
         >
-          <Box>
+          <Box className={classes.container}>
             {cartProducts.map((product) => (
               <Fragment key={product._id}>
                 <CartProduct cartItem={product} />
@@ -93,27 +127,33 @@ function Cart() {
           <Box
             sx={{
               display: 'flex',
-              alignItems: 'center',
+              alignItems: 'flex-start',
               justifyContent: 'space-between',
               flexWrap: 'wrap',
               gap: '3rem',
-              '@media(max-width:801px)': {
-                justifyContent: 'center',
+              width: '90%',
+              '@media(max-width:1000px)': {
+                justifyContent: 'flex-start',
+                flexDirection: 'column-reverse',
               },
             }}
           >
             {user ? (
               <CheckoutForm />
             ) : (
-              <Container
+              <Box
                 sx={{
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
+                  width: '20.7rem',
                 }}
               >
+                <Title mb="lg" order={1} sx={{ alignSelf: 'flex-start' }}>
+                  Sign in to continue
+                </Title>
                 <SignInForm />
-              </Container>
+              </Box>
             )}
             <Box
               sx={{
@@ -124,60 +164,76 @@ function Cart() {
                 gap: '2rem',
               }}
             >
-              <Card
-                shadow="md"
+              <Box
                 sx={{
-                  width: '22rem',
+                  width: '20.7rem',
                   display: 'flex',
-                  gap: '1rem',
                   flexDirection: 'column',
                   justifyItems: 'center',
-                  alignItems: 'center',
-                  marginTop: '0.7rem',
-                  marginBottom: '1rem',
-                  border: borderStyle,
+                  alignItems: 'flex-start',
+                  padding: '2rem',
+                  borderRadius: theme.radius.md,
+                  backgroundColor:
+                    theme.colorScheme === 'dark' ? '#25262b' : '#e7f5ff',
                   '@media(max-width:721px)': {
                     width: '20rem',
                   },
                 }}
               >
-                <Text weight={600} size={25}>
-                  Summary:
-                </Text>
-                <Text weight={500} size={18}>
+                <Title mb="lg" order={1} sx={{ alignSelf: 'flex-start' }}>
+                  Cart summary
+                </Title>
+                <Text weight={500} size={20} sx={{ minWidth: '100%' }}>
                   {cartProducts.map((cartproduct) => {
                     const product = products.find(
                       (i) => i._id === cartproduct._id,
                     );
                     return (
-                      <Box
-                        key={cartproduct._id}
-                        sx={{
-                          display: 'flex',
-                          flexDirection: 'row',
-                          gap: '1rem',
-                          justifyContent: 'space-between',
-                        }}
-                      >
-                        <Text>{product?.title}</Text>
-                        <Text weight={400}>
-                          {cartproduct.quantity}x {product?.price}€
-                        </Text>
-                      </Box>
+                      <div key={cartproduct._id}>
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            gap: '1rem',
+                            justifyContent: 'space-between',
+                          }}
+                        >
+                          <Text
+                            sx={{
+                              minWidth: '8rem',
+                              maxWidth: '8rem',
+                              fontSize: '1rem',
+                            }}
+                          >
+                            {product?.title}
+                          </Text>
+                          <Text
+                            sx={{ alignSelf: 'flex-end', marginLeft: 'auto' }}
+                            weight={700}
+                          >
+                            {cartproduct.quantity} x €{product?.price}
+                          </Text>
+                        </Box>
+                        <Divider mt="md" mb="md" size="xs" />
+                      </div>
                     );
                   })}
                 </Text>
-                <Text data-cy="total-price" weight={500} size={29}>
-                  total:{' '}
+                <Text
+                  data-cy="total-price"
+                  weight={700}
+                  size={20}
+                  sx={{ alignSelf: 'flex-end' }}
+                >
+                  Total price:{' €'}
                   {cartProducts.reduce((total, cartProduct) => {
                     const product = products.find(
                       (i) => i._id === cartProduct._id,
                     );
                     return total + (product?.price || 0) * cartProduct.quantity;
                   }, 0)}
-                  €
                 </Text>
-              </Card>
+              </Box>
             </Box>
           </Box>
         </Flex>

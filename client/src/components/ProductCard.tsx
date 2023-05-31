@@ -46,7 +46,53 @@ function ProductCard({ product }: Props) {
             />
             <Box pl="md" pr="md">
               <Group
+                mt="lg"
+                pos="absolute"
+                top="0%"
+                right="3%"
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  placeItems: 'center',
+                  textAlign: 'center',
+                }}
+              >
+                {product.stock === 0 ? (
+                  <Badge
+                    variant="gradient"
+                    gradient={{ from: 'orange', to: 'red' }}
+                  >
+                    {product.stock === 0
+                      ? 'Out of stock'
+                      : `${product.stock} in stock`}
+                  </Badge>
+                ) : (
+                  <Badge variant="gradient">{product.stock} in stock</Badge>
+                )}
+              </Group>
+              <Group
                 mt="xl"
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  placeItems: 'center',
+                  textAlign: 'center',
+                }}
+              >
+                {product.categories.length > 0 ? (
+                  <Badge size="md">
+                    {product.categories
+                      .map((category) => category.title)
+                      .join(' | ')}
+                  </Badge>
+                ) : (
+                  <Badge size="md">Uncategorized</Badge>
+                )}
+              </Group>
+              <Group
+                mt="md"
                 mb="xl"
                 style={{ display: 'flex', justifyContent: 'space-between' }}
               >
@@ -63,60 +109,44 @@ function ProductCard({ product }: Props) {
               <Text size="md" align="left">
                 {product.description}
               </Text>
-              <Group
-                mt="lg"
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  placeItems: 'center',
-                  textAlign: 'center',
-                }}
-              >
-                {product.categories.length > 0 && (
-                  <Badge size="md">
-                    {product.categories
-                      .map((category) => category.title)
-                      .join(' | ')}
-                  </Badge>
-                )}
-                <Badge variant="gradient">{product.stock} in stock</Badge>
-              </Group>
             </Box>
           </Link>
         </Card.Section>
         <Group position="left" mt="md" mb="xs">
-          <Link to={link}>
-            <Button variant="outline" mt="md" radius="md">
-              Product Page
-            </Button>
-          </Link>
-          <Button
-            disabled={product.stock === 0}
-            variant="light"
-            mt="md"
-            radius="md"
-            className={theme.colorScheme === 'dark' ? 'buttonGlow' : ''}
-            onClick={() => {
-              increaseCartQuantity(product._id);
-              notifications.show({
-                icon: <IconShoppingCartPlus />,
-                title: `${product.title}`,
-                message: 'has been added',
-              });
-            }}
-            data-cy="product-buy-button"
-          >
-            Add to cart
-          </Button>
           <Title
-            style={{ marginLeft: 'auto', marginTop: '.5rem' }}
+            style={{ marginRight: 'auto', marginTop: '.6rem' }}
             order={2}
             align="left"
             data-cy="product-price"
           >
             {product.price}€
           </Title>
+          <Box sx={{ display: 'flex' }}>
+            <Link to={link}>
+              <Button variant="outline" mt="md" radius="md">
+                Product Page
+              </Button>
+            </Link>
+            <Button
+              disabled={product.stock === 0}
+              variant="light"
+              mt="md"
+              radius="md"
+              ml={14}
+              className={theme.colorScheme === 'dark' ? 'buttonGlow' : ''}
+              onClick={() => {
+                increaseCartQuantity(product._id);
+                notifications.show({
+                  icon: <IconShoppingCartPlus size={18} />,
+                  title: `${product.title}`,
+                  message: 'has been added to the cart',
+                });
+              }}
+              data-cy="product-buy-button"
+            >
+              Add to cart
+            </Button>
+          </Box>
         </Group>
       </Card>
     </>

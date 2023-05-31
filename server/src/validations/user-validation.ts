@@ -18,18 +18,8 @@ export async function validateUserForm(
   res: Response,
   next: NextFunction,
 ) {
-  try {
-    await userFormSchema.validate(req.body);
-    next();
-  } catch (err) {
-    console.error(
-      'A validation error has occurred during user creation or login:\n',
-      err,
-    );
-    res.status(400).json({
-      error: 'A validation error has occurred during user creation or login',
-    });
-  }
+  await userFormSchema.validate(req.body);
+  next();
 }
 
 export async function validateUser(
@@ -37,16 +27,6 @@ export async function validateUser(
   res: Response,
   next: NextFunction,
 ) {
-  try {
-    await userSchema.validate(req.body);
-    next();
-  } catch (err) {
-    console.error(
-      'A validation error has occurred during user role update:\n',
-      err,
-    );
-    res.status(400).json({
-      error: 'A validation error has occurred during user role update',
-    });
-  }
+  await userSchema.validate(req.body);
+  next();
 }

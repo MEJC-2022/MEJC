@@ -6,7 +6,6 @@ import {
   Container,
   createStyles,
   Group,
-  Modal,
   rem,
   SimpleGrid,
   Text,
@@ -16,12 +15,12 @@ import {
   useMantineTheme,
 } from '@mantine/core';
 import { useForm, yupResolver } from '@mantine/form';
-import { useDisclosure } from '@mantine/hooks';
+import { notifications } from '@mantine/notifications';
 import {
   IconBrandInstagram,
   IconBrandTwitter,
   IconBrandYoutube,
-  IconCircleCheck,
+  IconCheck,
 } from '@tabler/icons-react';
 import * as Yup from 'yup';
 
@@ -33,10 +32,10 @@ const useStyles = createStyles((theme) => ({
         ? `linear-gradient(-60deg, ${theme.colors.gray[8]} 0%, ${theme.colors.gray[9]} 100%)`
         : `linear-gradient(-60deg, ${theme.colors.blue[3]} 0%, ${theme.colors.blue[7]} 100%)`,
     padding: `calc(${theme.spacing.xl} * 5)`,
-    minHeight: 'calc(100vh - 4.375rem - 10rem)',
+    minHeight: 'calc(100vh - 4.375rem - 13rem)',
 
     [theme.fn.smallerThan('sm')]: {
-      minHeight: 'calc(100vh - 4.375rem - 19.8rem)',
+      minHeight: 'calc(100vh - 4.375rem - 23.8rem)',
       padding: `calc(${theme.spacing.xl} * 2)`,
     },
   },
@@ -80,8 +79,7 @@ const useStyles = createStyles((theme) => ({
   },
 
   form: {
-    backgroundColor:
-      theme.colorScheme === 'dark' ? theme.colors.gray[7] : theme.white,
+    backgroundColor: theme.colorScheme === 'dark' ? '#25262b' : theme.white,
     padding: theme.spacing.xl,
     borderRadius: theme.radius.md,
     boxShadow: theme.shadows.lg,
@@ -99,8 +97,10 @@ const useStyles = createStyles((theme) => ({
     backgroundColor:
       theme.colorScheme === 'dark' ? theme.colors.gray[8] : theme.white,
     borderColor: theme.colors.gray[4],
-    color: theme.black,
-
+    color:
+      theme.colorScheme === 'light'
+        ? theme.colors.gray[8]
+        : theme.colors.gray[1],
     '&::placeholder': {
       color: theme.colors.gray[5],
     },
@@ -153,11 +153,16 @@ export function Contact() {
   ));
 
   const handleSubmit = () => {
-    console.log('Contact');
-    open();
+    notifications.show({
+      icon: <IconCheck />,
+      title: 'Thank you for your message!',
+      message: `We'll get back to you within 48 hours`,
+      color: 'green',
+      autoClose: 3000,
+      withCloseButton: false,
+    });
+    form.reset();
   };
-
-  const [opened, { open, close }] = useDisclosure(false);
 
   return (
     <Box className={classes.wrapper}>
@@ -229,14 +234,6 @@ export function Contact() {
             </div>
           </SimpleGrid>
         </Container>
-        <Modal opened={opened} onClose={close} title="Message sent!" centered>
-          <Text>
-            Thank you for your message! We'll get back to you within 48 hours.
-          </Text>
-          <Box sx={{ textAlign: 'center' }}>
-            <IconCircleCheck size="3rem" stroke="0.05rem" />
-          </Box>
-        </Modal>
       </Center>
     </Box>
   );

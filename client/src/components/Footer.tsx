@@ -3,17 +3,25 @@ import {
   Anchor,
   Box,
   Button,
-  createStyles,
+  Container,
   Group,
-  rem,
+  Image,
+  Text,
   TextInput,
   Title,
+  createStyles,
+  rem,
+  useMantineTheme,
 } from '@mantine/core';
+import { useForm, yupResolver } from '@mantine/form';
+import { notifications } from '@mantine/notifications';
 import {
   IconBrandInstagram,
   IconBrandTwitter,
   IconBrandYoutube,
+  IconCheck,
 } from '@tabler/icons-react';
+import * as yup from 'yup';
 
 const useStyles = createStyles((theme) => ({
   footer: {
@@ -39,18 +47,19 @@ const useStyles = createStyles((theme) => ({
 
   inner: {
     display: 'flex',
+    marginTop: '1rem',
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: `${theme.spacing.md} ${theme.spacing.md}`,
 
-    [theme.fn.smallerThan('sm')]: {
+    [theme.fn.smallerThan('md')]: {
       flexDirection: 'column',
     },
   },
 
   links: {
     justifyContent: 'center',
-    [theme.fn.smallerThan('sm')]: {
+    [theme.fn.smallerThan('md')]: {
       marginTop: theme.spacing.lg,
       marginBottom: theme.spacing.sm,
     },
@@ -58,8 +67,8 @@ const useStyles = createStyles((theme) => ({
 
   form: {
     display: 'flex',
-    alignItems: 'center',
-    [theme.fn.smallerThan('sm')]: {
+    alignItems: 'flexStart',
+    [theme.fn.smallerThan('md')]: {
       marginTop: theme.spacing.lg,
       flexDirection: 'column',
       alignItems: 'stretch',
@@ -68,12 +77,57 @@ const useStyles = createStyles((theme) => ({
 
   input: {
     marginRight: theme.spacing.md,
-    [theme.fn.smallerThan('sm')]: {
+    width: '100%',
+    [theme.fn.smallerThan('md')]: {
       marginRight: 0,
       marginBottom: theme.spacing.md,
     },
   },
+  responsiveImg: {
+    margin: '10px 80px',
+    filter:
+      'brightness(0) saturate(100%) invert(52%) sepia(96%) saturate(5788%) hue-rotate(206deg) brightness(88%) contrast(98%)',
+    [theme.fn.smallerThan('sm')]: {
+      margin: '10px 40px',
+    },
+  },
 }));
+
+const schema = yup.object().shape({
+  email: yup
+    .string()
+    .email('Invalid email')
+    .matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Invalid email')
+    .required('Email is required'),
+});
+
+const images = [
+  {
+    fileName: 'recycling',
+    textAbove: 'Recyclable',
+    textBelow: 'Parts',
+  },
+  {
+    fileName: 'sustainability',
+    textAbove: 'Sustainable',
+    textBelow: 'Transport',
+  },
+  {
+    fileName: 'eustars',
+    textAbove: 'Free Shipping',
+    textBelow: 'Within EU',
+  },
+  {
+    fileName: 'wallet',
+    textAbove: 'Price',
+    textBelow: 'Guarantee',
+  },
+  {
+    fileName: 'return',
+    textAbove: 'Free Returns',
+    textBelow: 'Within 30 Days',
+  },
+];
 
 interface FooterCenteredProps {
   links: { link: string; label: string }[];
@@ -81,6 +135,7 @@ interface FooterCenteredProps {
 
 export function FooterCentered({ links }: FooterCenteredProps) {
   const { classes } = useStyles();
+  const theme = useMantineTheme();
   const items = links.map((link) => (
     <Anchor<'a'>
       color="gray"
@@ -94,6 +149,29 @@ export function FooterCentered({ links }: FooterCenteredProps) {
     </Anchor>
   ));
 
+  const form = useForm({
+    validate: yupResolver(schema),
+    initialValues: {
+      email: '',
+    },
+  });
+
+  interface FormValues {
+    email: string;
+  }
+
+  const handleSubmit = async (values: FormValues) => {
+    notifications.show({
+      icon: <IconCheck />,
+      title: 'Success',
+      message: `You have successfully subscribed to our newsletter!`,
+      color: 'green',
+      autoClose: 3000,
+      withCloseButton: false,
+    });
+    form.reset();
+  };
+
   return (
     <footer className={classes.footer}>
       <div className={classes.inner}>
@@ -101,15 +179,25 @@ export function FooterCentered({ links }: FooterCenteredProps) {
           {items}
         </Group>
         <Box>
-          <Title order={3} align="center" mb="md">
-            Sign up to our newsletter!
+          <Title
+            className={theme.colorScheme === 'dark' ? 'neonText' : ''}
+            size={36}
+            order={3}
+            align="center"
+            mt={14}
+            mb={24}
+          >
+            Subscribe to our newsletter!
           </Title>
-          <form className={classes.form}>
+          <form className={classes.form} onSubmit={form.onSubmit(handleSubmit)}>
             <TextInput
               className={classes.input}
               placeholder="Enter your email"
+              {...form.getInputProps('email')}
             />
-            <Button variant="outline">Sign up</Button>
+            <Button type="submit" variant="outline">
+              Subscribe
+            </Button>
           </form>
         </Box>
 
@@ -145,6 +233,40 @@ export function FooterCentered({ links }: FooterCenteredProps) {
           </ActionIcon>
         </Group>
       </div>
+      <Container size="xl">
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            flexWrap: 'wrap',
+            margin: '50px 0px 20px 0px',
+          }}
+        >
+          {images.map(({ fileName, textAbove, textBelow }) => (
+            <div
+              key={fileName}
+              style={{
+                marginBottom: '40px',
+                textAlign: 'center',
+              }}
+            >
+              <Text size={14} align="center" fw={900}>
+                {textAbove}
+              </Text>
+              <Image
+                src={`assets/${fileName}.svg`}
+                alt={`Image ${fileName}`}
+                width="80px"
+                height="80px"
+                className={classes.responsiveImg}
+              />
+              <Text size={14} align="center" fw={900}>
+                {textBelow}
+              </Text>
+            </div>
+          ))}
+        </div>
+      </Container>
     </footer>
   );
 }

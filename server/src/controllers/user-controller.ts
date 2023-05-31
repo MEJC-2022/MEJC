@@ -9,15 +9,6 @@ export async function getUserList(req: Request, res: Response) {
   res.json(userList);
 }
 
-export function getLoggedInUser(req: Request, res: Response) {
-  // Checks if user is logged in
-  if (!req.session || !req.session.user) {
-    // TODO: create different middlewares for just "checking" and for actually verifying and throwing errors
-    return res.status(204).end();
-  }
-  res.json(req.session?.user);
-}
-
 export async function registerUser(req: Request, res: Response) {
   const user = await UserModel.create(req.body);
   res.status(201).json({ message: 'A new user has been created', user: user });

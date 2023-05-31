@@ -10,6 +10,8 @@ import {
   useMantineTheme,
 } from '@mantine/core';
 import { useForm, yupResolver } from '@mantine/form';
+import { notifications } from '@mantine/notifications';
+import { IconCheck } from '@tabler/icons-react';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
@@ -77,6 +79,14 @@ export default function SignIn() {
         if (response.ok) {
           const { session: user } = await response.json();
           setUser(user);
+          notifications.show({
+            icon: <IconCheck />,
+            title: 'You have successfully created an account',
+            message: `Welcome! Let's get shopping!`,
+            color: 'green',
+            autoClose: 3000,
+            withCloseButton: false,
+          });
           navigate('/');
         }
       } else {

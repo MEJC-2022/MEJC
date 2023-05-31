@@ -6,11 +6,19 @@ import {
   Title,
   createStyles,
   rem,
+  useMantineTheme,
 } from '@mantine/core';
-import { IconChevronDown } from '@tabler/icons-react';
+import { notifications } from '@mantine/notifications';
+import {
+  IconCheck,
+  IconChevronDown,
+  IconExclamationMark,
+  IconServerBolt,
+} from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { User, useAuth } from '../../contexts/AuthContext';
+import '../../css/Glow.css';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -43,15 +51,37 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export default function AdminUsers() {
+  const [loading, setLoading] = useState(false);
   const [users, setUsers] = useState<User[]>([]);
   const { setUser, user } = useAuth();
   const navigate = useNavigate();
+  const theme = useMantineTheme();
   const session = user as User;
 
   useEffect(() => {
+    setLoading(true);
     fetch('/api/users')
-      .then((response) => response.json())
-      .then((data) => setUsers(data));
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then((data) => setUsers(data))
+      .catch((error) => {
+        notifications.show({
+          icon: <IconServerBolt size={20} />,
+          title: 'Error',
+          message: 'Failed to fetch user data',
+          color: 'red',
+          autoClose: 3000,
+          withCloseButton: false,
+        });
+        console.error('Failed to fetch user data:', error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, []);
 
   const updateUserRole = async (user: User, newRole: string) => {
@@ -83,13 +113,38 @@ export default function AdminUsers() {
           currentUser._id === user._id ? data.user : currentUser,
         ),
       );
+      notifications.show({
+        icon: <IconCheck />,
+        title: 'Success!',
+        message: 'The users role has been updated',
+        color: 'green',
+        autoClose: 3000,
+        withCloseButton: false,
+      });
 
       // Sends user back to home if they update their own role to User
       if (session._id === user._id) {
         setUser(data.user);
+        notifications.show({
+          icon: <IconExclamationMark size={20} />,
+          title: 'You have set your own role to User',
+          message:
+            'You have been kicked out of the admin panel. If this was a mistake, contact an admin.',
+          color: 'yellow',
+          autoClose: 3000,
+          withCloseButton: false,
+        });
         navigate('/');
       }
     } catch (error) {
+      notifications.show({
+        icon: <IconCheck />,
+        title: 'Error',
+        message: 'Failed to update user role',
+        color: 'green',
+        autoClose: 3000,
+        withCloseButton: false,
+      });
       console.error('Failed to update user role:', error);
     }
   };
@@ -123,18 +178,27 @@ export default function AdminUsers() {
   return (
     <Box className={classes.wrapper}>
       <Container p={0}>
-        <Title ta="center" className={classes.title}>
+        <Title
+          ta="center"
+          className={`${classes.title} ${
+            theme.colorScheme === 'dark' ? 'neonText' : ''
+          }`}
+        >
           Admin - User Management
         </Title>
-        <Table highlightOnHover verticalSpacing="md">
-          <thead>
-            <tr>
-              <th>Email</th>
-              <th>Role</th>
-            </tr>
-          </thead>
-          <tbody>{rows}</tbody>
-        </Table>
+        {loading ? (
+          <div>Loading...</div>
+        ) : (
+          <Table highlightOnHover verticalSpacing="md">
+            <thead>
+              <tr>
+                <th>Email</th>
+                <th>Role</th>
+              </tr>
+            </thead>
+            <tbody>{rows}</tbody>
+          </Table>
+        )}
       </Container>
     </Box>
   );

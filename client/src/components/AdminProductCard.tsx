@@ -47,6 +47,52 @@ function AdminProductCard({ product, onDelete }: Props) {
         <Card.Section>
           <Image src={'/api/file/' + product.image} height={230} fit="cover" />
           <Box pl="md" pr="md">
+            <Group
+              mt="lg"
+              pos="absolute"
+              top="0%"
+              right="3%"
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                placeItems: 'center',
+                textAlign: 'center',
+              }}
+            >
+              {product.stock === 0 ? (
+                <Badge
+                  variant="gradient"
+                  gradient={{ from: 'orange', to: 'red' }}
+                >
+                  {product.stock === 0
+                    ? 'Out of stock'
+                    : `${product.stock} in stock`}
+                </Badge>
+              ) : (
+                <Badge variant="gradient">{product.stock} in stock</Badge>
+              )}
+            </Group>
+            <Group
+              mt="xl"
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                placeItems: 'center',
+                textAlign: 'center',
+              }}
+            >
+              {product.categories.length > 0 ? (
+                <Badge size="md">
+                  {product.categories
+                    .map((category) => category.title)
+                    .join(' | ')}
+                </Badge>
+              ) : (
+                <Badge size="md">Uncategorized</Badge>
+              )}
+            </Group>
             <Group position="left" mt="sm" mb="sm">
               <Text
                 weight={500}
@@ -66,65 +112,47 @@ function AdminProductCard({ product, onDelete }: Props) {
             <Text size="md" align="left">
               {product.description}
             </Text>
-            <Group
-              mt="lg"
-              sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                placeItems: 'center',
-                textAlign: 'center',
-              }}
-            >
-              {product.categories.length > 0 && (
-                <Badge size="md">
-                  {product.categories
-                    .map((category) => category.title)
-                    .join(' | ')}
-                </Badge>
-              )}
-              <Badge variant="gradient">{product.stock} in stock</Badge>
-            </Group>
           </Box>
         </Card.Section>
         <Group position="left" mt="md" mb="xs">
-          {showConfirmDelete ? (
-            <Button
-              sx={{ color: 'red', borderColor: 'red' }}
-              variant="outline"
-              mt="md"
-              radius="md"
-              onClick={handleDelete}
-              data-cy="confirm-delete-button"
-            >
-              Are you sure?
-            </Button>
-          ) : (
-            <Button
-              sx={{ color: 'red', borderColor: 'red' }}
-              variant="outline"
-              mt="md"
-              radius="md"
-              onClick={handleDelete}
-              data-cy="admin-remove-product"
-            >
-              Delete Product
-            </Button>
-          )}
-
-          <Link to={edit} data-cy="admin-edit-product">
-            <Button variant="outline" mt="md" radius="md">
-              Edit product
-            </Button>
-          </Link>
           <Title
+            style={{ marginRight: 'auto', marginTop: '.6rem' }}
             order={2}
-            sx={{ marginLeft: '1rem', marginTop: '.5rem' }}
-            align="right"
+            align="left"
             data-cy="product-price"
           >
             {product.price}€
           </Title>
+          <Box sx={{ display: 'flex' }}>
+            {showConfirmDelete ? (
+              <Button
+                sx={{ color: 'red', borderColor: 'red' }}
+                variant="outline"
+                mt="md"
+                radius="md"
+                onClick={handleDelete}
+                data-cy="confirm-delete-button"
+              >
+                Are you sure?
+              </Button>
+            ) : (
+              <Button
+                sx={{ color: 'red', borderColor: 'red' }}
+                variant="outline"
+                mt="md"
+                radius="md"
+                onClick={handleDelete}
+                data-cy="admin-remove-product"
+              >
+                Delete Product
+              </Button>
+            )}
+            <Link to={edit} data-cy="admin-edit-product">
+              <Button variant="outline" mt="md" radius="md" ml={14}>
+                Edit product
+              </Button>
+            </Link>
+          </Box>
         </Group>
       </Card>
     </>

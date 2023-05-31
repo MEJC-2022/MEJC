@@ -6,12 +6,16 @@ import {
   Title,
   createStyles,
   rem,
+  useMantineTheme,
 } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
+import { IconServerBolt } from '@tabler/icons-react';
 import { useContext, useEffect, useState } from 'react';
 import { AdminOrderAccordion } from '../../components/AdminOrderAcc';
 import { Order } from '../../components/UserOrderAcc';
-import { User } from '../../contexts/AuthContext';
+import { User, useAuth } from '../../contexts/AuthContext';
 import { ProductContext } from '../../contexts/ProductContext';
+import '../../css/Glow.css';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -49,7 +53,9 @@ const useStyles = createStyles((theme) => ({
 
 export default function AdminOrders() {
   const { classes } = useStyles();
-
+  const { user } = useAuth();
+  const theme = useMantineTheme();
+  const [loading, setLoading] = useState(false);
   const [allOrders, setAllOrders] = useState<Order[]>([]);
   const { fetchAllCreatedProducts } = useContext(ProductContext);
   const [searchValue, onSearchChange] = useState('');
@@ -73,30 +79,17 @@ export default function AdminOrders() {
         setAllOrders([]);
         throw new Error(message);
       }
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  async function getUsers() {
-    try {
-      const response = await fetch('/api/users', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+    } catch (error) {
+      notifications.show({
+        icon: <IconServerBolt size={20} />,
+        title: 'Error',
+        message: 'Failed to fetch orders',
+        color: 'red',
+        autoClose: false,
       });
-
-      if (response.ok) {
-        const allUsers = await response.json();
-        setUsers(allUsers);
-      } else {
-        const message = await response.text();
-        setUsers([]);
-        throw new Error(message);
-      }
-    } catch (err) {
-      console.log(err);
+      console.error('Error fetching orders:', error);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -130,8 +123,13 @@ export default function AdminOrders() {
   ];
   return (
     <Box className={classes.wrapper}>
-      <Container sx={{ padding: '0' }}>
-        <Title ta="center" className={classes.title}>
+      <Container>
+        <Title
+          ta="center"
+          className={`${classes.title} ${
+            theme.colorScheme === 'dark' ? 'neonText' : ''
+          }`}
+        >
           Admin - Order Management
         </Title>
         <Container sx={{ display: 'flex', justifyContent: 'center' }}>

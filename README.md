@@ -14,7 +14,7 @@ som en kravspecifikation. Förutom det har ni fria händer att ta fram en grym i
 
 - [x] Alla sidor skall vara responsiva (G)
 - [x] Arbetet ska implementeras med en React-frontend och en Express-backend (G)
-- [ ] Express-backenden ska ha validering på samtliga endpoints (G)
+- [x] Express-backenden ska ha validering på samtliga endpoints (G)
 - [x] Skapa ett ER-diagram och koddiagram, detta ska lämnas in vid idégodkännandet (G)
 - [x] Beskriv er företagsidé i en kort textuell presentation, detta ska lämnas in vid idégodkännandet (G)
 - [x] All data som programmet utnyttjar ska vara sparat i en Mongo-databas (produkter, beställningar, konton m.m.) (G)
