@@ -53,13 +53,14 @@ function RenderErrorPage({ error, resetErrorBoundary, wrapperKey }: Props) {
   return (
     <Box className={classes.wrapper}>
       <Title
+        align="center"
         className={`${classes.title} ${
           theme.colorScheme === 'dark' ? 'neonText' : ''
         }`}
       >
         Oh no, something broke!
       </Title>
-      <Text mb={50} color="white">
+      <Text align="center" mb={50} color="white">
         This shouldn't happen, but don't worry – we're on it.
       </Text>
       <Button onClick={resetErrorBoundary}>Try reloading the page</Button>
