@@ -47,9 +47,17 @@ function NotFoundPage({ wrapperKey }: Props) {
       lineHeight: 1,
       marginBottom: `calc(${theme.spacing.xl} * 1.5)`,
     },
-    accordion: {
-      width: '100%',
-      maxWidth: '1250px',
+    headerTitle: {
+      marginBottom: `calc(${theme.spacing.xl} * 1.5)`,
+      fontSize: rem(220),
+      fontWeight: 900,
+      lineHeight: 1,
+      [theme.fn.smallerThan('sm')]: {
+        fontSize: rem(80),
+      },
+    },
+    titleColor: {
+      color: theme.colors.gray[1],
     },
   }));
 
@@ -58,9 +66,15 @@ function NotFoundPage({ wrapperKey }: Props) {
   return (
     <Box className={classes.wrapper}>
       <Title
-        className={`${classes.title} ${
-          theme.colorScheme === 'dark' ? 'neonText' : ''
+        align="center"
+        className={`${classes.headerTitle} ${
+          theme.colorScheme === 'dark' ? 'gradientText' : classes.titleColor
         }`}
+      >
+        404
+      </Title>
+      <Title
+        className={classes.title}
       >
         Oh no, are you lost?
       </Title>

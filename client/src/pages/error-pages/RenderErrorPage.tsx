@@ -46,10 +46,6 @@ function RenderErrorPage({ error, resetErrorBoundary, wrapperKey }: Props) {
       lineHeight: 1,
       marginBottom: `calc(${theme.spacing.xl} * 1.5)`,
     },
-    accordion: {
-      width: '100%',
-      maxWidth: '1250px',
-    },
   }));
 
   const { classes } = useStyles();
