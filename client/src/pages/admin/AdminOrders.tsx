@@ -13,7 +13,7 @@ import { IconServerBolt } from '@tabler/icons-react';
 import { useContext, useEffect, useState } from 'react';
 import { AdminOrderAccordion } from '../../components/AdminOrderAcc';
 import { Order } from '../../components/UserOrderAcc';
-import { User, useAuth } from '../../contexts/AuthContext';
+import { User } from '../../contexts/AuthContext';
 import { ProductContext } from '../../contexts/ProductContext';
 import '../../css/Glow.css';
 
@@ -53,7 +53,6 @@ const useStyles = createStyles((theme) => ({
 
 export default function AdminOrders() {
   const { classes } = useStyles();
-  const { user } = useAuth();
   const theme = useMantineTheme();
   const [loading, setLoading] = useState(false);
   const [allOrders, setAllOrders] = useState<Order[]>([]);
@@ -90,6 +89,35 @@ export default function AdminOrders() {
       console.error('Error fetching orders:', error);
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function getUsers() {
+    try {
+      const response = await fetch('/api/users', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        const allUsers = await response.json();
+        setUsers(allUsers);
+      } else {
+        const message = await response.text();
+        setUsers([]);
+        throw new Error(message);
+      }
+    } catch (err) {
+      notifications.show({
+        icon: <IconServerBolt size={20} />,
+        title: 'Error',
+        message: 'Failed to fetch users',
+        color: 'red',
+        autoClose: false,
+      });
+      console.log(err);
     }
   }
 
