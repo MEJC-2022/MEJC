@@ -25,6 +25,7 @@ function HeroSlide() {
         grabCursor={true}
         modules={[Autoplay, Navigation, Pagination]}
         autoplay={{ delay: 4000, disableOnInteraction: false }}
+        speed={4000}
         navigation
         pagination={{ clickable: true }}
       >
