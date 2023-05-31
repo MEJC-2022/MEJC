@@ -20,6 +20,7 @@ const productSchema = Yup.object().shape({
     .required('Description is required'),
   price: Yup.number()
     .min(1, 'Nothing is this cheap...')
+    .max(99999, 'Nothing is this expensive...')
     .required('Price is required')
     .strict(),
   stock: Yup.number()

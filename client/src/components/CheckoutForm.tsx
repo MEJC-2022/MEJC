@@ -3,6 +3,7 @@ import { useForm, yupResolver } from '@mantine/form';
 import { useNavigate } from 'react-router';
 import * as Yup from 'yup';
 import { useShoppingCart } from '../contexts/ShoppingCartContext';
+import { formStyle } from '../css/formStyle';
 
 export interface FormValues {
   firstName: string;
@@ -44,6 +45,7 @@ const schema = Yup.object().shape({
 
 function CheckoutForm() {
   const navigate = useNavigate();
+  const { classes } = formStyle();
   const { addOrder, cartProducts } = useShoppingCart();
   const onSubmit = (data: FormValues) => {
     addOrder(cartProducts, data);
@@ -65,36 +67,40 @@ function CheckoutForm() {
 
   return (
     <Box
+      className={classes.form}
       sx={{
-        width: '22rem',
+        width: '20.7rem',
         '@media(max-width:721px)': {
           flexDirection: 'column',
           width: '20rem',
         },
       }}
     >
-      <Title mb="sm" order={3}>
+      <Title mb="sm" order={1}>
         Your details
       </Title>
       <form onSubmit={form.onSubmit(onSubmit)} data-cy="customer-form">
         <TextInput
+          sx={{ marginBottom: '0.6rem' }}
           autoComplete="given-name"
           withAsterisk
-          label="First name"
-          placeholder="First name"
+          label="First Name"
+          placeholder="First Name"
           {...form.getInputProps('firstName')}
           data-cy="customer-name"
           errorProps={{ 'data-cy': 'customer-firstName-error' }}
         />
         <TextInput
+          sx={{ marginBottom: '0.6rem' }}
           autoComplete="family-name"
           withAsterisk
-          label="Last name"
-          placeholder="Last ame"
+          label="Last Name"
+          placeholder="Last Name"
           {...form.getInputProps('lastName')}
           errorProps={{ 'data-cy': 'customer-lastName-error' }}
         />
         <TextInput
+          sx={{ marginBottom: '0.6rem' }}
           autoComplete="email"
           withAsterisk
           label="Email"
@@ -104,44 +110,48 @@ function CheckoutForm() {
           data-cy="customer-email"
         />
         <TextInput
+          sx={{ marginBottom: '0.6rem' }}
           autoComplete="street-address"
           withAsterisk
           label="Street"
-          placeholder="ex: Bigboiroad 31"
+          placeholder="Bigboi Road 31"
           {...form.getInputProps('street')}
           data-cy="customer-address"
           errorProps={{ 'data-cy': 'customer-address-error' }}
         />
         <TextInput
+          sx={{ marginBottom: '0.6rem' }}
           autoComplete="address-level2"
           withAsterisk
           label="City"
-          placeholder="ex: Gothenburg"
+          placeholder="Gothenburg"
           {...form.getInputProps('city')}
           data-cy="customer-city"
           errorProps={{ 'data-cy': 'customer-city-error' }}
         />
         <TextInput
+          sx={{ marginBottom: '0.6rem' }}
           autoComplete="postal-code"
           withAsterisk
           type="number"
           label="Zip Code"
-          placeholder="ex: 43152"
+          placeholder="43152"
           {...form.getInputProps('zipCode')}
           data-cy="customer-zipcode"
           errorProps={{ 'data-cy': 'customer-zipcode-error' }}
         />
         <TextInput
+          sx={{ marginBottom: '2rem' }}
           autoComplete="tel"
           type="number"
           withAsterisk
           label="Phone Number"
-          placeholder="ex: 0700415160"
+          placeholder="0700415160"
           {...form.getInputProps('phoneNumber')}
           data-cy="customer-phone"
           errorProps={{ 'data-cy': 'customer-phone-error' }}
         />
-        <Group position="right" mt="md">
+        <Group position="right" mt="md" mb="md">
           <Button sx={{ width: '100%' }} type="submit">
             Place order
           </Button>
