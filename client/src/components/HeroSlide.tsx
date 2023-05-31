@@ -44,7 +44,7 @@ function HeroSlide() {
         grabCursor={true}
         modules={[Autoplay, Navigation, Pagination]}
         autoplay={{ delay: 4000, disableOnInteraction: false }}
-        speed={4000}
+        speed={2000}
         navigation
         pagination={{ clickable: true }}
       >
@@ -54,7 +54,7 @@ function HeroSlide() {
           </SwiperSlide>
         ))} */}
         {images.map((image) => (
-          <SwiperSlide style={{ height: '26rem' }} key={image._id}>
+          <SwiperSlide style={{ height: '30rem' }} key={image._id}>
             <HeroSlideItem imageSrc={image.image} />
           </SwiperSlide>
         ))}

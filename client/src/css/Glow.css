@@ -1,6 +1,7 @@
 :root {
   --neon-middle: white;
   --neon-color: #74c0fc;
+  --pinkneon-color: #f174fc;
 }
 
 .neonText {
@@ -30,4 +31,17 @@
     opacity: 0.6;
     text-shadow: none;
   }
+}
+
+
+.pinkNeonText {
+  color: var(--neon-middle);
+  text-shadow: 0px 0px 5px var(--pinkneon-color), 0px 0px 10px var(--pinkneon-color),
+    0px 0px 15px var(--pinkneon-color), 0px 0px 20px var(--pinkneon-color);
+}
+
+.blueNeonText {
+  color: var(--neon-middle);
+  text-shadow: 0px 0px 5px var(--neon-color), 0px 0px 10px var(--neon-color),
+    0px 0px 15px var(--neon-color), 0px 0px 20px var(--neon-color);
 }
