@@ -3,6 +3,7 @@ import {
   HeaderResponsive,
   HeaderResponsiveProps,
 } from '../../components/Navbar';
+import { ErrorBoundary } from "react-error-boundary";
 
 export default function Admin() {
   const headerLinks: HeaderResponsiveProps['links'] = [
@@ -14,9 +15,11 @@ export default function Admin() {
   return (
     <div>
       <HeaderResponsive links={headerLinks} />
-      <main>
-        <Outlet />
-      </main>
+      <ErrorBoundary fallback={<div>Something went wrong</div>}>
+        <main>
+          <Outlet />
+        </main>
+      </ErrorBoundary>
     </div>
   );
 }
