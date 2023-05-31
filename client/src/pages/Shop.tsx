@@ -1,7 +1,8 @@
+import { ErrorBoundary } from 'react-error-boundary';
 import { Outlet } from 'react-router-dom';
 import { FooterCentered } from '../components/Footer';
 import { HeaderResponsive, HeaderResponsiveProps } from '../components/Navbar';
-import { ErrorBoundary } from "react-error-boundary";
+import RenderErrorPage from './error-pages/RenderErrorPage';
 
 function Shop() {
   const headerLinks: HeaderResponsiveProps['links'] = [
@@ -18,11 +19,17 @@ function Shop() {
   return (
     <div>
       <HeaderResponsive links={headerLinks} />
-      <ErrorBoundary fallback={<div>Something went wrong</div>}>
+      <ErrorBoundary
+        fallbackRender={({ error, resetErrorBoundary }) => (
+          <RenderErrorPage error={error} resetErrorBoundary={resetErrorBoundary} />
+        )}
+        onReset={(details) => {}}
+      >
         <main>
           <Outlet />
         </main>
       </ErrorBoundary>
+
       <FooterCentered links={footerLinks} />
     </div>
   );

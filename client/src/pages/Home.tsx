@@ -16,6 +16,7 @@ import { ProductContext } from '../contexts/ProductContext';
 import '../css/Glow.css';
 
 function Home() {
+  throw new Error("fel!!!!!");
   const theme = useMantineTheme();
   const { products, fetchProducts } = useContext(ProductContext);
 

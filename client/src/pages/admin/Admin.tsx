@@ -1,9 +1,10 @@
+import { ErrorBoundary } from 'react-error-boundary';
 import { Outlet } from 'react-router-dom';
 import {
   HeaderResponsive,
   HeaderResponsiveProps,
 } from '../../components/Navbar';
-import { ErrorBoundary } from "react-error-boundary";
+import PageNotFound from '../error-pages/RenderErrorPage';
 
 export default function Admin() {
   const headerLinks: HeaderResponsiveProps['links'] = [
@@ -15,7 +16,7 @@ export default function Admin() {
   return (
     <div>
       <HeaderResponsive links={headerLinks} />
-      <ErrorBoundary fallback={<div>Something went wrong</div>}>
+      <ErrorBoundary fallbackRender={PageNotFound} onReset={(details) => {}}>
         <main>
           <Outlet />
         </main>
