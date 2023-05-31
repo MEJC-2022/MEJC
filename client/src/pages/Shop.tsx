@@ -1,11 +1,19 @@
 import { ErrorBoundary } from 'react-error-boundary';
-import { Outlet } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Outlet, useLocation } from 'react-router-dom';
 import { FooterCentered } from '../components/Footer';
 import { HeaderResponsive, HeaderResponsiveProps } from '../components/Navbar';
 import { sendErrorLog } from '../utils/sendErrorLog';
 import RenderErrorPage from './error-pages/RenderErrorPage';
 
 function Shop() {
+  const currentLocation = useLocation();
+  const [errorBoundaryKey, setErrorBoundaryKey] = useState(currentLocation.pathname);
+
+  useEffect(() => {
+    setErrorBoundaryKey(currentLocation.pathname);
+  }, [currentLocation.pathname]);
+
   const headerLinks: HeaderResponsiveProps['links'] = [
     { link: '/', label: 'Store' },
     { link: '/faq', label: 'FAQ' },
@@ -21,13 +29,16 @@ function Shop() {
     <div>
       <HeaderResponsive links={headerLinks} />
       <ErrorBoundary
+        key={errorBoundaryKey}
         fallbackRender={({ error, resetErrorBoundary }) => (
           <RenderErrorPage
             error={error}
             resetErrorBoundary={resetErrorBoundary}
           />
         )}
-        onReset={(details) => {}}
+        onReset={(details) => {
+          location.reload();
+        }}
         onError={sendErrorLog}
       >
         <main>

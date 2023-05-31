@@ -1,11 +1,13 @@
 import {
   Box,
+  Button,
   Text,
   Title,
   createStyles,
   rem,
   useMantineTheme,
 } from '@mantine/core';
+import { useEffect } from 'react';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -51,6 +53,7 @@ function RenderErrorPage({ error, resetErrorBoundary }: Props) {
   const theme = useMantineTheme();
   const { classes } = useStyles();
 
+
   return (
     <Box className={classes.wrapper}>
       <Title
@@ -63,6 +66,7 @@ function RenderErrorPage({ error, resetErrorBoundary }: Props) {
       <Text color="white">
         This shouldn't happen, but don't worry – we're on it.
       </Text>
+      <Button onClick={resetErrorBoundary}></Button>
     </Box>
   );
 }
