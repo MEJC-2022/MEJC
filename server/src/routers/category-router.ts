@@ -20,9 +20,9 @@ categoryRouter.post(
   validateCategoryTitle,
   createCategory,
 );
-categoryRouter.get('/api/categories', isAdmin, getAllCategories);
+categoryRouter.get('/api/categories', getAllCategories);
 categoryRouter.get('/api/categories/:id', getCategoryById);
-categoryRouter.put('/api/categories/:id', validateCategoryId, updateCategory);
+categoryRouter.put('/api/categories/:id', isAdmin, validateCategoryId, updateCategory);
 categoryRouter.delete(
   '/api/categories/:id',
   isAdmin,

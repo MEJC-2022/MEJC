@@ -17,5 +17,6 @@ const userRouter = Router()
   .post('/api/users/login', validateUserForm, loginUser)
   .post('/api/users/logout', logoutUser)
   .put('/api/users/:id', isAdmin, validateUser, updateUserRole);
+  // patch istället för put?
 
 export default userRouter;
