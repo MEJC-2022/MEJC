@@ -151,7 +151,12 @@ export function AdminOrderAccordion({ order }: { order: Order }) {
               }}
             >
               <Text size="xs" weight={500}>
-                {new Date(order.createdAt).toISOString().split('T')[0]}
+                {isSmallScreen
+                  ? new Date(order.createdAt)
+                      .toISOString()
+                      .substring(2, 10)
+                      .replace(/-/g, '/')
+                  : new Date(order.createdAt).toISOString().split('T')[0]}
               </Text>
             </Flex>
           </Flex>
