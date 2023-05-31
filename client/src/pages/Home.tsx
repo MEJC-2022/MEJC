@@ -1,18 +1,17 @@
 import {
   Badge,
-  Box,
   Button,
   Container,
   Group,
   SimpleGrid,
-  Text,
   Title,
-  useMantineTheme,
+  useMantineTheme
 } from '@mantine/core';
 import { useContext, useEffect, useState } from 'react';
 import HeroSlide from '../components/HeroSlide';
 import ProductCard from '../components/ProductCard';
 import { SVGBanner } from '../components/SVGBanner';
+import { TextBanner } from '../components/TextBanner';
 import { ProductContext } from '../contexts/ProductContext';
 import '../css/Glow.css';
 
@@ -47,9 +46,10 @@ function Home() {
   return (
     <>
       <HeroSlide />
+      <TextBanner />
       <SVGBanner />
       <Container size={1500} py={'2rem'}>
-        <Box
+        {/* <Box
           sx={{
             display: 'flex',
             alignItems: 'center',
@@ -63,7 +63,7 @@ function Home() {
           <Text fz="lg" fs="italic">
             We. Tech. You
           </Text>
-        </Box>
+        </Box> */}
         <Title
           sx={{ marginBottom: '1rem' }}
           ta="center"
