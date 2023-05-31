@@ -63,6 +63,7 @@ function ProductForm({
   product,
 }: ProductFormProps) {
   const [categories, setCategories] = useState<Category[]>([]);
+  const [isFileUploaded, setFileUploaded] = useState(false);
   const navigate = useNavigate();
   const form = useForm<FormValues>({
     validate: yupResolver(schema),
@@ -96,6 +97,12 @@ function ProductForm({
       });
     }
   }, [product, isEditing, form.setValues]);
+
+  useEffect(() => {
+    if (isEditing && product && product.image) {
+      setFileUploaded(true);
+    }
+  }, [product, isEditing]);
 
   const handleSubmit = (values: Partial<FormValues>) => {
     let editedProduct;
@@ -146,6 +153,7 @@ function ProductForm({
       const result = await response.json();
 
       form.setFieldValue('image', result);
+      setFileUploaded(true);
     } catch (error) {
       console.error('Error uploading file:', error);
     }
@@ -189,9 +197,13 @@ function ProductForm({
             alignItems: 'center',
           }}
         >
-          <Flex gap={5}>
+          <Flex gap={1}>
             <IconPhoto stroke="1.3" />
-            <Text size="sm">Drag image here or click to select files</Text>
+            {isFileUploaded ? (
+              <Text size="sm">Drag image here or click to change file</Text>
+            ) : (
+              <Text size="sm">Drag image here or click to add file</Text>
+            )}
           </Flex>
         </Dropzone>
         <TextInput
