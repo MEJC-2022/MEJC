@@ -10,6 +10,7 @@ import {
 import { useContext } from 'react';
 import ProductForm from '../../components/ProductForm';
 import { ProductContext } from '../../contexts/ProductContext';
+import '../../css/Glow.css';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -44,12 +45,18 @@ const useStyles = createStyles((theme) => ({
 function NewProduct() {
   const { addProduct } = useContext(ProductContext);
   const { classes } = useStyles();
+  const theme = useMantineTheme();
 
   return (
     <Box className={classes.wrapper}>
       <Container>
         <Group position="center" mb="xl">
-          <Title ta="center" className={classes.title}>
+          <Title
+            ta="center"
+            className={`${classes.title} ${
+              theme.colorScheme === 'dark' ? 'neonText' : ''
+            }`}
+          >
             Add New Product
           </Title>
         </Group>

@@ -6,6 +6,7 @@ import {
   Title,
   createStyles,
   rem,
+  useMantineTheme,
 } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import {
@@ -17,6 +18,7 @@ import {
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { User, useAuth } from '../../contexts/AuthContext';
+import '../../css/Glow.css';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -53,6 +55,7 @@ export default function AdminUsers() {
   const [users, setUsers] = useState<User[]>([]);
   const { setUser, user } = useAuth();
   const navigate = useNavigate();
+  const theme = useMantineTheme();
   const session = user as User;
 
   useEffect(() => {
@@ -175,7 +178,12 @@ export default function AdminUsers() {
   return (
     <Box className={classes.wrapper}>
       <Container p={0}>
-        <Title ta="center" className={classes.title}>
+        <Title
+          ta="center"
+          className={`${classes.title} ${
+            theme.colorScheme === 'dark' ? 'neonText' : ''
+          }`}
+        >
           Admin - User Management
         </Title>
         {loading ? (

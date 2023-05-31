@@ -23,11 +23,11 @@ const useStyles = createStyles((theme) => ({
         ? `linear-gradient(-60deg, ${theme.colors.gray[8]} 0%, ${theme.colors.gray[9]} 100%)`
         : `linear-gradient(-60deg, ${theme.colors.blue[3]} 0%, ${theme.colors.blue[7]} 100%)`,
     padding: `calc(${theme.spacing.xl} * 5)`,
-    minHeight: 'calc(100vh - 4.375rem - 10rem)',
+    minHeight: 'calc(100vh - 4.375rem - 13rem)',
+
     [theme.fn.smallerThan('sm')]: {
-      padding: `calc(${theme.spacing.xl})`,
-      paddingTop: '3rem',
-      minHeight: 'calc(100vh - 4.375rem - 19.8rem)',
+      minHeight: 'calc(100vh - 4.375rem - 23.8rem)',
+      padding: `calc(${theme.spacing.xl} * 2)`,
     },
   },
   title: {

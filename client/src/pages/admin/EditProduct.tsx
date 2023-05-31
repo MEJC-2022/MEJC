@@ -1,8 +1,17 @@
-import { Box, Container, Group, Title, createStyles, rem } from '@mantine/core';
+import {
+  Box,
+  Container,
+  Group,
+  Title,
+  createStyles,
+  rem,
+  useMantineTheme,
+} from '@mantine/core';
 import { useContext, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import ProductForm from '../../components/ProductForm';
 import { ProductContext } from '../../contexts/ProductContext';
+import '../../css/Glow.css';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -40,6 +49,7 @@ function EditProduct() {
     useContext(ProductContext);
   const productToEdit = products.find((product) => product._id === id);
   const { classes } = useStyles();
+  const theme = useMantineTheme();
 
   useEffect(() => {
     fetchProducts();
@@ -49,7 +59,12 @@ function EditProduct() {
     <Box className={classes.wrapper}>
       <Container>
         <Group position="center" mb="xl">
-          <Title ta="center" className={classes.title}>
+          <Title
+            ta="center"
+            className={`${classes.title} ${
+              theme.colorScheme === 'dark' ? 'neonText' : ''
+            }`}
+          >
             Edit Product
           </Title>
         </Group>

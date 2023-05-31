@@ -5,6 +5,7 @@ import {
   Title,
   createStyles,
   rem,
+  useMantineTheme,
 } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconServerBolt } from '@tabler/icons-react';
@@ -13,6 +14,7 @@ import { AdminOrderAccordion } from '../../components/AdminOrderAcc';
 import { Order } from '../../components/UserOrderAcc';
 import { useAuth } from '../../contexts/AuthContext';
 import { ProductContext } from '../../contexts/ProductContext';
+import '../../css/Glow.css';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -51,7 +53,7 @@ const useStyles = createStyles((theme) => ({
 export default function AdminOrders() {
   const { classes } = useStyles();
   const { user } = useAuth();
-
+  const theme = useMantineTheme();
   const [loading, setLoading] = useState(false);
   const [allOrders, setAllOrders] = useState<Order[]>([]);
   const { fetchAllCreatedProducts } = useContext(ProductContext);
@@ -97,7 +99,12 @@ export default function AdminOrders() {
   return (
     <Box className={classes.wrapper}>
       <Container>
-        <Title ta="center" className={classes.title}>
+        <Title
+          ta="center"
+          className={`${classes.title} ${
+            theme.colorScheme === 'dark' ? 'neonText' : ''
+          }`}
+        >
           Admin - Order Management
         </Title>
         {loading ? (
