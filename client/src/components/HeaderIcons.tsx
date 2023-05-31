@@ -105,17 +105,10 @@ const buttonStyling = {
 
 const useStyles = createStyles((theme) => ({
   iconLinkActive: {
-    '&, &:hover': {
-      backgroundColor: theme.fn.variant({
-        variant: 'light',
-        color: theme.primaryColor,
-      }).background,
-      color: theme.fn.variant({ variant: 'light', color: theme.primaryColor })
-        .color,
-    },
     borderRadius: theme.radius.lg,
     paddingTop: '0.2rem',
     marginTop: '0.1rem',
+    backgroundColor: theme.colorScheme === 'dark' ? '#316ca3' : '#e7f5ff', // Replace with your desired hover background colors
   },
   iconLinkInactive: {
     marginTop: '0.3rem',
