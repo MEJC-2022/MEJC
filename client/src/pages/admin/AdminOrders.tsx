@@ -7,7 +7,6 @@ import {
   createStyles,
   rem,
 } from '@mantine/core';
-import { useMediaQuery } from '@mantine/hooks';
 import { useContext, useEffect, useState } from 'react';
 import { AdminOrderAccordion } from '../../components/AdminOrderAcc';
 import { Order } from '../../components/UserOrderAcc';
@@ -51,13 +50,11 @@ const useStyles = createStyles((theme) => ({
 export default function AdminOrders() {
   const { classes } = useStyles();
 
-  const [loading, setLoading] = useState(false);
   const [allOrders, setAllOrders] = useState<Order[]>([]);
   const { fetchAllCreatedProducts } = useContext(ProductContext);
   const [searchValue, onSearchChange] = useState('');
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
   const [users, setUsers] = useState<User[]>([]);
-  const isSmallScreen = useMediaQuery('(max-width: 767px)');
 
   async function getAllOrders() {
     try {
@@ -78,14 +75,10 @@ export default function AdminOrders() {
       }
     } catch (err) {
       console.log(err);
-    } finally {
-      setLoading(false);
     }
   }
 
   async function getUsers() {
-    setLoading(true);
-
     try {
       const response = await fetch('/api/users', {
         method: 'GET',
@@ -104,8 +97,6 @@ export default function AdminOrders() {
       }
     } catch (err) {
       console.log(err);
-    } finally {
-      setLoading(false);
     }
   }
 

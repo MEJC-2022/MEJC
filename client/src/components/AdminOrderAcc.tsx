@@ -148,12 +148,16 @@ export function AdminOrderAccordion({ order }: { order: Order }) {
                 marginRight: isSmallScreen ? '0' : '2rem',
               }}
             >
-              <Table verticalSpacing="xs" fontSize="xs">
+              <Table
+                verticalSpacing="xs"
+                fontSize="xs"
+                horizontalSpacing={isSmallScreen ? '0' : 'xs'}
+              >
                 <thead>
                   <tr>
                     <th>Product</th>
                     <th>Quantity</th>
-                    <th>Price</th>
+                    {isSmallScreen ? '' : <th>Price</th>}
                   </tr>
                 </thead>
                 <tbody>
@@ -166,11 +170,15 @@ export function AdminOrderAccordion({ order }: { order: Order }) {
                       <tr key={item._id}>
                         <td>{product ? product.title : 'Product not found'}</td>
                         <td>{item.quantity}</td>
-                        <td>
-                          {product
-                            ? `€${product.price}`
-                            : 'Price not available'}
-                        </td>
+                        {isSmallScreen ? (
+                          ''
+                        ) : (
+                          <td>
+                            {product
+                              ? `€${product.price}`
+                              : 'Price not available'}
+                          </td>
+                        )}
                       </tr>
                     );
                   })}
