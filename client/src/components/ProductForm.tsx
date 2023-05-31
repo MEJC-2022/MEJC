@@ -238,7 +238,7 @@ function ProductForm({
           {...form.getInputProps('stock')}
           onChange={(e) => form.setFieldValue('stock', Number(e.target.value))}
         />
-        <Group mt="xl">
+        <Group mt="xl" position="center">
           <Button type="submit">
             {isEditing ? 'Save changes' : 'Add new Product'}
           </Button>
