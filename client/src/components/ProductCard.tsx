@@ -113,37 +113,40 @@ function ProductCard({ product }: Props) {
           </Link>
         </Card.Section>
         <Group position="left" mt="md" mb="xs">
-          <Link to={link}>
-            <Button variant="outline" mt="md" radius="md">
-              Product Page
-            </Button>
-          </Link>
-          <Button
-            disabled={product.stock === 0}
-            variant="light"
-            mt="md"
-            radius="md"
-            className={theme.colorScheme === 'dark' ? 'buttonGlow' : ''}
-            onClick={() => {
-              increaseCartQuantity(product._id);
-              notifications.show({
-                icon: <IconShoppingCartPlus size={18} />,
-                title: `${product.title}`,
-                message: 'has been added to the cart',
-              });
-            }}
-            data-cy="product-buy-button"
-          >
-            Add to cart
-          </Button>
           <Title
-            style={{ marginLeft: 'auto', marginTop: '.5rem' }}
+            style={{ marginRight: 'auto', marginTop: '.6rem' }}
             order={2}
             align="left"
             data-cy="product-price"
           >
             {product.price}€
           </Title>
+          <Box sx={{ display: 'flex' }}>
+            <Link to={link}>
+              <Button variant="outline" mt="md" radius="md">
+                Product Page
+              </Button>
+            </Link>
+            <Button
+              disabled={product.stock === 0}
+              variant="light"
+              mt="md"
+              radius="md"
+              ml={14}
+              className={theme.colorScheme === 'dark' ? 'buttonGlow' : ''}
+              onClick={() => {
+                increaseCartQuantity(product._id);
+                notifications.show({
+                  icon: <IconShoppingCartPlus size={18} />,
+                  title: `${product.title}`,
+                  message: 'has been added to the cart',
+                });
+              }}
+              data-cy="product-buy-button"
+            >
+              Add to cart
+            </Button>
+          </Box>
         </Group>
       </Card>
     </>

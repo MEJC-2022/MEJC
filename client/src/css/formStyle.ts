@@ -1,4 +1,4 @@
-import { createStyles, rem, useMantineTheme } from '@mantine/core';
+import { createStyles, rem } from '@mantine/core';
 
 export const formStyle = createStyles((theme) => ({
   wrapper: {
@@ -9,10 +9,11 @@ export const formStyle = createStyles((theme) => ({
         ? `linear-gradient(-60deg, ${theme.colors.gray[8]} 0%, ${theme.colors.gray[9]} 100%)`
         : `linear-gradient(-60deg, ${theme.colors.blue[3]} 0%, ${theme.colors.blue[7]} 100%)`,
     padding: `calc(${theme.spacing.xl} * 5)`,
-    minHeight: 'calc(100vh - 4.375rem - 10rem)',
+    minHeight: 'calc(100vh - 4.375rem - 13rem)',
+
     [theme.fn.smallerThan('sm')]: {
-      padding: `calc(${theme.spacing.xl} * 3)`,
-      minHeight: 'calc(100vh - 4.375rem - 19.8rem)',
+      minHeight: 'calc(100vh - 4.375rem - 23.8rem)',
+      padding: `calc(${theme.spacing.xl} * 2)`,
     },
   },
   form: {
@@ -20,7 +21,7 @@ export const formStyle = createStyles((theme) => ({
       theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.white,
     padding: theme.spacing.xl,
     borderRadius: theme.radius.md,
-    boxShadow: theme.shadows.lg,
+    boxShadow: theme.shadows.sm,
     width: '100%',
     minWidth: '290px',
     border: theme.colorScheme === 'light' ? '1px #EEEEEE solid' : 'none',
@@ -29,7 +30,10 @@ export const formStyle = createStyles((theme) => ({
     backgroundColor:
       theme.colorScheme === 'dark' ? theme.colors.gray[8] : theme.white,
     borderColor: theme.colors.gray[4],
-    color: theme.black,
+    color:
+      theme.colorScheme === 'light'
+        ? theme.colors.gray[8]
+        : theme.colors.gray[1],
     '&::placeholder': {
       color: theme.colors.gray[5],
     },

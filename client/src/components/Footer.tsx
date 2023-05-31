@@ -3,11 +3,15 @@ import {
   Anchor,
   Box,
   Button,
-  createStyles,
+  Container,
   Group,
-  rem,
+  Image,
+  Text,
   TextInput,
   Title,
+  createStyles,
+  rem,
+  useMantineTheme,
 } from '@mantine/core';
 import { useForm, yupResolver } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
@@ -43,6 +47,7 @@ const useStyles = createStyles((theme) => ({
 
   inner: {
     display: 'flex',
+    marginTop: '1rem',
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: `${theme.spacing.md} ${theme.spacing.md}`,
@@ -72,10 +77,18 @@ const useStyles = createStyles((theme) => ({
 
   input: {
     marginRight: theme.spacing.md,
-    width: '20rem',
+    width: '100%',
     [theme.fn.smallerThan('md')]: {
       marginRight: 0,
       marginBottom: theme.spacing.md,
+    },
+  },
+  responsiveImg: {
+    margin: '10px 80px',
+    filter:
+      'brightness(0) saturate(100%) invert(52%) sepia(96%) saturate(5788%) hue-rotate(206deg) brightness(88%) contrast(98%)',
+    [theme.fn.smallerThan('sm')]: {
+      margin: '10px 40px',
     },
   },
 }));
@@ -88,12 +101,41 @@ const schema = yup.object().shape({
     .required('Email is required'),
 });
 
+const images = [
+  {
+    fileName: 'recycling',
+    textAbove: 'Recyclable',
+    textBelow: 'Parts',
+  },
+  {
+    fileName: 'sustainability',
+    textAbove: 'Sustainable',
+    textBelow: 'Transport',
+  },
+  {
+    fileName: 'eustars',
+    textAbove: 'Free Shipping',
+    textBelow: 'Within EU',
+  },
+  {
+    fileName: 'wallet',
+    textAbove: 'Price',
+    textBelow: 'Guarantee',
+  },
+  {
+    fileName: 'return',
+    textAbove: 'Free Returns',
+    textBelow: 'Within 30 Days',
+  },
+];
+
 interface FooterCenteredProps {
   links: { link: string; label: string }[];
 }
 
 export function FooterCentered({ links }: FooterCenteredProps) {
   const { classes } = useStyles();
+  const theme = useMantineTheme();
   const items = links.map((link) => (
     <Anchor<'a'>
       color="gray"
@@ -137,7 +179,14 @@ export function FooterCentered({ links }: FooterCenteredProps) {
           {items}
         </Group>
         <Box>
-          <Title order={3} align="center" mb="md">
+          <Title
+            className={theme.colorScheme === 'dark' ? 'neonText' : ''}
+            size={36}
+            order={3}
+            align="center"
+            mt={14}
+            mb={24}
+          >
             Subscribe to our newsletter!
           </Title>
           <form className={classes.form} onSubmit={form.onSubmit(handleSubmit)}>
@@ -184,6 +233,40 @@ export function FooterCentered({ links }: FooterCenteredProps) {
           </ActionIcon>
         </Group>
       </div>
+      <Container size="xl">
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            flexWrap: 'wrap',
+            margin: '50px 0px 20px 0px',
+          }}
+        >
+          {images.map(({ fileName, textAbove, textBelow }) => (
+            <div
+              key={fileName}
+              style={{
+                marginBottom: '40px',
+                textAlign: 'center',
+              }}
+            >
+              <Text size={14} align="center" fw={900}>
+                {textAbove}
+              </Text>
+              <Image
+                src={`assets/${fileName}.svg`}
+                alt={`Image ${fileName}`}
+                width="80px"
+                height="80px"
+                className={classes.responsiveImg}
+              />
+              <Text size={14} align="center" fw={900}>
+                {textBelow}
+              </Text>
+            </div>
+          ))}
+        </div>
+      </Container>
     </footer>
   );
 }

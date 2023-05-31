@@ -115,42 +115,44 @@ function AdminProductCard({ product, onDelete }: Props) {
           </Box>
         </Card.Section>
         <Group position="left" mt="md" mb="xs">
-          {showConfirmDelete ? (
-            <Button
-              sx={{ color: 'red', borderColor: 'red' }}
-              variant="outline"
-              mt="md"
-              radius="md"
-              onClick={handleDelete}
-              data-cy="confirm-delete-button"
-            >
-              Are you sure?
-            </Button>
-          ) : (
-            <Button
-              sx={{ color: 'red', borderColor: 'red' }}
-              variant="outline"
-              mt="md"
-              radius="md"
-              onClick={handleDelete}
-              data-cy="admin-remove-product"
-            >
-              Delete Product
-            </Button>
-          )}
-          <Link to={edit} data-cy="admin-edit-product">
-            <Button variant="outline" mt="md" radius="md">
-              Edit product
-            </Button>
-          </Link>
           <Title
+            style={{ marginRight: 'auto', marginTop: '.6rem' }}
             order={2}
-            sx={{ marginLeft: '1rem', marginTop: '.5rem' }}
-            align="right"
+            align="left"
             data-cy="product-price"
           >
             {product.price}€
           </Title>
+          <Box sx={{ display: 'flex' }}>
+            {showConfirmDelete ? (
+              <Button
+                sx={{ color: 'red', borderColor: 'red' }}
+                variant="outline"
+                mt="md"
+                radius="md"
+                onClick={handleDelete}
+                data-cy="confirm-delete-button"
+              >
+                Are you sure?
+              </Button>
+            ) : (
+              <Button
+                sx={{ color: 'red', borderColor: 'red' }}
+                variant="outline"
+                mt="md"
+                radius="md"
+                onClick={handleDelete}
+                data-cy="admin-remove-product"
+              >
+                Delete Product
+              </Button>
+            )}
+            <Link to={edit} data-cy="admin-edit-product">
+              <Button variant="outline" mt="md" radius="md" ml={14}>
+                Edit product
+              </Button>
+            </Link>
+          </Box>
         </Group>
       </Card>
     </>

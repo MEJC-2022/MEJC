@@ -56,24 +56,36 @@ function Home() {
           flexDirection: 'column',
         }}
       >
-        <Title>Tech101</Title>
+        <Title
+          className={theme.colorScheme === 'dark' ? 'neonText' : ''}
+          mt={40}
+          mb={14}
+          size={70}
+        >
+          Tech101
+        </Title>
         <Text fz="xl" fw={500}>
           Providing up-to-date <br /> products and services
         </Text>
         <Text fz="lg" fs="italic">
-          We. Tech. You
+          We. Tech. You.
         </Text>
       </Box>
       <Title
-        sx={{ marginBottom: '1rem' }}
+        sx={{ marginTop: '4rem', marginBottom: '3rem' }}
         ta="center"
         className={theme.colorScheme === 'dark' ? 'neonText' : ''}
       >
         Browse our collection
       </Title>
-      <Badge sx={{ marginBottom: '1rem' }} size="lg" radius="sm">
-        Sort By Category:
-      </Badge>
+      <Text
+        sx={{ marginBottom: '1rem', marginLeft: '0.6rem', fontSize: '0.8rem' }}
+        fw={700}
+        color="none"
+        size="lg"
+      >
+        SORT BY CATEGORY:
+      </Text>
       <Group spacing={5} mb="md">
         <Button
           sx={{
@@ -120,7 +132,7 @@ function Home() {
         verticalSpacing="xl"
         breakpoints={[
           { maxWidth: '85rem', cols: 2, spacing: 'md' },
-          { maxWidth: '36rem', cols: 1, spacing: 'sm' },
+          { maxWidth: '54rem', cols: 1, spacing: 'sm' },
         ]}
       >
         {filteredProducts.map((product) => (
