@@ -1,5 +1,4 @@
 import {
-  Badge,
   Box,
   Button,
   Container,
@@ -114,9 +113,9 @@ function Home() {
           size="xs"
           variant="light"
           radius="sm"
-          onClick={() => filterByCategory('Asus')}
+          onClick={() => filterByCategory('Computer Accessories')}
         >
-          Asus Products
+          Computer Accessories
         </Button>
         <Button size="xs" variant="outlined" radius="sm" onClick={resetFilter}>
           Reset filter
