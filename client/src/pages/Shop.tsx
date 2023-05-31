@@ -1,5 +1,5 @@
-import { ErrorBoundary } from 'react-error-boundary';
 import { useEffect, useState } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
 import { Outlet, useLocation } from 'react-router-dom';
 import { FooterCentered } from '../components/Footer';
 import { HeaderResponsive, HeaderResponsiveProps } from '../components/Navbar';
@@ -8,7 +8,9 @@ import RenderErrorPage from './error-pages/RenderErrorPage';
 
 function Shop() {
   const currentLocation = useLocation();
-  const [errorBoundaryKey, setErrorBoundaryKey] = useState(currentLocation.pathname);
+  const [errorBoundaryKey, setErrorBoundaryKey] = useState(
+    currentLocation.pathname,
+  );
 
   useEffect(() => {
     setErrorBoundaryKey(currentLocation.pathname);
@@ -24,7 +26,6 @@ function Shop() {
     { link: '/terms-of-service', label: 'Terms of Service' },
     { link: '/privacy-policy', label: 'Privacy Policy' },
   ];
-
   return (
     <div>
       <HeaderResponsive links={headerLinks} />
@@ -34,6 +35,7 @@ function Shop() {
           <RenderErrorPage
             error={error}
             resetErrorBoundary={resetErrorBoundary}
+            wrapperKey={false}
           />
         )}
         onReset={(details) => {
@@ -45,7 +47,6 @@ function Shop() {
           <Outlet />
         </main>
       </ErrorBoundary>
-
       <FooterCentered links={footerLinks} />
     </div>
   );

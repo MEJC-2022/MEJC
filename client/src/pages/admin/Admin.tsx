@@ -33,6 +33,7 @@ export default function Admin() {
           <RenderErrorPage
             error={error}
             resetErrorBoundary={resetErrorBoundary}
+            wrapperKey={false}
           />
         )}
         onReset={(details) => {
