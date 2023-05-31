@@ -1,14 +1,33 @@
 import { Box } from '@mantine/core';
-import { useContext } from 'react';
 import { Autoplay, Navigation, Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper-bundle.css';
 import 'swiper/swiper.min.css';
-import { ProductContext } from '../contexts/ProductContext';
+import '../../public/assets/summerimages/sommar1.jpg';
 import HeroSlideItem from './HeroSlideItem';
 
+const summerImages = [
+  {
+    _id: "1",
+    image: "../../public/assets/summerimages/sommar1.jpg",
+  },
+  {
+    _id: "2",
+    image: "../../public/assets/summerimages/sommar2.jpg",
+  },
+  {
+    _id: "3",
+    image: "../../public/assets/summerimages/sommar3.jpg",
+  },
+  {
+    _id: "4",
+    image: "../../public/assets/summerimages/sommar4.jpg",
+  },
+];
+
 function HeroSlide() {
-  const { products } = useContext(ProductContext);
+  //const { products } = useContext(ProductContext);
+  const images = summerImages;  
 
   return (
     <Box
@@ -29,9 +48,14 @@ function HeroSlide() {
         navigation
         pagination={{ clickable: true }}
       >
-        {products.slice(0, 4).map((product) => (
-          <SwiperSlide style={{ height: '22rem' }} key={product._id}>
+        {/* {products.slice(0, 4).map((product) => (
+          <SwiperSlide style={{ height: '26rem' }} key={product._id}>
             <HeroSlideItem imageSrc={product.image} />
+          </SwiperSlide>
+        ))} */}
+        {images.map((image) => (
+          <SwiperSlide style={{ height: '26rem' }} key={image._id}>
+            <HeroSlideItem imageSrc={image.image} />
           </SwiperSlide>
         ))}
       </Swiper>
