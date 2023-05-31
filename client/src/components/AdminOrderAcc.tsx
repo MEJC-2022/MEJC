@@ -117,45 +117,43 @@ export function AdminOrderAccordion({ order }: { order: Order }) {
       >
         <Accordion.Control>
           <Flex justify="space-between">
-            <Flex sx={{ flex: 2, [theme.fn.smallerThan('sm')]: { flex: 3 } }}>
-              <Text size="md" weight={700}>
-                #{order._id}
+            <Flex sx={{ flex: 1 }}>
+              <Text size="xs" weight={700}>
+                {isSmallScreen ? `#${order._id.slice(0, 6)}` : `#${order._id}`}
               </Text>
             </Flex>
 
             <Flex
               sx={{
-                flex: 2,
-                [theme.fn.smallerThan('sm')]: {
-                  flex: 3,
-                  justifyContent: 'center',
-                },
+                flex: 1,
+                justifyContent: 'end',
               }}
             >
-              <Text size="md" weight={500}>
+              <Text size="xs" weight={500}>
                 {new Date(order.createdAt).toISOString().split('T')[0]}
-              </Text>
-            </Flex>
-
-            <Flex
-              sx={{ flex: 1, justifyContent: 'flex-end' }}
-              className={classes.controlText}
-            >
-              <Text size="md" weight={500}>
-                {order.userId}
               </Text>
             </Flex>
           </Flex>
         </Accordion.Control>
 
-        <Accordion.Panel className={classes.panel}>
+        <Accordion.Panel
+          className={classes.panel}
+          sx={{ margin: '0', padding: '0' }}
+        >
           <Flex direction={{ base: 'column', md: 'row' }}>
-            <Flex direction="column" style={{ flex: 2, marginRight: '2rem' }}>
-              <Table verticalSpacing="xs">
+            <Flex
+              direction="column"
+              style={{
+                flex: 2,
+                marginRight: isSmallScreen ? '0' : '2rem',
+              }}
+            >
+              <Table verticalSpacing="xs" fontSize="xs">
                 <thead>
                   <tr>
                     <th>Product</th>
                     <th>Quantity</th>
+                    <th>Price</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -183,7 +181,7 @@ export function AdminOrderAccordion({ order }: { order: Order }) {
                 align="flex-end"
                 style={{ height: '100%' }}
               >
-                <Text>Total price: €{order.totalPrice}</Text>
+                <Text weight={700}>Total price: €{order.totalPrice}</Text>
               </Flex>
             </Flex>
             <Flex direction="column" style={{ flex: 1 }}>
@@ -213,8 +211,14 @@ export function AdminOrderAccordion({ order }: { order: Order }) {
               </Card>
             </Flex>
           </Flex>
-          <Text mt={6} ml={3} display={{ base: 'block', sm: 'none' }}>
-            Ordered by: {order.userId}
+          <Text
+            mt={6}
+            ml={3}
+            display={{ base: 'block', sm: 'none' }}
+            weight={'bold'}
+            size="xs"
+          >
+            #{order._id}
           </Text>
         </Accordion.Panel>
       </Accordion.Item>
@@ -251,8 +255,8 @@ export function AdminOrderAccordion({ order }: { order: Order }) {
         </Button>
       ) : (
         <Button
-          variant="outline"
-          color="red"
+          variant="light"
+          color="yellow"
           className={classes.button}
           onClick={() => shippedClick(order._id)}
         >
