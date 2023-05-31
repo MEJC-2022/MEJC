@@ -2,6 +2,7 @@ import {
   Accordion,
   Box,
   Container,
+  Select,
   Title,
   createStyles,
   rem,
@@ -12,7 +13,7 @@ import { IconServerBolt } from '@tabler/icons-react';
 import { useContext, useEffect, useState } from 'react';
 import { AdminOrderAccordion } from '../../components/AdminOrderAcc';
 import { Order } from '../../components/UserOrderAcc';
-import { useAuth } from '../../contexts/AuthContext';
+import { User } from '../../contexts/AuthContext';
 import { ProductContext } from '../../contexts/ProductContext';
 import '../../css/Glow.css';
 
@@ -52,15 +53,15 @@ const useStyles = createStyles((theme) => ({
 
 export default function AdminOrders() {
   const { classes } = useStyles();
-  const { user } = useAuth();
   const theme = useMantineTheme();
   const [loading, setLoading] = useState(false);
   const [allOrders, setAllOrders] = useState<Order[]>([]);
   const { fetchAllCreatedProducts } = useContext(ProductContext);
+  const [searchValue, onSearchChange] = useState('');
+  const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
+  const [users, setUsers] = useState<User[]>([]);
 
   async function getAllOrders() {
-    setLoading(true);
-
     try {
       const response = await fetch('/api/orders', {
         method: 'GET',
@@ -71,7 +72,7 @@ export default function AdminOrders() {
 
       if (response.ok) {
         const allOrders = await response.json();
-        setAllOrders(allOrders.orders);
+        setAllOrders(allOrders.orders.reverse());
       } else {
         const message = await response.text();
         setAllOrders([]);
@@ -91,11 +92,63 @@ export default function AdminOrders() {
     }
   }
 
+  async function getUsers() {
+    try {
+      const response = await fetch('/api/users', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        const allUsers = await response.json();
+        setUsers(allUsers);
+      } else {
+        const message = await response.text();
+        setUsers([]);
+        throw new Error(message);
+      }
+    } catch (err) {
+      notifications.show({
+        icon: <IconServerBolt size={20} />,
+        title: 'Error',
+        message: 'Failed to fetch users',
+        color: 'red',
+        autoClose: false,
+      });
+      console.log(err);
+    }
+  }
+
   useEffect(() => {
+    getUsers();
     fetchAllCreatedProducts();
     getAllOrders();
   }, []);
 
+  const handleSelectChange = (value: string) => {
+    setSelectedUserId(value);
+  };
+
+  const filteredOrders = selectedUserId
+    ? allOrders.filter((order) => order.userId === selectedUserId)
+    : allOrders;
+
+  const uniqueUsers = Array.from(
+    new Set(allOrders.map((order) => order.userId)),
+  );
+
+  const uniqueUserOptions = [
+    { value: '', label: 'All Users' },
+    ...uniqueUsers.map((userId) => {
+      const user = users.find((user) => user._id === userId);
+      return {
+        value: userId,
+        label: user ? user.email : userId,
+      };
+    }),
+  ];
   return (
     <Box className={classes.wrapper}>
       <Container>
@@ -107,15 +160,29 @@ export default function AdminOrders() {
         >
           Admin - Order Management
         </Title>
-        {loading ? (
-          <div>Loading...</div>
-        ) : (
-          <Accordion transitionDuration={600} className={classes.accordion}>
-            {[...allOrders].reverse().map((order: Order) => (
-              <AdminOrderAccordion order={order} key={order._id} />
-            ))}
-          </Accordion>
-        )}
+        <Container sx={{ display: 'flex', justifyContent: 'center' }}>
+          <Select
+            label="Select a user"
+            placeholder="Showing all users"
+            onSearchChange={onSearchChange}
+            searchValue={searchValue}
+            nothingFound="No options"
+            data={uniqueUserOptions}
+            value={selectedUserId}
+            onChange={handleSelectChange}
+            sx={{
+              marginBottom: '2rem',
+              width: '50%',
+              minWidth: '15rem',
+              maxWidth: '30rem',
+            }}
+          />
+        </Container>
+        <Accordion transitionDuration={600} className={classes.accordion}>
+          {filteredOrders.map((order: Order) => (
+            <AdminOrderAccordion order={order} key={order._id} />
+          ))}
+        </Accordion>
       </Container>
     </Box>
   );
