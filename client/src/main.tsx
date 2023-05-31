@@ -37,6 +37,7 @@ import AdminUsers from './pages/admin/AdminUsers';
 import EditProduct from './pages/admin/EditProduct';
 import NewProduct from './pages/admin/NewProduct';
 import NotFoundPage from './pages/error-pages/NotFoundPage';
+import UnauthorizedPage from './pages/error-pages/UnauthorizedPage';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -78,7 +79,7 @@ function AdminRoutes() {
   if (isLoading) {
     return null;
   }
-  return user && user.isAdmin ? <Outlet /> : <Navigate to="/" replace />;
+  return user && user.isAdmin ? <Outlet /> : <UnauthorizedPage />;
 }
 
 function UserRoutes() {

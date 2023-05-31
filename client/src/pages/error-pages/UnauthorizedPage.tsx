@@ -8,14 +8,20 @@ import {
   useMantineTheme,
 } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
+import {
+  HeaderResponsive,
+  HeaderResponsiveProps,
+} from '../../components/Navbar';
 
-interface Props {
-  wrapperKey: boolean;
-}
-
-function NotFoundPage({ wrapperKey }: Props) {
+function UnauthorizedPage() {
   const theme = useMantineTheme();
   const navigate = useNavigate();
+
+  const headerLinks: HeaderResponsiveProps['links'] = [
+    { link: '/', label: 'Store' },
+    { link: '/faq', label: 'FAQ' },
+    { link: '/contact', label: 'Contact Us' },
+  ];
 
   const useStyles = createStyles((theme) => ({
     wrapper: {
@@ -27,9 +33,7 @@ function NotFoundPage({ wrapperKey }: Props) {
           ? `linear-gradient(-60deg, ${theme.colors.gray[8]} 0%, ${theme.colors.gray[9]} 100%)`
           : `linear-gradient(-60deg, ${theme.colors.blue[3]} 0%, ${theme.colors.blue[7]} 100%)`,
       padding: `calc(${theme.spacing.xl} * 5)`,
-      minHeight: wrapperKey
-        ? 'calc(100vh - 4.375rem - 13rem)'
-        : 'calc(100vh - 4.375rem)',
+      minHeight: '100vh',
 
       [theme.fn.smallerThan('sm')]: {
         padding: `calc(${theme.spacing.xl} * 2)`,
@@ -64,28 +68,30 @@ function NotFoundPage({ wrapperKey }: Props) {
   const { classes } = useStyles();
 
   return (
-    <Box className={classes.wrapper}>
-      <Title
-        align="center"
-        className={`${classes.headerTitle} ${
-          theme.colorScheme === 'dark' ? 'gradientText' : classes.titleColor
-        }`}
-      >
-        404
-      </Title>
-      <Title
-        className={classes.title}
-        align="center"
-      >
-        Oh no, are you lost?
-      </Title>
-      <Text align="center" mb={50} color="white">
-        Don't worry, it happens to the best of us. Verify the URL or press the
-        button below to go back.
-      </Text>
-      <Button onClick={() => navigate(-1)}>Go back to previous page</Button>
-    </Box>
+    <>
+      <HeaderResponsive links={headerLinks} />
+      <Box className={classes.wrapper}>
+        <Title
+          align="center"
+          className={`${classes.headerTitle} ${
+            theme.colorScheme === 'dark' ? 'gradientText' : classes.titleColor
+          }`}
+        >
+          401
+        </Title>
+        <Title align="center" className={classes.title}>
+          You're not authorized
+        </Title>
+        <Text align="center" mb={50} color="white">
+          Nobody likes to be told what they can or can't do. But sometimes
+          that's just life. If you think this is a mistake, please contact us at{' '}
+          <a href="mailto:admin@tech101.com">admin@tech101.com</a> and we'll get
+          it all sorted out.
+        </Text>
+        <Button onClick={() => navigate('/')}>Go back to home</Button>
+      </Box>
+    </>
   );
 }
 
-export default NotFoundPage;
+export default UnauthorizedPage;
