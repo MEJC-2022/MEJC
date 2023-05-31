@@ -35,7 +35,11 @@ interface ProductFormProps {
 const schema = Yup.object().shape({
   categories: Yup.array()
     .of(Yup.string().required('Category is required'))
-    .required('At least one category is required'),
+    .test(
+      'categories',
+      'At least one category is required',
+      (value) => value && value.length > 0,
+    ),
   image: Yup.string().required('Image is required'),
   title: Yup.string()
     .min(2, 'Title should have at least 2 letters')
@@ -186,6 +190,7 @@ function ProductForm({
           placeholder="Select categories"
           searchable={false}
           {...form.getInputProps('categories')}
+          error={form.errors.categories}
         />
         <Dropzone
           mt="0.5rem"
