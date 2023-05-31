@@ -48,7 +48,7 @@ function Home() {
     <>
       <HeroSlide />
       <SVGBanner />
-      <Container size="xl" py={'3rem'}>
+      <Container size={1500} py={'2rem'}>
         <Box
           sx={{
             display: 'flex',
@@ -122,8 +122,8 @@ function Home() {
 
         <SimpleGrid
           cols={3}
-          spacing="xl"
-          verticalSpacing="xl"
+          spacing={30}
+          verticalSpacing={30}
           breakpoints={[
             { maxWidth: '85rem', cols: 2, spacing: 'md' },
             { maxWidth: '36rem', cols: 1, spacing: 'sm' },
