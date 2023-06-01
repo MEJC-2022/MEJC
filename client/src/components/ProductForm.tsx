@@ -9,7 +9,7 @@ import {
 } from '@mantine/core';
 import { Dropzone } from '@mantine/dropzone';
 import { useForm, yupResolver } from '@mantine/form';
-import { IconPhoto } from '@tabler/icons-react';
+import { IconCircleCheck, IconPhoto } from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
@@ -68,6 +68,7 @@ function ProductForm({
 }: ProductFormProps) {
   const [categories, setCategories] = useState<Category[]>([]);
   const [isFileUploaded, setFileUploaded] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const form = useForm<FormValues>({
     validate: yupResolver(schema),
@@ -138,6 +139,7 @@ function ProductForm({
   };
 
   const handleFileChange = async (file: File | null) => {
+    setLoading(true);
     if (!file) {
       return;
     }
@@ -160,6 +162,8 @@ function ProductForm({
       setFileUploaded(true);
     } catch (error) {
       console.error('Error uploading file:', error);
+    } finally {
+      setLoading(false);
     }
   };
   const handleDrop = (acceptedFiles: File[]) => {
@@ -180,6 +184,7 @@ function ProductForm({
           {...form.getInputProps('title')}
           data-cy="product-title"
           errorProps={{ 'data-cy': 'product-title-error' }}
+          mb={10}
         />
         <MultiSelect
           data={categories.map((category) => ({
@@ -191,26 +196,50 @@ function ProductForm({
           searchable={false}
           {...form.getInputProps('categories')}
           error={form.errors.categories}
+          mb={10}
         />
+        <Text mt={5} size={14}>
+          Image <span style={{ color: 'red' }}>*</span>
+        </Text>
         <Dropzone
-          mt="0.5rem"
           onDrop={handleDrop}
           multiple={false}
+          loading={loading}
           sx={{
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
           }}
+          accept={['image/png', 'image/jpeg', 'image/sgv+xml', 'image/gif']}
         >
-          <Flex gap={1}>
-            <IconPhoto stroke="1.3" />
-            {isFileUploaded ? (
-              <Text size="sm">Drag image here or click to change file</Text>
+          <Flex gap={10}>
+            {isFileUploaded && !loading ? (
+              <>
+                <IconCircleCheck
+                  style={{ alignSelf: 'center', marginRight: '.3rem' }}
+                  size={44}
+                  color="green"
+                  stroke="1.3"
+                />
+                <Text size="sm">
+                  Image uploaded! Drag image here or click to change image
+                </Text>
+              </>
             ) : (
-              <Text size="sm">Drag image here or click to add file</Text>
+              <>
+                <IconPhoto
+                  style={{ alignSelf: 'center', marginRight: '.3rem' }}
+                  size={30}
+                  stroke="1.3"
+                />
+                <Text size="sm">Drag image here or click to add image</Text>
+              </>
             )}
           </Flex>
         </Dropzone>
+        <Text mt={3} ml={8} mb={10} size={10}>
+          Supported filetypes: .png, .jpeg, .svg, .gif
+        </Text>
         <TextInput
           withAsterisk
           label="Description"
@@ -218,6 +247,7 @@ function ProductForm({
           {...form.getInputProps('description')}
           data-cy="product-description"
           errorProps={{ 'data-cy': 'product-description-error' }}
+          mb={10}
         />
         <TextInput
           withAsterisk
@@ -229,6 +259,7 @@ function ProductForm({
           data-cy="product-price"
           errorProps={{ 'data-cy': 'product-price-error' }}
           error={form.errors.price}
+          mb={10}
         />
         <TextInput
           withAsterisk
