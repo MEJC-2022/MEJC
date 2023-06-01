@@ -57,7 +57,7 @@ function ProductCard({ product }: Props) {
             />
             <Skeleton
               height={230}
-              sx={ isImageError ? {} : { display: 'none' }}
+              sx={isImageError ? {} : { display: 'none' }}
               animate={false}
             />
             <Image

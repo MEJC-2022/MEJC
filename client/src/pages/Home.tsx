@@ -16,8 +16,7 @@ import '../css/Glow.css';
 
 function Home() {
   const theme = useMantineTheme();
-  const { loading, products, fetchProducts } =
-    useContext(ProductContext);
+  const { loading, products, fetchProducts } = useContext(ProductContext);
   const [filteredProducts, setFilteredProducts] = useState(products);
   const [activeButton, setActiveButton] = useState('');
 
@@ -119,7 +118,8 @@ function Home() {
         </Button>
         <Button
           sx={{
-            border: activeButton === 'Toshiba' ? '2px solid lightblue ' : 'none',
+            border:
+              activeButton === 'Toshiba' ? '2px solid lightblue ' : 'none',
           }}
           size="xs"
           variant="light"
@@ -141,7 +141,10 @@ function Home() {
         </Button>
         <Button
           sx={{
-            border: activeButton === 'Computer Accessories' ? '2px solid lightblue ' : 'none',
+            border:
+              activeButton === 'Computer Accessories'
+                ? '2px solid lightblue '
+                : 'none',
           }}
           size="xs"
           variant="light"
