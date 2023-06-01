@@ -186,6 +186,7 @@ export function FooterCentered({ links }: FooterCenteredProps) {
             align="center"
             mt={14}
             mb={24}
+            color={theme.colors.dark[8]}
           >
             Subscribe to our newsletter!
           </Title>

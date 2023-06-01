@@ -5,12 +5,12 @@ import {
   Card,
   Group,
   Image,
+  Skeleton,
   Text,
   Title,
   useMantineTheme,
 } from '@mantine/core';
-import { notifications } from '@mantine/notifications';
-import { IconShoppingCartPlus } from '@tabler/icons-react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Product } from '../contexts/ProductContext';
 import { useShoppingCart } from '../contexts/ShoppingCartContext';
@@ -23,6 +23,18 @@ function ProductCard({ product }: Props) {
   const { increaseCartQuantity } = useShoppingCart();
   const link = '/product/' + product._id;
   const theme = useMantineTheme();
+  const [isLoadingImage, setLoadingImage] = useState(true);
+  const [isImageError, setImageError] = useState(false);
+
+  const handleLoad = () => {
+    setLoadingImage(false);
+    setImageError(false);
+  };
+
+  const handleError = () => {
+    setLoadingImage(false);
+    setImageError(true);
+  };
 
   return (
     <>
@@ -39,10 +51,22 @@ function ProductCard({ product }: Props) {
       >
         <Card.Section>
           <Link to={link} style={{ textDecoration: 'none', color: 'inherit' }}>
+            <Skeleton
+              height={230}
+              sx={isLoadingImage ? {} : { display: 'none' }}
+            />
+            <Skeleton
+              height={230}
+              sx={isImageError ? {} : { display: 'none' }}
+              animate={false}
+            />
             <Image
+              sx={isLoadingImage || isImageError ? { display: 'none' } : {}}
               src={'/api/file/' + product.image}
               height={230}
               fit="cover"
+              onLoad={handleLoad}
+              onError={handleError}
             />
             <Box pl="md" pr="md">
               <Group
@@ -96,7 +120,15 @@ function ProductCard({ product }: Props) {
                 mb="xl"
                 style={{ display: 'flex', justifyContent: 'space-between' }}
               >
-                <Title order={2} data-cy="product-title">
+                <Title
+                  order={2}
+                  data-cy="product-title"
+                  color={
+                    theme.colorScheme === 'dark'
+                      ? theme.colors.gray[5]
+                      : theme.colors.dark[8]
+                  }
+                >
                   {product.title}
                 </Title>
                 {new Date().getTime() - new Date(product.createdAt).getTime() <
@@ -118,6 +150,11 @@ function ProductCard({ product }: Props) {
             order={2}
             align="left"
             data-cy="product-price"
+            color={
+              theme.colorScheme === 'dark'
+                ? theme.colors.gray[5]
+                : theme.colors.dark[8]
+            }
           >
             {product.price}€
           </Title>
@@ -136,11 +173,6 @@ function ProductCard({ product }: Props) {
               className={theme.colorScheme === 'dark' ? 'buttonGlow' : ''}
               onClick={() => {
                 increaseCartQuantity(product._id);
-                notifications.show({
-                  icon: <IconShoppingCartPlus size={18} />,
-                  title: `${product.title}`,
-                  message: 'has been added to the cart',
-                });
               }}
               data-cy="product-buy-button"
             >

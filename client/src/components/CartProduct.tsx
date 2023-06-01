@@ -1,6 +1,14 @@
-import { Box, Button, Group, Image, Input, Text } from '@mantine/core';
+import {
+  Box,
+  Button,
+  Group,
+  Image,
+  Input,
+  Skeleton,
+  Text,
+} from '@mantine/core';
 import { IconMinus, IconPlus } from '@tabler/icons-react';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { CartItem, ProductContext } from '../contexts/ProductContext';
 import { useShoppingCart } from '../contexts/ShoppingCartContext';
 
@@ -11,6 +19,19 @@ interface Props {
 function CartProduct({ cartItem }: Props) {
   const { products } = useContext(ProductContext);
   const { increaseCartQuantity, decreaseCartQuantity } = useShoppingCart();
+  const [isLoadingImage, setLoadingImage] = useState(true);
+  const [isImageError, setImageError] = useState(false);
+
+  const handleLoad = () => {
+    setLoadingImage(false);
+    setImageError(false);
+  };
+
+  const handleError = () => {
+    setLoadingImage(false);
+    setImageError(true);
+  };
+
   products.find((i) => i._id === cartItem._id);
 
   return (
@@ -28,12 +49,26 @@ function CartProduct({ cartItem }: Props) {
       }}
       data-cy="cart-item"
     >
+      <Skeleton
+        height={150}
+        width={220}
+        sx={isLoadingImage ? {} : { display: 'none' }}
+      />
+      <Skeleton
+        height={150}
+        width={220}
+        sx={isImageError ? {} : { display: 'none' }}
+        animate={false}
+      />
       <Image
+        sx={isLoadingImage || isImageError ? { display: 'none' } : {}}
         src={'/api/file/' + cartItem.image}
         height={150}
         width={220}
         fit="cover"
         radius="md"
+        onLoad={handleLoad}
+        onError={handleError}
       />
 
       <Group pl="xs" pr="xs" mt="sm" mb="sm">

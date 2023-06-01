@@ -76,9 +76,6 @@ function CheckoutForm() {
         },
       }}
     >
-      <Title mb="sm" order={1}>
-        Your details
-      </Title>
       <form onSubmit={form.onSubmit(onSubmit)} data-cy="customer-form">
         <TextInput
           sx={{ marginBottom: '0.6rem' }}
