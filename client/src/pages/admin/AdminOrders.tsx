@@ -118,7 +118,7 @@ export default function AdminOrders() {
         color: 'red',
         autoClose: false,
       });
-      console.log(err);
+      console.error(err);
     }
   }
 
