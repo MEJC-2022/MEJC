@@ -5,6 +5,7 @@ import {
   createStyles,
   rem,
   Title,
+  Text,
   useMantineTheme,
 } from '@mantine/core';
 import { IconMessages } from '@tabler/icons-react';
@@ -100,70 +101,83 @@ export function Faq() {
         <Accordion variant="separated">
           <Accordion.Item className={classes.item} value="best-laptop">
             <Accordion.Control>
-              What is the best laptop for gaming?
+              Are the retro laptops and computer accessories in your webshop new
+              or used?
             </Accordion.Control>
             <Accordion.Panel>
-              The best laptop for gaming would typically have a powerful
-              processor, dedicated graphics card, high RAM and storage capacity,
-              and a high refresh rate display. Some popular options include the
-              Asus ROG Zephyrus G14, Acer Predator Helios 300, and MSI GE75
-              Raider.
+              We offer a combination of new old stock (NOS) and refurbished
+              retro computer products. NOS items are unused, old inventory that
+              has been stored and preserved in their original packaging.
+              Refurbished items are carefully restored to a fully functional and
+              presentable condition.
             </Accordion.Panel>
           </Accordion.Item>
 
           <Accordion.Item className={classes.item} value="ssd-or-hdd">
             <Accordion.Control>
-              What is the difference between an SSD and an HDD in a laptop?
+              Can I use retro computer products for modern tasks?
             </Accordion.Control>
             <Accordion.Panel>
-              An SSD (Solid State Drive) is a type of storage device that uses
-              flash memory to store data, while an HDD (Hard Disk Drive) uses
-              spinning disks and a read/write head to access and store data.
-              SSDs are generally faster and more durable, while HDDs are less
-              expensive and have larger storage capacities.
+              While retro computer products are primarily meant for collectors
+              and nostalgia enthusiasts, many of them can still perform basic
+              tasks such as word processing, web browsing, and running older
+              software. However, they may not be suitable for resource-intensive
+              modern applications or games.
             </Accordion.Panel>
           </Accordion.Item>
 
           <Accordion.Item className={classes.item} value="ram">
             <Accordion.Control>
-              How much RAM do I need in a laptop?
+              Are the retro laptops and accessories in working condition?
             </Accordion.Control>
             <Accordion.Panel>
-              The amount of RAM you need in a laptop depends on the tasks you
-              plan to perform. For basic tasks like web browsing and word
-              processing, 8GB of RAM is usually sufficient. For more demanding
-              tasks like photo/video editing or gaming, 16GB or more may be
-              necessary.
+              Yes, all the retro laptops and accessories we sell are thoroughly
+              tested to ensure they are in working order. Any defects or issues
+              are clearly mentioned in the product descriptions.
             </Accordion.Panel>
           </Accordion.Item>
 
           <Accordion.Item className={classes.item} value="battery-life">
             <Accordion.Control>
-              What is the battery life of a typical laptop?
+              Can I return or exchange a retro computer product if I'm not
+              satisfied?
             </Accordion.Control>
             <Accordion.Panel>
-              The battery life of a laptop varies depending on the model and
-              usage. Most laptops have a battery life of 5-8 hours, but some
-              high-end models can last up to 12 hours or more. Battery life can
-              also be affected by factors such as screen brightness, CPU usage,
-              and connectivity options.
+              We accept returns and exchanges within 30 days from the date of
+              purchase. However, please note that the products must be in the
+              same condition as when they were shipped and should be returned in
+              their original packaging. Refer to our Returns and Exchanges
+              policy for more details.
             </Accordion.Panel>
           </Accordion.Item>
 
           <Accordion.Item className={classes.item} value="warranty">
             <Accordion.Control>
-              What is the warranty period for a laptop?
+              What payment methods do you accept?
             </Accordion.Control>
             <Accordion.Panel>
-              The warranty period for a laptop varies depending on the
-              manufacturer and model. Most laptops come with a one-year
-              warranty, but some manufacturers offer longer warranties of two or
-              three years. It's important to check the warranty details before
-              making a purchase to ensure you are covered for any potential
-              issues.
+              We accept various payment methods, including credit/debit cards
+              (Visa, Mastercard, American Express), PayPal, and other popular
+              online payment platforms. You can choose the preferred payment
+              method during the checkout process.
+            </Accordion.Panel>
+          </Accordion.Item>
+          <Accordion.Item className={classes.item} value="warranty">
+            <Accordion.Control>
+              Can I sell my retro computer products through your webshop?
+            </Accordion.Control>
+            <Accordion.Panel>
+              Currently, we only sell products that are sourced and curated by
+              our team. We do not offer a platform for individuals to sell their
+              own retro computer products.
             </Accordion.Panel>
           </Accordion.Item>
         </Accordion>
+        <Text align="center" color="#EEEEEE" >
+          If you have any additional questions or need further assistance,
+          please don't hesitate to contact our customer support. We're here to
+          help!
+        </Text>
       </Container>
     </Box>
   );
