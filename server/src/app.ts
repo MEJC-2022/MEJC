@@ -29,5 +29,9 @@ app.use(userRouter);
 app.use(categoryRouter);
 app.use(orderRouter);
 
-// Global error handling
+// Error handling
 app.use(errorHandler);
+app.post('/api/errors', (req, res) => {
+  console.error(req.body);
+  res.status(204).end();
+});

@@ -122,11 +122,6 @@ function ProductDetails() {
             radius="md"
             onClick={() => {
               increaseCartQuantity(product._id);
-              notifications.show({
-                icon: <IconShoppingCartPlus size={18} />,
-                title: `${product.title}`,
-                message: 'has been added to the cart',
-              });
             }}
             data-cy="product-buy-button"
           >

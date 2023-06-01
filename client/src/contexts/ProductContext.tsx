@@ -36,6 +36,8 @@ interface ContextValue {
   fetchProducts: () => void;
   fetchAllCreatedProducts: () => void;
   allCreatedProducts: Product[];
+  loading: boolean;
+  setLoading: (value: boolean) => void;
 }
 
 export const ProductContext = createContext<ContextValue>(null as any);
@@ -45,10 +47,12 @@ interface Props {
 }
 
 export const ProductProvider: React.FC<Props> = ({ children }) => {
+  const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState<Product[]>([]);
   const [allCreatedProducts, setAllCreatedProducts] = useState<Product[]>([]);
 
   const fetchProducts = useCallback(async () => {
+    setLoading(true);
     try {
       const res = await axios.get('/api/products');
 
@@ -66,10 +70,13 @@ export const ProductProvider: React.FC<Props> = ({ children }) => {
         autoClose: false,
       });
       console.error('Error fetching products:', error);
+    } finally {
+      setLoading(false);
     }
   }, []);
 
   const fetchAllCreatedProducts = useCallback(async () => {
+    setLoading(true);
     try {
       const res = await axios.get('/api/products/created');
 
@@ -87,6 +94,8 @@ export const ProductProvider: React.FC<Props> = ({ children }) => {
         autoClose: false,
       });
       console.error('Error fetching products:', error);
+    } finally {
+      setLoading(false);
     }
   }, []);
 
@@ -209,6 +218,8 @@ export const ProductProvider: React.FC<Props> = ({ children }) => {
         fetchProducts,
         fetchAllCreatedProducts,
         allCreatedProducts,
+        loading,
+        setLoading,
       }}
     >
       {children}

@@ -3,6 +3,7 @@ import {
   Container,
   Select,
   Table,
+  Text,
   Title,
   createStyles,
   rem,
@@ -51,7 +52,7 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export default function AdminUsers() {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [users, setUsers] = useState<User[]>([]);
   const { setUser, user } = useAuth();
   const navigate = useNavigate();
@@ -59,7 +60,6 @@ export default function AdminUsers() {
   const session = user as User;
 
   useEffect(() => {
-    setLoading(true);
     fetch('/api/users')
       .then((response) => {
         if (!response.ok) {
@@ -187,7 +187,7 @@ export default function AdminUsers() {
           Admin - User Management
         </Title>
         {loading ? (
-          <div>Loading...</div>
+          <Text align="center">Loading...</Text>
         ) : (
           <Table highlightOnHover verticalSpacing="md">
             <thead>

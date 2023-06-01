@@ -1,5 +1,4 @@
 import {
-  Badge,
   Box,
   Button,
   Container,
@@ -17,8 +16,7 @@ import '../css/Glow.css';
 
 function Home() {
   const theme = useMantineTheme();
-  const { products, fetchProducts } = useContext(ProductContext);
-
+  const { loading, products, fetchProducts } = useContext(ProductContext);
   const [filteredProducts, setFilteredProducts] = useState(products);
   const [activeButton, setActiveButton] = useState('');
 
@@ -109,33 +107,82 @@ function Home() {
         </Button>
         <Button
           sx={{
-            border: activeButton === 'Asus' ? '2px solid lightblue ' : 'none',
+            border: activeButton === 'IBM' ? '2px solid lightblue ' : 'none',
           }}
           size="xs"
           variant="light"
           radius="sm"
-          onClick={() => filterByCategory('Asus')}
+          onClick={() => filterByCategory('IBM')}
         >
-          Asus Products
+          IBM Products
+        </Button>
+        <Button
+          sx={{
+            border:
+              activeButton === 'Toshiba' ? '2px solid lightblue ' : 'none',
+          }}
+          size="xs"
+          variant="light"
+          radius="sm"
+          onClick={() => filterByCategory('Toshiba')}
+        >
+          Toshiba Products
+        </Button>
+        <Button
+          sx={{
+            border: activeButton === 'Compaq' ? '2px solid lightblue ' : 'none',
+          }}
+          size="xs"
+          variant="light"
+          radius="sm"
+          onClick={() => filterByCategory('Compaq')}
+        >
+          Compaq Products
+        </Button>
+        <Button
+          sx={{
+            border:
+              activeButton === 'Computer Accessories'
+                ? '2px solid lightblue '
+                : 'none',
+          }}
+          size="xs"
+          variant="light"
+          radius="sm"
+          onClick={() => filterByCategory('Computer Accessories')}
+        >
+          Computer Accessories
         </Button>
         <Button size="xs" variant="outlined" radius="sm" onClick={resetFilter}>
           Reset filter
         </Button>
       </Group>
 
-      <SimpleGrid
-        cols={3}
-        spacing="xl"
-        verticalSpacing="xl"
-        breakpoints={[
-          { maxWidth: '85rem', cols: 2, spacing: 'md' },
-          { maxWidth: '54rem', cols: 1, spacing: 'sm' },
-        ]}
-      >
-        {filteredProducts.map((product) => (
-          <ProductCard key={product._id} product={product} />
-        ))}
-      </SimpleGrid>
+      {loading ? (
+        <Text align="center">Loading...</Text>
+      ) : (
+        <>
+          {filteredProducts.length === 0 ? (
+            <Text align="center">
+              No products found. Please try a different filter.
+            </Text>
+          ) : (
+            <SimpleGrid
+              cols={3}
+              spacing="xl"
+              verticalSpacing="xl"
+              breakpoints={[
+                { maxWidth: '85rem', cols: 2, spacing: 'md' },
+                { maxWidth: '54rem', cols: 1, spacing: 'sm' },
+              ]}
+            >
+              {[...filteredProducts].reverse().map((product) => (
+                <ProductCard key={product._id} product={product} />
+              ))}
+            </SimpleGrid>
+          )}
+        </>
+      )}
     </Container>
   );
 }

@@ -1,6 +1,7 @@
 import {
   Accordion,
   Box,
+  Text,
   Title,
   createStyles,
   rem,
@@ -53,12 +54,11 @@ export default function UserOrders() {
   const { classes } = useStyles();
   const { user } = useAuth();
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [userOrders, setUserOrders] = useState<Order[]>([]);
   const { fetchAllCreatedProducts } = useContext(ProductContext);
 
   async function getUserOrders() {
-    setLoading(true);
     if (!user) return;
 
     try {
@@ -99,6 +99,7 @@ export default function UserOrders() {
   return (
     <Box className={classes.wrapper}>
       <Title
+        align="center"
         className={`${classes.title} ${
           theme.colorScheme === 'dark' ? 'neonText' : ''
         }`}
@@ -106,12 +107,20 @@ export default function UserOrders() {
         Order history
       </Title>
       {loading ? (
-        <div>Loading...</div>
+        <Text align="center">Loading...</Text>
       ) : (
         <Accordion transitionDuration={600} className={classes.accordion}>
-          {[...userOrders].reverse().map((order: Order) => (
-            <UserOrderAccordion order={order} key={order._id} />
-          ))}
+          {userOrders.length === 0 ? (
+            <Text align="center">
+              No orders found. Make your first purchase today!
+            </Text>
+          ) : (
+            [...userOrders]
+              .reverse()
+              .map((order: Order) => (
+                <UserOrderAccordion order={order} key={order._id} />
+              ))
+          )}
         </Accordion>
       )}
     </Box>
