@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Container,
+  Divider,
   Group,
   SimpleGrid,
   Text,
@@ -11,6 +12,7 @@ import {
 import { useContext, useEffect, useState } from 'react';
 import HeroSlide from '../components/HeroSlide';
 import ProductCard from '../components/ProductCard';
+import { SVGBanner } from '../components/SVGBanner';
 import { ProductContext } from '../contexts/ProductContext';
 import '../css/Glow.css';
 
@@ -60,7 +62,8 @@ function Home() {
   return (
     <>
       <HeroSlide />
-      <Container size="xl" py={'3rem'}>
+      <SVGBanner />
+      <Container size="xl" pb={'3rem'}>
         <Box
           sx={{
             display: 'flex',
@@ -68,7 +71,7 @@ function Home() {
             flexDirection: 'column',
           }}
         >
-          <Title
+          {/* <Title
             className={theme.colorScheme === 'dark' ? 'neonText' : ''}
             mt={40}
             mb={14}
@@ -81,15 +84,17 @@ function Home() {
           </Text>
           <Text fz="lg" fs="italic">
             We. Tech. You.
-          </Text>
+          </Text> */}
         </Box>
         <Title
-          sx={{ marginTop: '4rem', marginBottom: '3rem' }}
+          sx={{ marginTop: '4rem', marginBottom: '1rem' }}
           ta="center"
+          color={theme.colors.dark[4]}
           className={theme.colorScheme === 'dark' ? 'neonText' : ''}
         >
           Browse our collection
         </Title>
+        <Divider my="sm" variant="dotted" />
         <Text
           sx={{
             marginBottom: '1rem',
