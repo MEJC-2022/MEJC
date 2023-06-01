@@ -30,7 +30,7 @@ function AdminProducts() {
         ta="center"
         className={theme.colorScheme === 'dark' ? 'neonText' : ''}
         sx={{
-          marginTop: '7.2rem',
+          paddingTop: `calc(${theme.spacing.xl} * 4)`,
           fontSize: '3rem',
           [theme.fn.smallerThan('sm')]: {
             fontSize: rem(40),

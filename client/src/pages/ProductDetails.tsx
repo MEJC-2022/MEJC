@@ -4,16 +4,15 @@ import {
   Button,
   Card,
   Container,
+  Divider,
   Flex,
   Group,
   Image,
   Text,
   Title,
-  useMantineTheme,
+  useMantineTheme
 } from '@mantine/core';
-import { notifications } from '@mantine/notifications';
-import { IconShoppingCartPlus } from '@tabler/icons-react';
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import 'swiper/swiper-bundle.css';
 import 'swiper/swiper.min.css';
@@ -43,7 +42,7 @@ function ProductDetails() {
   }
 
   return (
-    <Container>
+    <Container size={'lg'}>
       <Button variant="outline" mb="sm" mt="sm" onClick={goBack}>
         Back to Store
       </Button>
@@ -106,11 +105,30 @@ function ProductDetails() {
               About this {product.title}
             </Title>
           </Box>
-          <Text size="md" align="left" mt="md" data-cy="product-description">
+          <Text
+            size="md"
+            align="left"
+            mt="md"
+            data-cy="product-description"
+            color={
+              theme.colorScheme === 'dark'
+                ? theme.colors.gray[5]
+                : theme.colors.dark[8]
+            }
+          >
             {product.description}
           </Text>
+          <Divider my="sm" variant="dotted" />
           <Group position="right">
-            <Title order={2} data-cy="product-price">
+            <Title
+              order={2}
+              data-cy="product-price"
+              color={
+                theme.colorScheme === 'dark'
+                  ? theme.colors.gray[5]
+                  : theme.colors.dark[8]
+              }
+            >
               {product.price}€
             </Title>
           </Group>

@@ -2,11 +2,12 @@ import {
   Box,
   Button,
   Container,
+  Divider,
   Group,
   SimpleGrid,
   Text,
   Title,
-  useMantineTheme,
+  useMantineTheme
 } from '@mantine/core';
 import { useContext, useEffect, useState } from 'react';
 import HeroSlide from '../components/HeroSlide';
@@ -70,12 +71,14 @@ function Home() {
           </Text> */}
         </Box>
         <Title
-          sx={{ marginTop: '4rem', marginBottom: '3rem' }}
+          sx={{ marginTop: '4rem', marginBottom: '1rem' }}
           ta="center"
+          color={theme.colors.dark[8]}
           className={theme.colorScheme === 'dark' ? 'neonText' : ''}
         >
           Browse our collection
         </Title>
+        <Divider my="sm" variant="dotted" />
         <Text
           sx={{
             marginBottom: '1rem',

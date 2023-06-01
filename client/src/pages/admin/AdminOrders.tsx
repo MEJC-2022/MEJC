@@ -26,11 +26,11 @@ const useStyles = createStyles((theme) => ({
       theme.colorScheme === 'dark'
         ? `linear-gradient(-60deg, ${theme.colors.gray[8]} 0%, ${theme.colors.gray[9]} 100%)`
         : `linear-gradient(-60deg, ${theme.colors.gray[3]} 0%, ${theme.colors.gray[1]} 100%)`,
-    padding: `calc(${theme.spacing.xl} * 5)`,
+    padding: `calc(${theme.spacing.xl} * 4)`,
     minHeight: 'calc(100vh - 4.375rem)',
     [theme.fn.smallerThan('md')]: {
       padding: `calc(${theme.spacing.xl})`,
-      paddingTop: '3rem',
+      paddingTop: '2rem',
       minHeight: 'calc(100vh - 4.375rem)',
     },
   },
