@@ -22,7 +22,12 @@ categoryRouter.post(
 );
 categoryRouter.get('/api/categories', getAllCategories);
 categoryRouter.get('/api/categories/:id', getCategoryById);
-categoryRouter.put('/api/categories/:id', isAdmin, validateCategoryId, updateCategory);
+categoryRouter.put(
+  '/api/categories/:id',
+  isAdmin,
+  validateCategoryId,
+  updateCategory,
+);
 categoryRouter.delete(
   '/api/categories/:id',
   isAdmin,
