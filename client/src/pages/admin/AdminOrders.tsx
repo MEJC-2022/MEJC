@@ -12,7 +12,8 @@ import {
 import { notifications } from '@mantine/notifications';
 import { IconServerBolt } from '@tabler/icons-react';
 import { useContext, useEffect, useState } from 'react';
-import { Order, UserOrderAccordion } from '../../components/UserOrderAcc';
+import { AdminOrderAccordion } from '../../components/AdminOrderAcc';
+import { Order } from '../../components/UserOrderAcc';
 import { User } from '../../contexts/AuthContext';
 import { ProductContext } from '../../contexts/ProductContext';
 import '../../css/Glow.css';
@@ -25,11 +26,11 @@ const useStyles = createStyles((theme) => ({
       theme.colorScheme === 'dark'
         ? `linear-gradient(-60deg, ${theme.colors.gray[8]} 0%, ${theme.colors.gray[9]} 100%)`
         : `linear-gradient(-60deg, ${theme.colors.gray[3]} 0%, ${theme.colors.gray[1]} 100%)`,
-    padding: `calc(${theme.spacing.xl} * 5)`,
+    padding: `calc(${theme.spacing.xl} * 4)`,
     minHeight: 'calc(100vh - 4.375rem)',
     [theme.fn.smallerThan('md')]: {
       padding: `calc(${theme.spacing.xl})`,
-      paddingTop: '3rem',
+      paddingTop: '2rem',
       minHeight: 'calc(100vh - 4.375rem)',
     },
   },
@@ -189,7 +190,7 @@ export default function AdminOrders() {
               [...filteredOrders]
                 .reverse()
                 .map((order: Order) => (
-                  <UserOrderAccordion order={order} key={order._id} />
+                  <AdminOrderAccordion order={order} key={order._id} />
                 ))
             )}
           </Accordion>
