@@ -99,10 +99,6 @@ export const ProductProvider: React.FC<Props> = ({ children }) => {
     }
   }, []);
 
-  useEffect(() => {
-    fetchProducts();
-  }, []);
-
   async function deleteProduct(id: string) {
     try {
       const response = await axios.delete(`/api/products/${id}`);

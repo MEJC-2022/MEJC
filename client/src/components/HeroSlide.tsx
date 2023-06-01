@@ -9,24 +9,23 @@ import HeroSlideItem from './HeroSlideItem';
 const summerImages = [
   {
     _id: '1',
-    image: '../../public/assets/summerimages/sommar1.jpg',
+    image: '../../assets/summerimages/sommar1.jpg',
   },
   {
     _id: '2',
-    image: '../../public/assets/summerimages/sommar2.jpg',
+    image: '../../assets/summerimages/sommar2.jpg',
   },
   {
     _id: '3',
-    image: '../../public/assets/summerimages/sommar3.jpg',
+    image: '../../assets/summerimages/sommar3.jpg',
   },
   {
     _id: '4',
-    image: '../../public/assets/summerimages/sommar4.jpg',
+    image: '../../assets/summerimages/sommar4.jpg',
   },
 ];
 
 function HeroSlide() {
-  //const { products } = useContext(ProductContext);
   const images = summerImages;
 
   return (
@@ -47,11 +46,6 @@ function HeroSlide() {
         navigation
         pagination={{ clickable: true }}
       >
-        {/* {products.slice(0, 4).map((product) => (
-          <SwiperSlide style={{ height: '26rem' }} key={product._id}>
-            <HeroSlideItem imageSrc={product.image} />
-          </SwiperSlide>
-        ))} */}
         {images.map((image) => (
           <SwiperSlide style={{ height: '30rem' }} key={image._id}>
             <HeroSlideItem imageSrc={image.image} />
