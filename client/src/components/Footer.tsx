@@ -255,7 +255,7 @@ export function FooterCentered({ links }: FooterCenteredProps) {
                 {textAbove}
               </Text>
               <Image
-                src={`assets/${fileName}.svg`}
+                src={`./../assets/${fileName}.svg`}
                 alt={`Image ${fileName}`}
                 width="80px"
                 height="80px"

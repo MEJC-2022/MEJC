@@ -11,9 +11,7 @@ import {
   Title,
   useMantineTheme,
 } from '@mantine/core';
-import { notifications } from '@mantine/notifications';
-import { IconShoppingCartPlus } from '@tabler/icons-react';
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import 'swiper/swiper-bundle.css';
 import 'swiper/swiper.min.css';

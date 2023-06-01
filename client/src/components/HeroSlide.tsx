@@ -3,7 +3,6 @@ import { Autoplay, Navigation, Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper-bundle.css';
 import 'swiper/swiper.min.css';
-import '../../public/assets/summerimages/sommar1.jpg';
 import HeroSlideItem from './HeroSlideItem';
 
 const summerImages = [
