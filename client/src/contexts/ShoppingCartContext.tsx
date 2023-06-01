@@ -1,6 +1,6 @@
 import { notifications } from '@mantine/notifications';
-import { IconServerBolt } from '@tabler/icons-react';
-import { createContext, ReactNode, useContext, useState } from 'react';
+import { IconServerBolt, IconShoppingCartPlus } from '@tabler/icons-react';
+import { ReactNode, createContext, useContext, useState } from 'react';
 import { FormValues } from '../components/CheckoutForm';
 import { CartItem } from '../contexts/ProductContext';
 import useLocalStorage from '../hooks/useLocalStorage';
@@ -64,19 +64,36 @@ function ShoppingCartProvider({ children }: Props) {
       return;
     }
 
-    setCartProducts((currentProducts) => {
-      if (currentProducts.find((product) => product._id === id) == null) {
-        return [...currentProducts, { ...productToAdd, quantity: 1 }];
-      } else {
-        return currentProducts.map((product) => {
-          if (product._id === id) {
-            return { ...product, quantity: product.quantity + 1 };
-          } else {
-            return product;
-          }
-        });
-      }
-    });
+    const currentQuantity = getProductQuantity(id);
+    const stockQuantity = productToAdd.stock;
+
+    if (currentQuantity < stockQuantity) {
+      setCartProducts((currentProducts) => {
+        if (currentProducts.find((product) => product._id === id) == null) {
+          return [...currentProducts, { ...productToAdd, quantity: 1 }];
+        } else {
+          return currentProducts.map((product) => {
+            if (product._id === id) {
+              return { ...product, quantity: product.quantity + 1 };
+            } else {
+              return product;
+            }
+          });
+        }
+      });
+      notifications.show({
+        icon: <IconShoppingCartPlus size={18} />,
+        title: `${productToAdd.title}`,
+        message: 'has been added to the cart',
+      });
+    } else {
+      notifications.show({
+        icon: <IconServerBolt size={20} />,
+        title: 'Error',
+        message: 'Cannot add more than what is available in stock',
+        color: 'red',
+      });
+    }
   }
 
   function decreaseCartQuantity(id: string) {

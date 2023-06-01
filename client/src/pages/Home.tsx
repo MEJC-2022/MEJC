@@ -16,8 +16,7 @@ import '../css/Glow.css';
 
 function Home() {
   const theme = useMantineTheme();
-  const { products, fetchProducts } = useContext(ProductContext);
-
+  const { loading, products, fetchProducts } = useContext(ProductContext);
   const [filteredProducts, setFilteredProducts] = useState(products);
   const [activeButton, setActiveButton] = useState('');
 

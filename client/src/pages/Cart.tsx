@@ -139,7 +139,19 @@ function Cart() {
             }}
           >
             {user ? (
-              <CheckoutForm />
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  width: '20.7rem',
+                }}
+              >
+                <Title mb="lg" order={1}>
+                  Shipping details
+                </Title>
+                <CheckoutForm />
+              </Box>
             ) : (
               <Box
                 sx={{
@@ -149,7 +161,7 @@ function Cart() {
                   width: '20.7rem',
                 }}
               >
-                <Title mb="lg" order={1} sx={{ alignSelf: 'flex-start' }}>
+                <Title mb="lg" order={1}>
                   Sign in to continue
                 </Title>
                 <SignInForm />
@@ -161,9 +173,11 @@ function Cart() {
                 flexDirection: 'column',
                 justifyContent: 'center',
                 alignItems: 'center',
-                gap: '2rem',
               }}
             >
+              <Title mb="lg" order={1}>
+                Cart summary
+              </Title>
               <Box
                 sx={{
                   width: '20.7rem',
@@ -180,9 +194,6 @@ function Cart() {
                   },
                 }}
               >
-                <Title mb="lg" order={1} sx={{ alignSelf: 'flex-start' }}>
-                  Cart summary
-                </Title>
                 <Text weight={500} size={20} sx={{ minWidth: '100%' }}>
                   {cartProducts.map((cartproduct) => {
                     const product = products.find(

@@ -15,20 +15,20 @@ import {
 
 const productRouter = express.Router();
 
-productRouter.post('/api/products', validateProduct, isAdmin, createProduct);
+productRouter.post('/api/products', isAdmin, validateProduct, createProduct);
 productRouter.get('/api/products', getAllProducts);
 productRouter.get('/api/products/created', getAllCreatedProducts);
 productRouter.get('/api/products/:id', getProductById);
 productRouter.put(
   '/api/products/:id',
-  validateProductId,
   isAdmin,
+  validateProductId,
   updateProduct,
 );
 productRouter.delete(
   '/api/products/:id',
-  validateProductId,
   isAdmin,
+  validateProductId,
   deleteProduct,
 );
 

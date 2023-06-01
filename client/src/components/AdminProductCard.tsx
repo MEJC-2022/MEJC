@@ -5,6 +5,7 @@ import {
   Card,
   Group,
   Image,
+  Skeleton,
   Text,
   Title,
 } from '@mantine/core';
@@ -21,6 +22,18 @@ function AdminProductCard({ product, onDelete }: Props) {
   const edit = '/admin/product/' + product._id + '/edit';
 
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
+  const [isLoadingImage, setLoadingImage] = useState(true);
+  const [isImageError, setImageError] = useState(false);
+
+  const handleLoad = () => {
+    setLoadingImage(false);
+    setImageError(false);
+  };
+
+  const handleError = () => {
+    setLoadingImage(false);
+    setImageError(true);
+  };
 
   const handleDelete = () => {
     if (showConfirmDelete) {
@@ -45,7 +58,23 @@ function AdminProductCard({ product, onDelete }: Props) {
         data-cy="product"
       >
         <Card.Section>
-          <Image src={'/api/file/' + product.image} height={230} fit="cover" />
+          <Skeleton
+            height={230}
+            sx={isLoadingImage ? {} : { display: 'none' }}
+          />
+          <Skeleton
+            height={230}
+            sx={isImageError ? {} : { display: 'none' }}
+            animate={false}
+          />
+          <Image
+            sx={isLoadingImage || isImageError ? { display: 'none' } : {}}
+            src={'/api/file/' + product.image}
+            height={230}
+            fit="cover"
+            onLoad={handleLoad}
+            onError={handleError}
+          />
           <Box pl="md" pr="md">
             <Group
               mt="lg"
