@@ -7,11 +7,9 @@ import {
   Title,
   useMantineTheme,
 } from '@mantine/core';
-// import { useContext } from 'react';
 import { FormValues } from '../components/CheckoutForm';
-// import { ProductContext } from '../contexts/ProductContext';
 import { useEffect } from 'react';
-import useBackgroundAnimation from '../components/ConfirmationPageAnimation';
+import useBackgroundAnimation from '../utils/ConfirmationPageAnimation';
 import { useShoppingCart } from '../contexts/ShoppingCartContext';
 
 function Confirmation() {
