@@ -14,14 +14,30 @@ import ProductCard from '../components/ProductCard';
 import { ProductContext } from '../contexts/ProductContext';
 import '../css/Glow.css';
 
+type Category = {
+  title: string;
+};
+
 function Home() {
   const theme = useMantineTheme();
   const { loading, products, fetchProducts } = useContext(ProductContext);
   const [filteredProducts, setFilteredProducts] = useState(products);
   const [activeButton, setActiveButton] = useState('');
+  const [categories, setCategories] = useState<Category[]>([]);
+
+  async function fetchCategories() {
+    try {
+      const res = await fetch('/api/categories');
+      const data = await res.json();
+      setCategories(data);
+    } catch (error) {
+      console.error('Failed to fetch categories:', error);
+    }
+  }
 
   useEffect(() => {
     fetchProducts();
+    fetchCategories();
   }, []);
 
   useEffect(() => {
@@ -88,44 +104,22 @@ function Home() {
           SORT BY CATEGORY:
         </Text>
         <Group spacing={5} mb="md">
-          <Button
-            sx={{
-              border:
-                activeButton === 'Laptops' ? '2px solid lightblue ' : 'none',
-            }}
-            size="xs"
-            variant="light"
-            radius="sm"
-            onClick={() => filterByCategory('Laptops')}
-          >
-            Laptops
-          </Button>
-          <Button
-            sx={{
-              border:
-                activeButton === 'Apple' ? '2px solid lightblue ' : 'none',
-            }}
-            size="xs"
-            variant="light"
-            radius="sm"
-            onClick={() => filterByCategory('Apple')}
-          >
-            Apple Products
-          </Button>
-          <Button
-            sx={{
-              border:
-                activeButton === 'Computer Accessories'
-                  ? '2px solid lightblue '
-                  : 'none',
-            }}
-            size="xs"
-            variant="light"
-            radius="sm"
-            onClick={() => filterByCategory('Computer Accessories')}
-          >
-            Computer Accessories
-          </Button>
+          {categories.map((category) => (
+            <Button
+              sx={{
+                border:
+                  activeButton === category.title
+                    ? '2px solid lightblue '
+                    : 'none',
+              }}
+              size="xs"
+              variant="light"
+              radius="sm"
+              onClick={() => filterByCategory(category.title)}
+            >
+              {category.title}
+            </Button>
+          ))}
           <Button
             size="xs"
             variant="outlined"
