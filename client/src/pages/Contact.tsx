@@ -96,7 +96,10 @@ const useStyles = createStyles((theme) => ({
   input: {
     backgroundColor:
       theme.colorScheme === 'dark' ? theme.colors.gray[8] : theme.white,
-    borderColor: theme.colorScheme === 'dark' ? theme.colors.gray[7] : theme.colors.gray[4],
+    borderColor:
+      theme.colorScheme === 'dark'
+        ? theme.colors.gray[7]
+        : theme.colors.gray[4],
     color:
       theme.colorScheme === 'light'
         ? theme.colors.gray[8]

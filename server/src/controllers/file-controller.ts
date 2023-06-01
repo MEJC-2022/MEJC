@@ -26,6 +26,16 @@ export async function uploadFile(req: Request, res: Response) {
   bb.on('file', (_, file, info) => {
     const { filename, mimeType } = info;
 
+    const acceptedMimeTypes = [
+      'image/png',
+      'image/jpeg',
+      'image/svg+xml',
+      'image/gif',
+    ];
+    if (!acceptedMimeTypes.includes(mimeType)) {
+      throw new APIError(400, 'Invalid file type');
+    }
+
     const uploadStream = fileBucket
       .openUploadStream(filename, { contentType: mimeType })
       .on('finish', (data: mongoose.mongo.GridFSFile) => {

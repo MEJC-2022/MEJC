@@ -173,7 +173,7 @@ export function Faq() {
             </Accordion.Panel>
           </Accordion.Item>
         </Accordion>
-        <Text align="center" color="#EEEEEE" >
+        <Text align="center" color="#EEEEEE">
           If you have any additional questions or need further assistance,
           please don't hesitate to contact our customer support. We're here to
           help!

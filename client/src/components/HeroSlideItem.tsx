@@ -40,9 +40,15 @@ function HeroSlideItem({ imageSrc }: HeroSlideItemProps) {
             </MediaQuery>
             <MediaQuery
               query="(max-width: 640px)"
-              styles={{ fontSize: rem(13), width: "9rem", marginTop: '.5rem' }}
+              styles={{ fontSize: rem(13), width: '9rem', marginTop: '.5rem' }}
             >
-              <Title align="center" sx={{width: "18rem"}} mt={10} mb={10} order={4}>
+              <Title
+                align="center"
+                sx={{ width: '18rem' }}
+                mt={10}
+                mb={10}
+                order={4}
+              >
                 We got you covered on all the greatest retro products
               </Title>
             </MediaQuery>

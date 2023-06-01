@@ -19,35 +19,35 @@ export function errorHandler(
     const errorMessages = Object.values(validationErrors).map(
       (error) => error.message,
     );
-    return res
+    res
       .status(400)
       .json({ error: 'Validation error', messages: errorMessages });
   } else if (err instanceof mongoose.Error.ValidatorError) {
-    return res.status(400).json({ error: err.message });
+    res.status(400).json({ error: err.message });
   } else if (err instanceof mongoose.Error.DocumentNotFoundError) {
-    return res.status(404).json({ error: 'Resource not found' });
+    res.status(404).json({ error: 'Resource not found' });
   } else if (err instanceof mongoose.Error.CastError) {
-    return res.status(400).json({ error: 'Invalid ID' });
+    res.status(400).json({ error: 'Invalid ID' });
 
     // Yup validation error
   } else if (err instanceof yup.ValidationError) {
-    return res.status(400).json({ error: 'Validation error' });
+    res.status(400).json({ error: 'Validation error' });
 
     // Custom errors
   } else if (err instanceof SessionError) {
-    return res
+    res
       .status(err.status)
       .json({ error: err.message, currentSession: err.session ?? undefined });
   } else if (err instanceof APIError) {
-    return res.status(err.status).json({ error: err.message });
+    res.status(err.status).json({ error: err.message });
 
     // Other errors
   } else if (err instanceof Error) {
     // should not send error details to client in production
     if (process.env.NODE_ENV === 'production') {
-      return res.status(500).json({ error: 'Unknown error' });
+      res.status(500).json({ error: 'Unknown error' });
     } else {
-      return res.status(500).json({ error: err.message });
+      res.status(500).json({ error: err.message });
     }
   } else {
     res.status(500).json({ error: 'Unknown error' });

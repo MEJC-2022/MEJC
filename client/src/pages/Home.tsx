@@ -76,7 +76,7 @@ function Home() {
           >
             Tech101
           </Title>
-          <Text fz="xl" mb={10} align="center" sx={{width: "18rem"}} fw={500}>
+          <Text fz="xl" mb={10} align="center" sx={{ width: '18rem' }} fw={500}>
             Providing retro products <br />
             and first-class repairs
           </Text>
