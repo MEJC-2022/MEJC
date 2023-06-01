@@ -108,14 +108,47 @@ function Home() {
         </Button>
         <Button
           sx={{
-            border: activeButton === 'Asus' ? '2px solid lightblue ' : 'none',
+            border: activeButton === 'IBM' ? '2px solid lightblue ' : 'none',
           }}
           size="xs"
           variant="light"
           radius="sm"
-          onClick={() => filterByCategory('Asus')}
+          onClick={() => filterByCategory('IBM')}
         >
-          Asus Products
+          IBM Products
+        </Button>
+        <Button
+          sx={{
+            border: activeButton === 'Toshiba' ? '2px solid lightblue ' : 'none',
+          }}
+          size="xs"
+          variant="light"
+          radius="sm"
+          onClick={() => filterByCategory('Toshiba')}
+        >
+          Toshiba Products
+        </Button>
+        <Button
+          sx={{
+            border: activeButton === 'Compaq' ? '2px solid lightblue ' : 'none',
+          }}
+          size="xs"
+          variant="light"
+          radius="sm"
+          onClick={() => filterByCategory('Compaq')}
+        >
+          Compaq Products
+        </Button>
+        <Button
+          sx={{
+            border: activeButton === 'Computer Accessories' ? '2px solid lightblue ' : 'none',
+          }}
+          size="xs"
+          variant="light"
+          radius="sm"
+          onClick={() => filterByCategory('Computer Accessories')}
+        >
+          Computer Accessories
         </Button>
         <Button size="xs" variant="outlined" radius="sm" onClick={resetFilter}>
           Reset filter
