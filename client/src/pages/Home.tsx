@@ -11,7 +11,6 @@ import { useContext, useEffect, useState } from 'react';
 import HeroSlide from '../components/HeroSlide';
 import ProductCard from '../components/ProductCard';
 import { SVGBanner } from '../components/SVGBanner';
-import { TextBanner } from '../components/TextBanner';
 import { ProductContext } from '../contexts/ProductContext';
 import '../css/Glow.css';
 
@@ -46,7 +45,7 @@ function Home() {
   return (
     <>
       <HeroSlide />
-      <TextBanner />
+      {/* <TextBanner /> */}
       <SVGBanner />
       <Container size={1500} py={'2rem'}>
         {/* <Box
