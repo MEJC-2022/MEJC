@@ -148,7 +148,7 @@ export default function SignIn() {
           </Group>
         </form>
       </Box>
-      <Text fz="md" mt={6} className={classes.lighterText}>
+      <Text fz="md" mt={20} className={classes.lighterText}>
         Already have an account?{' '}
         <Link to="/signin" className={classes.anchor}>
           Sign in!

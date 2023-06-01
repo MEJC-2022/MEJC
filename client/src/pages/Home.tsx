@@ -99,6 +99,7 @@ function Home() {
         <Text
           sx={{
             marginBottom: '1rem',
+            marginTop: '3rem',
             marginLeft: '0.6rem',
             fontSize: '0.8rem',
           }}
@@ -108,7 +109,7 @@ function Home() {
         >
           SORT BY CATEGORY:
         </Text>
-        <Group spacing={5} mb="md">
+        <Group spacing={5} mb="lg">
           {categories.map((category) => (
             <Button
               key={category.title}

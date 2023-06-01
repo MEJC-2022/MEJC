@@ -122,7 +122,7 @@ export default function SignInForm() {
           </Group>
         </form>
       </Box>
-      <Text fz="md" mt={6} className={classes.lighterText}>
+      <Text fz="md" mt={20} className={classes.lighterText}>
         Don't have an account?{' '}
         <Link to="/signup" className={classes.anchor}>
           Sign up!
