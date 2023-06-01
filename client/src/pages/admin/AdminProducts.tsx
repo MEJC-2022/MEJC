@@ -3,6 +3,7 @@ import {
   Container,
   Group,
   SimpleGrid,
+  Text,
   Title,
   rem,
   useMantineTheme,
@@ -14,7 +15,8 @@ import AdminProductCard from '../../components/AdminProductCard';
 import { ProductContext } from '../../contexts/ProductContext';
 
 function AdminProducts() {
-  const { products, deleteProduct, fetchProducts } = useContext(ProductContext);
+  const { loading, products, deleteProduct, fetchProducts } =
+    useContext(ProductContext);
   const theme = useMantineTheme();
 
   useEffect(() => {
@@ -50,24 +52,36 @@ function AdminProducts() {
           </Button>
         </Link>
       </Group>
-      <SimpleGrid
-        sx={{ marginTop: '5rem', marginBottom: '3rem' }}
-        cols={3}
-        spacing="xl"
-        verticalSpacing="xl"
-        breakpoints={[
-          { maxWidth: '85rem', cols: 2, spacing: 'md' },
-          { maxWidth: '54rem', cols: 1, spacing: 'sm' },
-        ]}
-      >
-        {products.map((product) => (
-          <AdminProductCard
-            key={product._id}
-            product={product}
-            onDelete={() => deleteProduct(product._id)}
-          />
-        ))}
-      </SimpleGrid>
+      {loading ? (
+        <Text align="center">Loading...</Text>
+      ) : (
+        <>
+          {products.length === 0 ? (
+            <Text align="center">
+              No products found. Please add a new product.
+            </Text>
+          ) : (
+            <SimpleGrid
+              sx={{ marginTop: '5rem', marginBottom: '3rem' }}
+              cols={3}
+              spacing="xl"
+              verticalSpacing="xl"
+              breakpoints={[
+                { maxWidth: '85rem', cols: 2, spacing: 'md' },
+                { maxWidth: '54rem', cols: 1, spacing: 'sm' },
+              ]}
+            >
+              {[...products].reverse().map((product) => (
+                <AdminProductCard
+                  key={product._id}
+                  product={product}
+                  onDelete={() => deleteProduct(product._id)}
+                />
+              ))}
+            </SimpleGrid>
+          )}
+        </>
+      )}
     </Container>
   );
 }

@@ -1,5 +1,4 @@
 import {
-  Badge,
   Box,
   Button,
   Container,
@@ -17,8 +16,8 @@ import '../css/Glow.css';
 
 function Home() {
   const theme = useMantineTheme();
-  const { products, fetchProducts } = useContext(ProductContext);
-
+  const { loading, products, fetchProducts } =
+    useContext(ProductContext);
   const [filteredProducts, setFilteredProducts] = useState(products);
   const [activeButton, setActiveButton] = useState('');
 
@@ -123,19 +122,31 @@ function Home() {
         </Button>
       </Group>
 
-      <SimpleGrid
-        cols={3}
-        spacing="xl"
-        verticalSpacing="xl"
-        breakpoints={[
-          { maxWidth: '85rem', cols: 2, spacing: 'md' },
-          { maxWidth: '54rem', cols: 1, spacing: 'sm' },
-        ]}
-      >
-        {filteredProducts.map((product) => (
-          <ProductCard key={product._id} product={product} />
-        ))}
-      </SimpleGrid>
+      {loading ? (
+        <Text align="center">Loading...</Text>
+      ) : (
+        <>
+          {filteredProducts.length === 0 ? (
+            <Text align="center">
+              No products found. Please try a different filter.
+            </Text>
+          ) : (
+            <SimpleGrid
+              cols={3}
+              spacing="xl"
+              verticalSpacing="xl"
+              breakpoints={[
+                { maxWidth: '85rem', cols: 2, spacing: 'md' },
+                { maxWidth: '54rem', cols: 1, spacing: 'sm' },
+              ]}
+            >
+              {[...filteredProducts].reverse().map((product) => (
+                <ProductCard key={product._id} product={product} />
+              ))}
+            </SimpleGrid>
+          )}
+        </>
+      )}
     </Container>
   );
 }

@@ -3,6 +3,7 @@ import {
   Box,
   Container,
   Select,
+  Text,
   Title,
   createStyles,
   rem,
@@ -11,8 +12,7 @@ import {
 import { notifications } from '@mantine/notifications';
 import { IconServerBolt } from '@tabler/icons-react';
 import { useContext, useEffect, useState } from 'react';
-import { AdminOrderAccordion } from '../../components/AdminOrderAcc';
-import { Order } from '../../components/UserOrderAcc';
+import { Order, UserOrderAccordion } from '../../components/UserOrderAcc';
 import { User } from '../../contexts/AuthContext';
 import { ProductContext } from '../../contexts/ProductContext';
 import '../../css/Glow.css';
@@ -54,7 +54,7 @@ const useStyles = createStyles((theme) => ({
 export default function AdminOrders() {
   const { classes } = useStyles();
   const theme = useMantineTheme();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [allOrders, setAllOrders] = useState<Order[]>([]);
   const { fetchAllCreatedProducts } = useContext(ProductContext);
   const [searchValue, onSearchChange] = useState('');
@@ -93,6 +93,7 @@ export default function AdminOrders() {
   }
 
   async function getUsers() {
+    setLoading(true);
     try {
       const response = await fetch('/api/users', {
         method: 'GET',
@@ -178,11 +179,21 @@ export default function AdminOrders() {
             }}
           />
         </Container>
-        <Accordion transitionDuration={600} className={classes.accordion}>
-          {filteredOrders.map((order: Order) => (
-            <AdminOrderAccordion order={order} key={order._id} />
-          ))}
-        </Accordion>
+        {loading ? (
+          <Text align="center">Loading...</Text>
+        ) : (
+          <Accordion transitionDuration={600} className={classes.accordion}>
+            {filteredOrders.length === 0 ? (
+              <Text align="center">No orders found.</Text>
+            ) : (
+              [...filteredOrders]
+                .reverse()
+                .map((order: Order) => (
+                  <UserOrderAccordion order={order} key={order._id} />
+                ))
+            )}
+          </Accordion>
+        )}
       </Container>
     </Box>
   );
