@@ -247,7 +247,7 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
         </MediaQuery>
         <Group
           spacing={5}
-          pl={(!user) ? 0 : (user.isAdmin ? 120 : 60)}
+          pl={!user ? 0 : user.isAdmin ? 120 : 60}
           sx={{ marginLeft: 'auto' }}
           className={cx({ [classes.hide]: isBurgerVisible })}
         >

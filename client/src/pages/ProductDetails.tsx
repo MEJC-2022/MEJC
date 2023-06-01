@@ -10,7 +10,7 @@ import {
   Image,
   Text,
   Title,
-  useMantineTheme
+  useMantineTheme,
 } from '@mantine/core';
 import { useContext } from 'react';
 import { Link, useParams } from 'react-router-dom';
