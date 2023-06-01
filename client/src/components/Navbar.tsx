@@ -192,7 +192,7 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
   useEffect(() => {
     const handleResize = () => {
       if (user?.isAdmin) {
-        setIsBurgerVisible(window.innerWidth < 940);
+        setIsBurgerVisible(window.innerWidth < 946);
       } else {
         setIsBurgerVisible(window.innerWidth < 840);
       }
