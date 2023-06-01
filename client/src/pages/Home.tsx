@@ -1,16 +1,16 @@
 import {
-  Badge,
+  Box,
   Button,
   Container,
   Group,
   SimpleGrid,
+  Text,
   Title,
   useMantineTheme,
 } from '@mantine/core';
 import { useContext, useEffect, useState } from 'react';
 import HeroSlide from '../components/HeroSlide';
 import ProductCard from '../components/ProductCard';
-import { SVGBanner } from '../components/SVGBanner';
 import { ProductContext } from '../contexts/ProductContext';
 import '../css/Glow.css';
 
@@ -44,35 +44,48 @@ function Home() {
   return (
     <>
       <HeroSlide />
-      {/* <TextBanner /> */}
-      <SVGBanner />
-      <Container size={1500} py={'2rem'}>
-        {/* <Box
+      <Container size="xl" py={'3rem'}>
+        <Box
           sx={{
             display: 'flex',
             alignItems: 'center',
             flexDirection: 'column',
           }}
         >
-          <Title>Tech101</Title>
+          <Title
+            className={theme.colorScheme === 'dark' ? 'neonText' : ''}
+            mt={40}
+            mb={14}
+            size={70}
+          >
+            Tech101
+          </Title>
           <Text fz="xl" fw={500}>
             Providing up-to-date <br /> products and services
           </Text>
           <Text fz="lg" fs="italic">
-            We. Tech. You
+            We. Tech. You.
           </Text>
-        </Box> */}
+        </Box>
         <Title
-          sx={{ marginBottom: '1rem' }}
+          sx={{ marginTop: '4rem', marginBottom: '3rem' }}
           ta="center"
-          color={theme.colors.dark[8]}
           className={theme.colorScheme === 'dark' ? 'neonText' : ''}
         >
           Browse our collection
         </Title>
-        <Badge sx={{ marginBottom: '1rem' }} size="lg" radius="sm">
-          Sort By Category:
-        </Badge>
+        <Text
+          sx={{
+            marginBottom: '1rem',
+            marginLeft: '0.6rem',
+            fontSize: '0.8rem',
+          }}
+          fw={700}
+          color="none"
+          size="lg"
+        >
+          SORT BY CATEGORY:
+        </Text>
         <Group spacing={5} mb="md">
           <Button
             sx={{
