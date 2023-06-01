@@ -73,10 +73,7 @@ function NotFoundPage({ wrapperKey }: Props) {
       >
         404
       </Title>
-      <Title
-        className={classes.title}
-        align="center"
-      >
+      <Title className={classes.title} align="center">
         Oh no, are you lost?
       </Title>
       <Text align="center" mb={50} color="white">
