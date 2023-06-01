@@ -1,12 +1,15 @@
 import {
   Box,
   Button,
-  FileInput,
+  Flex,
   Group,
   MultiSelect,
+  Text,
   TextInput,
 } from '@mantine/core';
+import { Dropzone } from '@mantine/dropzone';
 import { useForm, yupResolver } from '@mantine/form';
+import { IconPhoto } from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
@@ -32,7 +35,11 @@ interface ProductFormProps {
 const schema = Yup.object().shape({
   categories: Yup.array()
     .of(Yup.string().required('Category is required'))
-    .required('At least one category is required'),
+    .test(
+      'categories',
+      'At least one category is required',
+      (value) => value && value.length > 0,
+    ),
   image: Yup.string().required('Image is required'),
   title: Yup.string()
     .min(2, 'Title should have at least 2 letters')
@@ -44,6 +51,7 @@ const schema = Yup.object().shape({
     .min(1, 'Nothing is this cheap...')
     .max(99999, 'Nothing is this expensive...')
     .required('Price is required')
+    .typeError('Price is required and must be a number')
     .strict(),
   stock: Yup.number()
     .min(0, 'Stock cannot be negative')
@@ -59,6 +67,7 @@ function ProductForm({
   product,
 }: ProductFormProps) {
   const [categories, setCategories] = useState<Category[]>([]);
+  const [isFileUploaded, setFileUploaded] = useState(false);
   const navigate = useNavigate();
   const form = useForm<FormValues>({
     validate: yupResolver(schema),
@@ -92,6 +101,12 @@ function ProductForm({
       });
     }
   }, [product, isEditing, form.setValues]);
+
+  useEffect(() => {
+    if (isEditing && product && product.image) {
+      setFileUploaded(true);
+    }
+  }, [product, isEditing]);
 
   const handleSubmit = (values: Partial<FormValues>) => {
     let editedProduct;
@@ -142,9 +157,13 @@ function ProductForm({
       const result = await response.json();
 
       form.setFieldValue('image', result);
+      setFileUploaded(true);
     } catch (error) {
       console.error('Error uploading file:', error);
     }
+  };
+  const handleDrop = (acceptedFiles: File[]) => {
+    handleFileChange(acceptedFiles[0]);
   };
 
   return (
@@ -171,13 +190,27 @@ function ProductForm({
           placeholder="Select categories"
           searchable={false}
           {...form.getInputProps('categories')}
+          error={form.errors.categories}
         />
-        <FileInput
-          withAsterisk
-          placeholder="Select an image"
-          label="Image"
-          onChange={handleFileChange}
-        />
+        <Dropzone
+          mt="0.5rem"
+          onDrop={handleDrop}
+          multiple={false}
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <Flex gap={1}>
+            <IconPhoto stroke="1.3" />
+            {isFileUploaded ? (
+              <Text size="sm">Drag image here or click to change file</Text>
+            ) : (
+              <Text size="sm">Drag image here or click to add file</Text>
+            )}
+          </Flex>
+        </Dropzone>
         <TextInput
           withAsterisk
           label="Description"
@@ -195,6 +228,7 @@ function ProductForm({
           onChange={(e) => form.setFieldValue('price', Number(e.target.value))}
           data-cy="product-price"
           errorProps={{ 'data-cy': 'product-price-error' }}
+          error={form.errors.price}
         />
         <TextInput
           withAsterisk
@@ -204,7 +238,7 @@ function ProductForm({
           {...form.getInputProps('stock')}
           onChange={(e) => form.setFieldValue('stock', Number(e.target.value))}
         />
-        <Group mt="xl">
+        <Group mt="xl" position="center">
           <Button type="submit">
             {isEditing ? 'Save changes' : 'Add new Product'}
           </Button>

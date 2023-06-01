@@ -155,8 +155,8 @@ export default function AdminUsers() {
 
   const rows = users.map((user) => (
     <tr key={user._id}>
-      <td>{user.email}</td>
-      <td>
+      <td style={{ paddingLeft: 0, paddingRight: 0 }}>{user.email}</td>
+      <td style={{ paddingLeft: 0, paddingRight: 0 }}>
         <Select
           ta="left"
           variant="unstyled"
