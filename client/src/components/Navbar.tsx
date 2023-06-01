@@ -192,9 +192,9 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
   useEffect(() => {
     const handleResize = () => {
       if (user?.isAdmin) {
-        setIsBurgerVisible(window.innerWidth < 840);
+        setIsBurgerVisible(window.innerWidth < 940);
       } else {
-        setIsBurgerVisible(window.innerWidth < 768);
+        setIsBurgerVisible(window.innerWidth < 840);
       }
     };
     handleResize();
@@ -247,6 +247,7 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
         </MediaQuery>
         <Group
           spacing={5}
+          pl={(!user) ? 0 : (user.isAdmin ? 120 : 60)}
           sx={{ marginLeft: 'auto' }}
           className={cx({ [classes.hide]: isBurgerVisible })}
         >

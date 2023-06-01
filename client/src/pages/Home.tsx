@@ -73,7 +73,7 @@ function Home() {
         <Title
           sx={{ marginTop: '4rem', marginBottom: '1rem' }}
           ta="center"
-          color={theme.colors.dark[8]}
+          color={theme.colors.dark[4]}
           className={theme.colorScheme === 'dark' ? 'neonText' : ''}
         >
           Browse our collection
