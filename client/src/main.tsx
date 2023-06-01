@@ -106,6 +106,7 @@ function Root() {
   });
   const toggleColorScheme = (value?: ColorScheme) =>
     setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
+
   return (
     <React.StrictMode>
       <ColorSchemeProvider
