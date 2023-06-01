@@ -5,7 +5,7 @@ import {
   Group,
   SimpleGrid,
   Title,
-  useMantineTheme
+  useMantineTheme,
 } from '@mantine/core';
 import { useContext, useEffect, useState } from 'react';
 import HeroSlide from '../components/HeroSlide';

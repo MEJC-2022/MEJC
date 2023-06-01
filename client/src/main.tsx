@@ -1,7 +1,7 @@
 import {
   ColorScheme,
   ColorSchemeProvider,
-  MantineProvider
+  MantineProvider,
 } from '@mantine/core';
 import { useLocalStorage } from '@mantine/hooks';
 import { Notifications } from '@mantine/notifications';
@@ -104,7 +104,7 @@ function Root() {
   });
   const toggleColorScheme = (value?: ColorScheme) =>
     setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
-    
+
   return (
     <React.StrictMode>
       <ColorSchemeProvider

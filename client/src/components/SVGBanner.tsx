@@ -1,10 +1,4 @@
-import {
-  Box,
-  Image,
-  Text,
-  createStyles,
-  useMantineTheme
-} from '@mantine/core';
+import { Box, Image, Text, createStyles, useMantineTheme } from '@mantine/core';
 import { useEffect, useState } from 'react';
 
 const images = [
@@ -39,17 +33,15 @@ const useStyles = createStyles((theme) => ({
   responsiveImg: {
     filter:
       'brightness(0) saturate(100%) invert(52%) sepia(96%) saturate(5788%) hue-rotate(206deg) brightness(88%) contrast(98%)',
-    [theme.fn.smallerThan('sm')]: {
-    },
+    [theme.fn.smallerThan('sm')]: {},
   },
   textSize: {
     fontSize: 14,
     [theme.fn.smallerThan('sm')]: {
       fontSize: 10,
     },
-  }
+  },
 }));
-
 
 export function SVGBanner() {
   const theme = useMantineTheme();
@@ -59,9 +51,9 @@ export function SVGBanner() {
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 768) {
-        setImageSize('20px'); 
+        setImageSize('20px');
       } else {
-        setImageSize('40px'); 
+        setImageSize('40px');
       }
     };
     handleResize();
@@ -72,49 +64,49 @@ export function SVGBanner() {
   }, []);
 
   return (
-      <Box
-        sx={{
-          width: '100%',
-          background:
-            theme.colorScheme === 'dark'
-              ? theme.colors.dark[6]
-              : theme.colors.blue[0],
-          display: 'flex',
-          justifyContent: 'space-around',
-          marginTop: '0rem',
-          padding: '.3rem',
-          boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
-          border: theme.colorScheme === 'light' ? '1px #EEEEEE solid' : 'none',
-        }}
-      >
-        {images.map(({ fileName, textAbove, textBelow }) => (
-          <div
-            key={fileName}
-            style={{
-              marginBottom: '0px',
-              textAlign: 'center',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <Text align="center" fw={400} className={classes.textSize} mb={3}>
-              {textAbove}
-            </Text>
-            <Image
-              src={`assets/${fileName}.svg`}
-              alt={`Image ${fileName}`}
-              width= {imageSize}
-              height= {imageSize}
-              className={classes.responsiveImg}
-              mb={3}
-            />
-            <Text align="center" fw={400} className={classes.textSize}>
-              {textBelow}
-            </Text>
-          </div>
-        ))}
-      </Box>
+    <Box
+      sx={{
+        width: '100%',
+        background:
+          theme.colorScheme === 'dark'
+            ? theme.colors.dark[6]
+            : theme.colors.blue[0],
+        display: 'flex',
+        justifyContent: 'space-around',
+        marginTop: '0rem',
+        padding: '.3rem',
+        boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+        border: theme.colorScheme === 'light' ? '1px #EEEEEE solid' : 'none',
+      }}
+    >
+      {images.map(({ fileName, textAbove, textBelow }) => (
+        <div
+          key={fileName}
+          style={{
+            marginBottom: '0px',
+            textAlign: 'center',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Text align="center" fw={400} className={classes.textSize} mb={3}>
+            {textAbove}
+          </Text>
+          <Image
+            src={`assets/${fileName}.svg`}
+            alt={`Image ${fileName}`}
+            width={imageSize}
+            height={imageSize}
+            className={classes.responsiveImg}
+            mb={3}
+          />
+          <Text align="center" fw={400} className={classes.textSize}>
+            {textBelow}
+          </Text>
+        </div>
+      ))}
+    </Box>
   );
 }

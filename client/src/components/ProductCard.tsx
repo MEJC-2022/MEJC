@@ -96,7 +96,15 @@ function ProductCard({ product }: Props) {
                 mb="xl"
                 style={{ display: 'flex', justifyContent: 'space-between' }}
               >
-                <Title order={2} data-cy="product-title" color={theme.colorScheme === 'dark' ? theme.colors.gray[5] : theme.colors.dark[8]}>
+                <Title
+                  order={2}
+                  data-cy="product-title"
+                  color={
+                    theme.colorScheme === 'dark'
+                      ? theme.colors.gray[5]
+                      : theme.colors.dark[8]
+                  }
+                >
                   {product.title}
                 </Title>
                 {new Date().getTime() - new Date(product.createdAt).getTime() <
@@ -118,7 +126,11 @@ function ProductCard({ product }: Props) {
             order={2}
             align="left"
             data-cy="product-price"
-            color={theme.colorScheme === 'dark' ? theme.colors.gray[5] : theme.colors.dark[8]}
+            color={
+              theme.colorScheme === 'dark'
+                ? theme.colors.gray[5]
+                : theme.colors.dark[8]
+            }
           >
             {product.price}€
           </Title>
