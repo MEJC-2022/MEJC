@@ -60,8 +60,9 @@ function Home() {
           >
             Tech101
           </Title>
-          <Text fz="xl" fw={500}>
-            Providing up-to-date <br /> products and services
+          <Text fz="xl" mb={10} align="center" sx={{width: "18rem"}} fw={500}>
+            Providing retro products <br />
+            and first-class repairs
           </Text>
           <Text fz="lg" fs="italic">
             We. Tech. You.
