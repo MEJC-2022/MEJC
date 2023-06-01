@@ -52,9 +52,9 @@ const useStyles = createStyles((theme) => ({
     },
   },
   button: {
-    marginTop: theme.spacing.sm,
-    marginLeft: 10,
-    width: 120,
+    marginTop: "9px",
+    marginLeft: 14,
+    width: 126,
   },
   circleButton: {
     marginTop: theme.spacing.md,

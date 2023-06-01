@@ -113,7 +113,7 @@ function CartProduct({ cartItem }: Props) {
             value={cartItem.quantity}
             rightSectionWidth="0px"
             sx={{
-              width: '1.2rem',
+              width: '1.3rem',
             }}
           />
           <Button
