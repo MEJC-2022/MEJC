@@ -12,7 +12,8 @@ import {
 import { notifications } from '@mantine/notifications';
 import { IconServerBolt } from '@tabler/icons-react';
 import { useContext, useEffect, useState } from 'react';
-import { Order, UserOrderAccordion } from '../../components/UserOrderAcc';
+import { AdminOrderAccordion } from '../../components/AdminOrderAcc';
+import { Order } from '../../components/UserOrderAcc';
 import { User } from '../../contexts/AuthContext';
 import { ProductContext } from '../../contexts/ProductContext';
 import '../../css/Glow.css';
@@ -189,7 +190,7 @@ export default function AdminOrders() {
               [...filteredOrders]
                 .reverse()
                 .map((order: Order) => (
-                  <UserOrderAccordion order={order} key={order._id} />
+                  <AdminOrderAccordion order={order} key={order._id} />
                 ))
             )}
           </Accordion>
