@@ -111,6 +111,7 @@ function Home() {
         <Group spacing={5} mb="md">
           {categories.map((category) => (
             <Button
+              key={category.title}
               sx={{
                 border:
                   activeButton === category.title
