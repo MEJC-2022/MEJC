@@ -113,7 +113,10 @@ function Home() {
           </Button>
           <Button
             sx={{
-              border: activeButton === 'Asus' ? '2px solid lightblue ' : 'none',
+              border:
+                activeButton === 'Computer Accessories'
+                  ? '2px solid lightblue '
+                  : 'none',
             }}
             size="xs"
             variant="light"
