@@ -32,7 +32,6 @@ function HeroSlide() {
   return (
     <Box
       sx={{
-        paddingTop: '1rem',
         paddingBottom: '0.8rem',
         width: '100%',
         margin: '0 auto',

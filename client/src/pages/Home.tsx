@@ -134,20 +134,31 @@ function Home() {
             Reset filter
           </Button>
         </Group>
-
-        <SimpleGrid
-          cols={3}
-          spacing={30}
-          verticalSpacing={30}
-          breakpoints={[
-            { maxWidth: '85rem', cols: 2, spacing: 'md' },
-            { maxWidth: '36rem', cols: 1, spacing: 'sm' },
-          ]}
-        >
-          {filteredProducts.map((product) => (
-            <ProductCard key={product._id} product={product} />
-          ))}
-        </SimpleGrid>
+        {loading ? (
+          <Text align="center">Loading...</Text>
+        ) : (
+          <>
+            {products.length === 0 ? (
+              <Text align="center">
+                No products found. Please add a new product.
+              </Text>
+            ) : (
+              <SimpleGrid
+                cols={3}
+                spacing={30}
+                verticalSpacing={30}
+                breakpoints={[
+                  { maxWidth: '85rem', cols: 2, spacing: 'md' },
+                  { maxWidth: '36rem', cols: 1, spacing: 'sm' },
+                ]}
+              >
+                {[...filteredProducts].reverse().map((product) => (
+                  <ProductCard key={product._id} product={product} />
+                ))}
+              </SimpleGrid>
+            )}
+          </>
+        )}
       </Container>
     </>
   );
