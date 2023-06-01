@@ -43,7 +43,7 @@ function HeroSlideItem({ imageSrc }: HeroSlideItemProps) {
               styles={{ fontSize: rem(13), width: "9rem", marginTop: '.5rem' }}
             >
               <Title align="center" sx={{width: "18rem"}} mt={10} mb={10} order={4}>
-                We got you covered on all the latest releases in tech.
+                We got you covered on all the greatest retro products
               </Title>
             </MediaQuery>
             <MediaQuery
