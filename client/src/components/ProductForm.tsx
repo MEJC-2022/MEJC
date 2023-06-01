@@ -211,6 +211,7 @@ function ProductForm({
             alignItems: 'center',
           }}
           accept={['image/png', 'image/jpeg', 'image/sgv+xml', 'image/gif']}
+          maxSize={6 * 1024 ** 2} //6 MB
         >
           <Flex gap={10}>
             {isFileUploaded && !loading ? (
