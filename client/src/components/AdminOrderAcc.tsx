@@ -62,8 +62,8 @@ const useStyles = createStyles((theme) => ({
   },
   productTitle: {
     [theme.fn.smallerThan('sm')]: {
-      minWidth: "8rem",
-      maxWidth: "8rem",
+      minWidth: '8rem',
+      maxWidth: '8rem',
     },
   },
   table: {
@@ -184,10 +184,7 @@ export function AdminOrderAccordion({ order }: { order: Order }) {
                 marginRight: isSmallScreen ? '0' : '2rem',
               }}
             >
-              <Table
-                verticalSpacing="xs"
-                fontSize="xs"
-              >
+              <Table verticalSpacing="xs" fontSize="xs">
                 <thead>
                   <tr>
                     <th>Product</th>
@@ -203,12 +200,14 @@ export function AdminOrderAccordion({ order }: { order: Order }) {
 
                     return (
                       <tr key={item._id}>
-                        <td className={classes.productTitle}>{product ? product.title : 'Product not found'}</td>
+                        <td className={classes.productTitle}>
+                          {product ? product.title : 'Product not found'}
+                        </td>
                         <td>{item.quantity}</td>
                         {isSmallScreen ? (
                           ''
                         ) : (
-                          <td style={{textAlign: "right"}}>
+                          <td style={{ textAlign: 'right' }}>
                             {product
                               ? `${product.price} €`
                               : 'Price not available'}
@@ -224,7 +223,9 @@ export function AdminOrderAccordion({ order }: { order: Order }) {
                 align="flex-end"
                 style={{ height: '100%' }}
               >
-                <Text mt={20} mb={10} size={24}>Total price: {order.totalPrice} €</Text>
+                <Text mt={20} mb={10} size={24}>
+                  Total price: {order.totalPrice} €
+                </Text>
               </Flex>
             </Flex>
             <Flex direction="column" style={{ flex: 1 }}>

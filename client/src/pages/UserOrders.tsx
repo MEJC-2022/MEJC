@@ -28,7 +28,7 @@ const useStyles = createStyles((theme) => ({
 
     [theme.fn.smallerThan('sm')]: {
       minHeight: 'calc(100vh - 4.375rem - 23.8rem)',
-      padding: "50px 5px 0 5px",
+      padding: '50px 5px 0 5px',
     },
   },
   title: {
