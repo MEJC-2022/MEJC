@@ -8,6 +8,32 @@ som en kravspecifikation. Förutom det har ni fria händer att ta fram en grym i
 
 ## Uppstart
 
+Den här kodbasen är indelad i en [klientmapp](./client/) och en [servermapp](./server/).
+Servern har två miljöer konfigurerade, en för utveckling och en för testning.
+
+Här är en lista på de olika skripten som kan köras i terminalen.
+
+Navigera först till server mappen -`cd server` och sedan:
+
+- `npm install` - Installerar alla NodeJS moduler (körs en gång).
+- `npm run update` - Uppdaterar testerna och behöver köras om läraren har ändrat dom.
+- `npm run dev` - Startar utvecklingsmiljön.
+- `npm test` - Startar testmiljön så du kan jobba med kravlistan.
+- `npm run build` - Bygger server-miljön
+
+Efter detta kan du navigera tillbaka till root-mappen genom att skriva `cd ..` och sedan skriva `cd client` och använda följande kommandon:
+
+- `npm install` - Installerar alla NodeJS moduler (körs en gång).
+- `npm run dev` - Startar utvecklingsmiljön med Vite.
+-  `npm run build` - Bygger klient-miljön
+
+
+När du har gjort detta kan du sedan när du står i root-mappen använda följande kommandon så du slipper navigera in i mapparna:
+
+- `npm test` - Startar testen utan att du behöver navigera in i server-mappen.
+- `npm run frontend` - Startar frontend-miljön med Vite.
+- `npm run backend` - Startar backend-miljön med Nodemon.
+
 ## Kravspecifikationer
 
 ### G
