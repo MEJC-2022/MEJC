@@ -16,9 +16,7 @@ export async function registerUser(req: Request, res: Response) {
   if (existingUser) {
     res
       .status(404)
-      .json(
-        'A registered account with this email already exists.',
-      );
+      .json('A registered account with this email already exists.');
     return;
   }
 

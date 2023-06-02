@@ -88,7 +88,9 @@ function Confirmation() {
                   textAlign: 'center',
                 }}
               >
-                <Title className={classes.title} order={1}>Something went wrong with your order!</Title>
+                <Title className={classes.title} order={1}>
+                  Something went wrong with your order!
+                </Title>
                 <Text>
                   If the issue persists, try to remove items from your cart.
                 </Text>
@@ -101,7 +103,9 @@ function Confirmation() {
                   textAlign: 'center',
                 }}
               >
-                <Title size={50} mt={20} mb={10} order={1}>Thank you for your order!</Title>
+                <Title size={50} mt={20} mb={10} order={1}>
+                  Thank you for your order!
+                </Title>
 
                 <Text>We have sent a confirmation to: {formData.email}</Text>
                 <Divider mt="md" mb="sm" size="xs" />
