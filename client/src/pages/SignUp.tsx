@@ -90,7 +90,10 @@ export default function SignIn() {
           navigate('/');
         }
       } else {
-        throw new Error('User could not be created');
+        const errorMessage = await response.json();
+        if (response.status === 404) {
+          form.setErrors({ email: errorMessage });
+        }
       }
     } catch (err) {
       console.error('An error has occured trying to create an user:\n', err);
