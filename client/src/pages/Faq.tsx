@@ -72,7 +72,6 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export function Faq() {
-  throw new Error()
   const { classes } = useStyles();
   const theme = useMantineTheme();
   return (
