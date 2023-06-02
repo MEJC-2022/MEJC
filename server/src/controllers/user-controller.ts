@@ -10,6 +10,16 @@ export async function getUserList(req: Request, res: Response) {
 }
 
 export async function registerUser(req: Request, res: Response) {
+  // Checks if account with email already exists
+  const { email } = req.body;
+  const existingUser = await UserModel.findOne({ email }).select('+password');
+  if (existingUser) {
+    res
+      .status(404)
+      .json('A registered account with this email already exists.');
+    return;
+  }
+
   const user = await UserModel.create(req.body);
   res.status(201).json({ message: 'A new user has been created', user: user });
 }

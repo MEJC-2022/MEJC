@@ -52,13 +52,23 @@ const useStyles = createStyles((theme) => ({
     },
   },
   button: {
-    marginTop: theme.spacing.sm,
-    marginLeft: 10,
-    width: 120,
+    marginTop: '9px',
+    marginLeft: 14,
+    width: 126,
   },
   circleButton: {
     marginTop: theme.spacing.md,
     marginLeft: 10,
+  },
+  productTitle: {
+    [theme.fn.smallerThan('sm')]: {
+      minWidth: '8rem',
+      maxWidth: '8rem',
+    },
+  },
+  table: {
+    display: 'flex',
+    justifyContent: 'space-between',
   },
 }));
 
@@ -174,15 +184,11 @@ export function AdminOrderAccordion({ order }: { order: Order }) {
                 marginRight: isSmallScreen ? '0' : '2rem',
               }}
             >
-              <Table
-                verticalSpacing="xs"
-                fontSize="xs"
-                horizontalSpacing={isSmallScreen ? '0' : 'xs'}
-              >
+              <Table verticalSpacing="xs" fontSize="xs">
                 <thead>
                   <tr>
                     <th>Product</th>
-                    <th>Quantity</th>
+                    <th>Qty.</th>
                     {isSmallScreen ? '' : <th>Price</th>}
                   </tr>
                 </thead>
@@ -194,14 +200,16 @@ export function AdminOrderAccordion({ order }: { order: Order }) {
 
                     return (
                       <tr key={item._id}>
-                        <td>{product ? product.title : 'Product not found'}</td>
+                        <td className={classes.productTitle}>
+                          {product ? product.title : 'Product not found'}
+                        </td>
                         <td>{item.quantity}</td>
                         {isSmallScreen ? (
                           ''
                         ) : (
-                          <td>
+                          <td style={{ textAlign: 'right' }}>
                             {product
-                              ? `€${product.price}`
+                              ? `${product.price} €`
                               : 'Price not available'}
                           </td>
                         )}
@@ -215,11 +223,13 @@ export function AdminOrderAccordion({ order }: { order: Order }) {
                 align="flex-end"
                 style={{ height: '100%' }}
               >
-                <Text weight={700}>Total price: €{order.totalPrice}</Text>
+                <Text mt={20} mb={10} size={24}>
+                  Total price: {order.totalPrice} €
+                </Text>
               </Flex>
             </Flex>
             <Flex direction="column" style={{ flex: 1 }}>
-              <Card shadow="xs" padding="md">
+              <Card shadow="xs" mt={10} mb={10} padding="md">
                 <Flex
                   direction="column"
                   align={{ base: 'center', md: 'flex-start' }}

@@ -111,7 +111,6 @@ export async function getAllOrders(req: Request, res: Response) {
 // }
 
 export async function getOrdersByUserId(req: Request, res: Response) {
-  // const session = req.session;
   const incomingUserId = req.params.id;
 
   const fetchedListOfOrders = await OrderModel.find({
@@ -123,12 +122,10 @@ export async function getOrdersByUserId(req: Request, res: Response) {
       message: 'No orders found.',
     });
   }
-  // else if (session?.user.isAdmin || session?.user._id === incomingUserId) {
-  return res.status(200).send({
+  res.status(200).send({
     message: 'All orders fetched successfully.',
     fetchedListOfOrders,
   });
-  // }
 }
 
 export async function shipOrder(req: Request, res: Response) {

@@ -156,7 +156,7 @@ function ProductCard({ product }: Props) {
                 : theme.colors.dark[8]
             }
           >
-            {product.price}€
+            {product.price} €
           </Title>
           <Box sx={{ display: 'flex' }}>
             <Link to={link}>

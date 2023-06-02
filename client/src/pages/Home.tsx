@@ -79,8 +79,9 @@ function Home() {
           >
             Tech101
           </Title>
-          <Text fz="xl" fw={500}>
-            Providing up-to-date <br /> products and services
+          <Text fz="xl" mb={10} align="center" sx={{ width: '18rem' }} fw={500}>
+            Providing retro products <br />
+            and first-class repairs
           </Text>
           <Text fz="lg" fs="italic">
             We. Tech. You.
@@ -98,6 +99,7 @@ function Home() {
         <Text
           sx={{
             marginBottom: '1rem',
+            marginTop: '3rem',
             marginLeft: '0.6rem',
             fontSize: '0.8rem',
           }}
@@ -107,9 +109,10 @@ function Home() {
         >
           SORT BY CATEGORY:
         </Text>
-        <Group spacing={5} mb="md">
+        <Group spacing={5} mb="lg">
           {categories.map((category) => (
             <Button
+              key={category.title}
               sx={{
                 border:
                   activeButton === category.title

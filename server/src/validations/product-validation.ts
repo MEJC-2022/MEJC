@@ -37,7 +37,6 @@ export async function validateProduct(
   res: Response,
   next: NextFunction,
 ) {
-  console.log(req.body);
   await productSchema.validate(req.body);
   next();
 }

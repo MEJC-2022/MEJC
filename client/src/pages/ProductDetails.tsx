@@ -129,7 +129,7 @@ function ProductDetails() {
                   : theme.colors.dark[8]
               }
             >
-              {product.price}€
+              {product.price} €
             </Title>
           </Group>
           <Button

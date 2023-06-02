@@ -90,7 +90,10 @@ export default function SignIn() {
           navigate('/');
         }
       } else {
-        throw new Error('User could not be created');
+        const errorMessage = await response.json();
+        if (response.status === 404) {
+          form.setErrors({ email: errorMessage });
+        }
       }
     } catch (err) {
       console.error('An error has occured trying to create an user:\n', err);
@@ -148,7 +151,7 @@ export default function SignIn() {
           </Group>
         </form>
       </Box>
-      <Text fz="md" mt={6} className={classes.lighterText}>
+      <Text fz="md" mt={20} className={classes.lighterText}>
         Already have an account?{' '}
         <Link to="/signin" className={classes.anchor}>
           Sign in!

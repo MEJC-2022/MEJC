@@ -46,6 +46,16 @@ const useStyles = createStyles((theme) => ({
     },
     alignItems: 'center',
   },
+  productTitle: {
+    [theme.fn.smallerThan('sm')]: {
+      minWidth: '8rem',
+      maxWidth: '8rem',
+    },
+  },
+  table: {
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
 }));
 
 export interface Order {
@@ -140,12 +150,12 @@ export function UserOrderAccordion({ order }: { order: Order }) {
       <Accordion.Panel className={classes.panel}>
         <Flex direction={{ base: 'column', md: 'row' }}>
           <Flex direction="column" style={{ flex: 2, marginRight: '2rem' }}>
-            <Table verticalSpacing="xs">
+            <Table verticalSpacing="sm">
               <thead>
                 <tr>
                   <th>Product</th>
-                  <th>Quantity</th>
-                  <th>Price</th>
+                  <th>Qty.</th>
+                  <th style={{ textAlign: 'right' }}>Price</th>
                 </tr>
               </thead>
               <tbody>
@@ -156,10 +166,12 @@ export function UserOrderAccordion({ order }: { order: Order }) {
 
                   return (
                     <tr key={item._id}>
-                      <td>{product ? product.title : 'Product not found'}</td>
+                      <td className={classes.productTitle}>
+                        {product ? product.title : 'Product not found'}
+                      </td>
                       <td>{item.quantity}</td>
-                      <td>
-                        {product ? `€${product.price}` : 'Price not available'}
+                      <td style={{ textAlign: 'right' }}>
+                        {product ? `${product.price} €` : 'Price not available'}
                       </td>
                     </tr>
                   );
@@ -171,11 +183,13 @@ export function UserOrderAccordion({ order }: { order: Order }) {
               align="flex-end"
               style={{ height: '100%' }}
             >
-              <Text>Total price: €{order.totalPrice}</Text>
+              <Text mt={20} mb={10} size={24}>
+                Total price: {order.totalPrice} €
+              </Text>
             </Flex>
           </Flex>
           <Flex direction="column" style={{ flex: 1 }}>
-            <Card shadow="xs" padding="md">
+            <Card shadow="xs" mt={10} padding="md">
               <Flex
                 direction="column"
                 align={{ base: 'center', md: 'flex-start' }}

@@ -35,15 +35,21 @@ function HeroSlideItem({ imageSrc }: HeroSlideItemProps) {
               styles={{ fontSize: rem(18) }}
             >
               <Title>
-                Shop Summer & <br /> New Weekend <br /> Deals
+                Summer & New <br /> Weekend Deals
               </Title>
             </MediaQuery>
             <MediaQuery
               query="(max-width: 640px)"
-              styles={{ fontSize: rem(13), marginTop: '.5rem' }}
+              styles={{ fontSize: rem(13), width: '9rem', marginTop: '.5rem' }}
             >
-              <Title order={4}>
-                We got you covered on all the latest releases in tech.
+              <Title
+                align="center"
+                sx={{ width: '18rem' }}
+                mt={10}
+                mb={10}
+                order={4}
+              >
+                We got you covered on all the greatest retro products
               </Title>
             </MediaQuery>
             <MediaQuery
@@ -68,7 +74,7 @@ function HeroSlideItem({ imageSrc }: HeroSlideItemProps) {
                   },
                 }}
               >
-                Go to Deals
+                Go to deals
               </Button>
             </MediaQuery>
           </Box>

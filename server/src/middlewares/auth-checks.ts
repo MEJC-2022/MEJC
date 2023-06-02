@@ -24,6 +24,6 @@ export function checkSession(req: Request, res: Response, next: NextFunction) {
   if (req.session && req.session.user) {
     res.json(req.session?.user);
   } else {
-    return res.status(204).end();
+    res.status(204).end();
   }
 }
