@@ -29,7 +29,7 @@ const useStyles = createStyles((theme) => ({
     padding: `calc(${theme.spacing.xl} * 3)`,
     minHeight: 'calc(100vh - 4.375rem)',
     [theme.fn.smallerThan('md')]: {
-      padding: "50px 0px 0 0px",
+      padding: '50px 0px 0 0px',
       minHeight: 'calc(100vh - 4.375rem)',
     },
   },

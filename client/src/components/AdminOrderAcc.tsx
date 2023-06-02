@@ -210,7 +210,7 @@ export function AdminOrderAccordion({ order }: { order: Order }) {
                         ) : (
                           <td style={{textAlign: "right"}}>
                             {product
-                              ? `€${product.price}`
+                              ? `${product.price} €`
                               : 'Price not available'}
                           </td>
                         )}
@@ -224,7 +224,7 @@ export function AdminOrderAccordion({ order }: { order: Order }) {
                 align="flex-end"
                 style={{ height: '100%' }}
               >
-                <Text mt={20} mb={10} size={24}>Total price: €{order.totalPrice}</Text>
+                <Text mt={20} mb={10} size={24}>Total price: {order.totalPrice} €</Text>
               </Flex>
             </Flex>
             <Flex direction="column" style={{ flex: 1 }}>

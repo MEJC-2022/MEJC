@@ -222,7 +222,7 @@ function Cart() {
                             sx={{ alignSelf: 'flex-end', marginLeft: 'auto' }}
                             weight={700}
                           >
-                            {cartproduct.quantity} x €{product?.price}
+                            {cartproduct.quantity} x {product?.price} €
                           </Text>
                         </Box>
                         <Divider mt="md" mb="md" size="xs" />
@@ -236,13 +236,14 @@ function Cart() {
                   size={20}
                   sx={{ alignSelf: 'flex-end' }}
                 >
-                  Total price:{' €'}
+                  Total price:{' '}
                   {cartProducts.reduce((total, cartProduct) => {
                     const product = products.find(
                       (i) => i._id === cartProduct._id,
                     );
                     return total + (product?.price || 0) * cartProduct.quantity;
-                  }, 0)}
+                  }, 0)}{' '}
+                  {' €'}
                 </Text>
               </Box>
             </Box>

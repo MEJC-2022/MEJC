@@ -128,14 +128,14 @@ function Confirmation() {
                     (product, index) =>
                       '_id' in product && (
                         <List.Item key={index}>
-                          {product.title} - €{product.price} - Quantity:{' '}
+                          {product.title} - {product.price} € - Quantity:{' '}
                           {product.quantity}
                         </List.Item>
                       ),
                   )}
                 </List>
                 <Divider mt="lg" mb="sm" size="xs" />
-                <h2>Total price: €{calculateLastOrderTotal()}</h2>
+                <h2>Total price: {calculateLastOrderTotal()} €</h2>
               </Card>
             )}
           </>

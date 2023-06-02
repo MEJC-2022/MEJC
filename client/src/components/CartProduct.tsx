@@ -137,7 +137,7 @@ function CartProduct({ cartItem }: Props) {
               minWidth: '7rem',
             }}
           >
-            Price: €{cartItem.price * cartItem.quantity}
+            Price: {cartItem.price * cartItem.quantity} €
           </Text>
         </Group>
       </Group>

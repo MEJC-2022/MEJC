@@ -169,7 +169,7 @@ export function UserOrderAccordion({ order }: { order: Order }) {
                       <td className={classes.productTitle}>{product ? product.title : 'Product not found'}</td>
                       <td>{item.quantity}</td>
                       <td style={{textAlign: "right"}}>
-                        {product ? `€${product.price}` : 'Price not available'}
+                        {product ? `${product.price} €` : 'Price not available'}
                       </td>
                     </tr>
                   );
@@ -181,7 +181,7 @@ export function UserOrderAccordion({ order }: { order: Order }) {
               align="flex-end"
               style={{ height: '100%' }}
             >
-              <Text mt={20} mb={10} size={24}>Total price: €{order.totalPrice}</Text>
+              <Text mt={20} mb={10} size={24}>Total price: {order.totalPrice} €</Text>
             </Flex>
           </Flex>
           <Flex direction="column" style={{ flex: 1 }}>
